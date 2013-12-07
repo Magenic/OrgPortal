@@ -104,6 +104,9 @@ namespace OrgPortalMonitor
         process.StartInfo.FileName = "powershell.exe";
         process.StartInfo.Arguments = sb.ToString();
 
+        process.StartInfo.CreateNoWindow = false;
+        process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+
         process.Start();
 
         var stdout = process.StandardOutput;

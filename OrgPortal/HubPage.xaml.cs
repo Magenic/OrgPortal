@@ -69,6 +69,18 @@ namespace OrgPortal
       // TODO: Create an appropriate data model for your problem domain to replace the sample data
       var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-4");
       this.DefaultViewModel["Section3Items"] = sampleDataGroup;
+
+      var serviceuri = "http://localhost:48257/api/OrgPortal";
+      var client = new System.Net.Http.HttpClient();
+
+      var response = await client.GetAsync(serviceuri);
+      if (response.IsSuccessStatusCode)
+      {
+        var data = await response.Content.ReadAsStringAsync();
+        var info = Windows.Data.Json.JsonArray.Parse(data);
+        var companyName = info.GetStringAt(0);
+        var companyUrl = info.GetStringAt(1);
+      }
     }
 
     /// <summary>
