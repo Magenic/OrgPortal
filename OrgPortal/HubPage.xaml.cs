@@ -1,11 +1,14 @@
 ﻿using OrgPortal.Common;
 using OrgPortal.Data;
+using OrgPortalServer.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -27,7 +30,7 @@ namespace OrgPortal
   public sealed partial class HubPage : Page
   {
     private NavigationHelper navigationHelper;
-    private ObservableDictionary defaultViewModel = new ObservableDictionary();
+    private DataModel.HubPageVM defaultViewModel = new DataModel.HubPageVM();
 
     /// <summary>
     /// NavigationHelper is used on each page to aid in navigation and 
@@ -41,7 +44,7 @@ namespace OrgPortal
     /// <summary>
     /// This can be changed to a strongly typed view model.
     /// </summary>
-    public ObservableDictionary DefaultViewModel
+    public DataModel.HubPageVM DefaultViewModel
     {
       get { return this.defaultViewModel; }
     }
@@ -66,11 +69,9 @@ namespace OrgPortal
     /// session.  The state will be null the first time a page is visited.</param>
     private async void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
     {
-      // TODO: Create an appropriate data model for your problem domain to replace the sample data
-      var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-4");
-      this.DefaultViewModel["Section3Items"] = sampleDataGroup;
+      this.DefaultViewModel.AppList = new ObservableCollection<OrgPortalServer.Models.AppInfo>();
 
-      var serviceuri = "http://localhost:48257/api/OrgPortal";
+      var serviceuri = "http://localhost:48257/api/Apps";
       var client = new System.Net.Http.HttpClient();
 
       var response = await client.GetAsync(serviceuri);
@@ -78,8 +79,16 @@ namespace OrgPortal
       {
         var data = await response.Content.ReadAsStringAsync();
         var info = Windows.Data.Json.JsonArray.Parse(data);
-        var companyName = info.GetStringAt(0);
-        var companyUrl = info.GetStringAt(1);
+        foreach (var item in info)
+        {
+          var obj = item.GetObject();
+          var app = new OrgPortalServer.Models.AppInfo();
+          app.Name = obj["Name"].GetString();
+          app.AppxUrl = obj["AppxUrl"].ValueType == JsonValueType.Null ? string.Empty : obj["AppxUrl"].GetString();
+          app.Description = obj["Description"].ValueType == JsonValueType.Null ? string.Empty : obj["Description"].GetString();
+          app.ImageUrl = obj["ImageUrl"].ValueType == JsonValueType.Null ? "Assets/DarkGray.png" : obj["ImageUrl"].GetString();
+          this.DefaultViewModel.AppList.Add(app);
+        }
       }
     }
 
@@ -92,7 +101,7 @@ namespace OrgPortal
     {
       HubSection section = e.Section;
       var group = section.DataContext;
-      this.Frame.Navigate(typeof(SectionPage), ((SampleDataGroup)group).UniqueId);
+      this.Frame.Navigate(typeof(SectionPage), (ObservableCollection<AppInfo>)group);
     }
 
     /// <summary>
@@ -105,7 +114,7 @@ namespace OrgPortal
     {
       // Navigate to the appropriate destination page, configuring the new page
       // by passing required information as a navigation parameter
-      var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
+      var itemId = (AppInfo)e.ClickedItem;
       this.Frame.Navigate(typeof(ItemPage), itemId);
     }
     #region NavigationHelper registration
