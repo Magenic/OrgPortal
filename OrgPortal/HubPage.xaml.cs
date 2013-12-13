@@ -71,6 +71,9 @@ namespace OrgPortal
     {
       this.DefaultViewModel.AppList = new ObservableCollection<OrgPortalServer.Models.AppInfo>();
 
+      this.defaultViewModel.OrgName = "Magenic";
+      this.defaultViewModel.OrgUrl = @"http://www.magenic.com";
+
       var serviceuri = "http://localhost:48257/api/Apps";
       var client = new System.Net.Http.HttpClient();
 

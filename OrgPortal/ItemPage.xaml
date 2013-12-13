@@ -29,13 +29,27 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--
-            TODO: Content should be placed within the following grid 
-                  to show details for the current item
-        -->
-        <Grid Grid.Row="1" x:Name="contentRegion"/>
+    <Grid Grid.Row="1" x:Name="contentRegion">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="120"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="40"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="40"/>
+      </Grid.RowDefinitions>
+      <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">
+        <Image Source="{Binding ImageUrl}" Stretch="None" HorizontalAlignment="Left" Margin="3"/>
+        <Button Content="Install" Margin="3"/>
+        <TextBlock Text="{Binding Name}" Margin="3"/>
+        <TextBlock Text="{Binding Description}" Margin="3"/>
+        <TextBlock Text="{Binding AppxUrl}" Margin="3"/>
+        <TextBlock Text="{Binding ImageUrl}" Margin="3"/>
+      </StackPanel>
+    </Grid>
 
-        <!-- Back button and page title -->
+    <!-- Back button and page title -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
@@ -47,7 +61,7 @@
                         AutomationProperties.Name="Back"
                         AutomationProperties.AutomationId="BackButton"
                         AutomationProperties.ItemType="Navigation Button"/>
-            <TextBlock x:Name="pageTitle" Text="{Binding Title}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+            <TextBlock x:Name="pageTitle" Text="{Binding Name}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
         </Grid>
     </Grid>

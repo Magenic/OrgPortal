@@ -10,6 +10,8 @@ namespace OrgPortal.DataModel
 {
   public class HubPageVM
   {
+    public string OrgName { get; set; }
+    public string OrgUrl { get; set; }
     public ObservableCollection<AppInfo> AppList { get; set; }
   }
 }
