@@ -2,6 +2,7 @@
 using OrgPortal.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -66,12 +67,9 @@ namespace OrgPortal
         /// <see cref="Frame.Navigate(Type, Object)"/> when this page was initially requested and
         /// a dictionary of state preserved by this page during an earlier
         /// session.  The state will be null the first time a page is visited.</param>
-        private async void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
+        private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            // TODO: Create an appropriate data model for your problem domain to replace the sample data
-            var group = await SampleDataSource.GetGroupAsync((String)e.NavigationParameter);
-            this.DefaultViewModel["Group"] = group;
-            this.DefaultViewModel["Items"] = group.Items;
+          this.DefaultViewModel["Items"] = (ObservableCollection<OrgPortalServer.Models.AppInfo>)e.NavigationParameter;
         }
 
         /// <summary>
@@ -81,10 +79,10 @@ namespace OrgPortal
         /// <param name="e">Event data that describes the item clicked.</param>
         void ItemView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            // Navigate to the appropriate destination page, configuring the new page
-            // by passing required information as a navigation parameter
-            var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
-            this.Frame.Navigate(typeof(ItemPage), itemId);
+          // Navigate to the appropriate destination page, configuring the new page
+          // by passing required information as a navigation parameter
+          var itemId = (OrgPortalServer.Models.AppInfo)e.ClickedItem;
+          this.Frame.Navigate(typeof(ItemPage), itemId);
         }
 
         #region NavigationHelper registration

@@ -41,7 +41,7 @@
       </Grid.RowDefinitions>
       <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">
         <Image Source="{Binding ImageUrl}" Stretch="None" HorizontalAlignment="Left" Margin="3"/>
-        <Button Content="Install" Margin="3"/>
+        <Button Content="Install" Margin="3" Click="InstallApp"/>
         <TextBlock Text="{Binding Name}" Margin="3"/>
         <TextBlock Text="{Binding Description}" Margin="3"/>
         <TextBlock Text="{Binding AppxUrl}" Margin="3"/>

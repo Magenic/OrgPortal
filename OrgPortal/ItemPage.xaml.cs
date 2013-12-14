@@ -94,5 +94,15 @@ namespace OrgPortal
         }
 
         #endregion
+
+        private async void InstallApp(object sender, RoutedEventArgs e)
+        {
+          var item = (AppInfo)this.DefaultViewModel["Item"];
+          var folder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
+          var file = await folder.CreateFileAsync(
+            System.IO.Path.GetRandomFileName() + ".req", 
+            Windows.Storage.CreationCollisionOption.OpenIfExists);
+          await Windows.Storage.FileIO.WriteTextAsync(file, item.AppxUrl);
+        }
     }
 }

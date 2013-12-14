@@ -61,13 +61,13 @@
           <ImageBrush ImageSource="Assets/MediumGray.png" Stretch="UniformToFill" />
         </HubSection.Background>
         <DataTemplate>
-          <Grid Width="780" Height="600">
+          <Grid Width="700" Height="500">
             <WebView Source="{Binding Path=OrgUrl}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
           </Grid>
         </DataTemplate>
       </HubSection>
       <HubSection IsHeaderInteractive="True" DataContext="{Binding AppList}" 
-                        Header="Org Apps" Padding="40,40,40,32">
+                        Header="Apps" Padding="40,40,40,32">
         <DataTemplate>
           <GridView
                         x:Name="itemGridView"

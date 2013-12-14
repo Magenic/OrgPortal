@@ -10,7 +10,8 @@ namespace OrgPortalMonitor
 {
   public class Installer
   {
-    public string WorkPath { get; set; }
+    public string TempPath { get; set; }
+    public string LocalPath { get; set; }
     public System.Windows.Forms.NotifyIcon NotifyIcon { get; set; }
     public System.Windows.Forms.TextBox Output { get; set; }
     public FileSystemWatcher Watcher { get; set; }
@@ -24,27 +25,35 @@ namespace OrgPortalMonitor
       this.Output.AppendText("Monitor started at " + DateTime.Now + Environment.NewLine);
       this.NotifyIcon.ShowBalloonTip(500, "OrgPortal", "The OrgPortal monitor has started", System.Windows.Forms.ToolTipIcon.None);
 
-      var workPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
-      if (!workPath.EndsWith(@"\"))
-        workPath += @"\";
-      workPath += @"Packages\OrgPortal_m64ba5zfsemg0\TempState\";
-      if (!System.IO.Directory.Exists(workPath))
-        System.IO.Directory.CreateDirectory(workPath);
-      this.WorkPath = workPath;
+      var tempPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
+      if (!tempPath.EndsWith(@"\"))
+        tempPath += @"\";
+      tempPath += @"Packages\OrgPortal_m64ba5zfsemg0\TempState\";
+      if (!System.IO.Directory.Exists(tempPath))
+        System.IO.Directory.CreateDirectory(tempPath);
+      this.TempPath = tempPath;
 
-      this.Watcher.Path = this.WorkPath;
+      var localPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
+      if (!localPath.EndsWith(@"\"))
+        localPath += @"\";
+      localPath += @"Packages\OrgPortal_m64ba5zfsemg0\LocalState\";
+      if (!System.IO.Directory.Exists(localPath))
+        System.IO.Directory.CreateDirectory(localPath);
+      this.LocalPath = localPath;
+
+      this.Watcher.Path = this.TempPath;
     }
 
     public void StartFileWatcher()
     {
-      this.Output.AppendText("Watching folder " + this.WorkPath + Environment.NewLine);
+      this.Output.AppendText("Watching folder " + this.TempPath + Environment.NewLine);
       Watcher.Created += (s, e) =>
         {
           System.Threading.Thread.Sleep(500);
           ProcessRequest(e.FullPath);
         };
 
-      var existingFiles = Directory.EnumerateFiles(this.WorkPath, "*.req");
+      var existingFiles = Directory.EnumerateFiles(this.TempPath, "*.req");
       foreach (var item in existingFiles)
         ProcessRequest(item);
     }
@@ -56,7 +65,7 @@ namespace OrgPortalMonitor
 
       var uriSegments = new System.Uri(appxurl).Segments;
       var fileName = uriSegments[uriSegments.Length - 1];
-      var filePath = WorkPath + fileName;
+      var filePath = TempPath + fileName;
 
       this.Output.AppendText("Installing " + fileName + Environment.NewLine);
       this.Output.AppendText("  from " + appxurl + Environment.NewLine);
@@ -84,6 +93,8 @@ namespace OrgPortalMonitor
       this.Output.AppendText("===================" + Environment.NewLine);
 
       File.Delete(inputFilePath);
+
+      GetInstalledPackages();
     }
 
     public InstallResult InstallAppx(string filepath)
@@ -134,6 +145,28 @@ namespace OrgPortalMonitor
       }
 
       return result;
+    }
+
+    public void GetInstalledPackages()
+    {
+      var sb = new StringBuilder();
+      sb.Append(@"get-appxpackage > " + this.LocalPath + "InstalledPackages.txt");
+
+      var process = new System.Diagnostics.Process();
+      process.StartInfo.UseShellExecute = false;
+      process.StartInfo.RedirectStandardError = true;
+      process.StartInfo.RedirectStandardOutput = true;
+
+      process.StartInfo.FileName = "powershell.exe";
+      process.StartInfo.Arguments = sb.ToString();
+
+      process.StartInfo.CreateNoWindow = false;
+      process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+
+      process.Start();
+
+      if (!process.HasExited)
+        process.Kill();
     }
 
     public string DownloadAppx(string fileUrl, string localFilePath)

@@ -142,12 +142,5 @@ namespace OrgPortal
     }
 
     #endregion
-
-    private async void InstallGameResult(object sender, RoutedEventArgs e)
-    {
-      var folder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
-      var file = await folder.CreateFileAsync("GameResult.req", Windows.Storage.CreationCollisionOption.OpenIfExists);
-      await Windows.Storage.FileIO.WriteTextAsync(file, @"http://www.lhotka.net/files/GameResult.zip");
-    }
   }
 }
