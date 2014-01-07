@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace OrgPortalMonitor
 {
@@ -60,7 +61,54 @@ namespace OrgPortalMonitor
 
     private void ProcessRequest(string inputFilePath)
     {
-      var input = File.ReadAllLines(inputFilePath);
+      var logfilePath = inputFilePath.Replace(".req", ".log");
+      var outputDoc = new XElement("request");
+      outputDoc.Add(new XElement("requestFile", inputFilePath));
+      this.Output.AppendText(">>Processing " + inputFilePath + Environment.NewLine);
+
+      try
+      {
+
+        var input = File.ReadAllLines(inputFilePath);
+        var command = input[0];
+        outputDoc.Add(new XElement("command", command));
+
+        if (command == "install")
+        {
+          ProcessInstallRequest(outputDoc, input);
+        }
+        if (command == "getDevLicense")
+        {
+          GetDevLicense();
+        }
+        else
+        {
+          outputDoc.Add(new XElement("success", "false"));
+          outputDoc.Add(new XElement("error", "Invalid command"));
+          this.Output.AppendText("Invalid command: " + command + Environment.NewLine);
+          this.Output.AppendText("  Input file ignored" + Environment.NewLine);
+          this.Output.AppendText("**FAILED" + Environment.NewLine);
+        }
+        File.Delete(inputFilePath);
+      }
+      catch (Exception ex)
+      {
+          outputDoc.Add(new XElement("success", "false"));
+          outputDoc.Add(new XElement("error", ex.Message));
+        this.Output.AppendText("UNEXPECTED EXCEPTION" + Environment.NewLine);
+        this.Output.AppendText(ex.ToString() + Environment.NewLine);
+        this.Output.AppendText("**FAILED" + Environment.NewLine);
+      }
+      finally
+      {
+        this.Output.AppendText("<<Processed " + inputFilePath + Environment.NewLine);
+        this.Output.AppendText(Environment.NewLine);
+        File.WriteAllText(logfilePath, outputDoc.ToString());
+      }
+    }
+
+    private void ProcessInstallRequest(XElement outputDoc, string[] input)
+    {
       var appxurl = input[0];
 
       var uriSegments = new System.Uri(appxurl).Segments;
@@ -76,23 +124,20 @@ namespace OrgPortalMonitor
       if (string.IsNullOrWhiteSpace(result.Error))
         result = InstallAppx(filePath);
 
-      var logfilePath = inputFilePath.Replace(".req", ".log");
       if (string.IsNullOrWhiteSpace(result.Error))
       {
-        File.WriteAllText(logfilePath, "SUCCESS");
+        outputDoc.Add(new XElement("success", "true"));
         NotifyIcon.ShowBalloonTip(500, "OrgPortal", "App installed", System.Windows.Forms.ToolTipIcon.Info);
-        this.Output.AppendText("  SUCCESS" + Environment.NewLine);
+        this.Output.AppendText("**SUCCESS" + Environment.NewLine);
       }
       else
       {
-        File.WriteAllText(logfilePath, result.ToString());
+        outputDoc.Add(new XElement("success", "false"));
+        outputDoc.Add(new XElement("error", result.ToString()));
         NotifyIcon.ShowBalloonTip(500, "OrgPortal", "App not installed", System.Windows.Forms.ToolTipIcon.Warning);
-        this.Output.AppendText("  FAILED" + Environment.NewLine);
+        this.Output.AppendText("**FAILED" + Environment.NewLine);
         this.Output.AppendText(result.ToString() + Environment.NewLine);
       }
-      this.Output.AppendText("===================" + Environment.NewLine);
-
-      File.Delete(inputFilePath);
 
       GetInstalledPackages();
     }
@@ -165,8 +210,8 @@ namespace OrgPortalMonitor
 
       process.Start();
 
-      if (!process.HasExited)
-        process.Kill();
+      while (!process.HasExited)
+        System.Threading.Thread.Sleep(5);
     }
 
     public string DownloadAppx(string fileUrl, string localFilePath)
@@ -186,6 +231,25 @@ namespace OrgPortalMonitor
         return sb.ToString();
       }
       return null;
+    }
+
+    public void GetDevLicense()
+    {
+      var sb = new StringBuilder();
+      sb.Append(@"Show-WindowsDeveloperLicenseRegistration > d:\users\rockford\documents\x.txt");
+
+      var process = new System.Diagnostics.Process();
+      process.StartInfo.UseShellExecute = true;
+
+      process.StartInfo.FileName = "powershell.exe";
+      process.StartInfo.Arguments = sb.ToString();
+
+      process.StartInfo.Verb = "runas";
+
+      process.Start();
+
+      while (!process.HasExited) 
+        System.Threading.Thread.Sleep(5);
     }
   }
 }
