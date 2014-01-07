@@ -88,6 +88,7 @@ namespace OrgPortal
           var app = new OrgPortalServer.Models.AppInfo();
           app.Name = obj["Name"].GetString();
           app.AppxUrl = obj["AppxUrl"].ValueType == JsonValueType.Null ? string.Empty : obj["AppxUrl"].GetString();
+          app.Version = obj["Version"].ValueType == JsonValueType.Null ? string.Empty : obj["Version"].GetString();
           app.Description = obj["Description"].ValueType == JsonValueType.Null ? string.Empty : obj["Description"].GetString();
           app.ImageUrl = obj["ImageUrl"].ValueType == JsonValueType.Null ? "Assets/DarkGray.png" : obj["ImageUrl"].GetString();
           this.DefaultViewModel.AppList.Add(app);
@@ -142,5 +143,15 @@ namespace OrgPortal
     }
 
     #endregion
+
+    private async void GetDevLicense(object sender, RoutedEventArgs e)
+    {
+      var folder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
+      var file = await folder.CreateFileAsync(
+        System.IO.Path.GetRandomFileName() + ".req",
+        Windows.Storage.CreationCollisionOption.OpenIfExists);
+      await Windows.Storage.FileIO.WriteLinesAsync(file, new string[] { "getDevLicense" });
+      await new Windows.UI.Popups.MessageDialog("License key request sent; you may need to switch to the Desktop to complete the process", "Get Dev License").ShowAsync();
+    }
   }
 }

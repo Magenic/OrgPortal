@@ -109,7 +109,7 @@ namespace OrgPortalMonitor
 
     private void ProcessInstallRequest(XElement outputDoc, string[] input)
     {
-      var appxurl = input[0];
+      var appxurl = input[1];
 
       var uriSegments = new System.Uri(appxurl).Segments;
       var fileName = uriSegments[uriSegments.Length - 1];

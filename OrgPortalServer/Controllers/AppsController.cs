@@ -14,8 +14,8 @@ namespace OrgPortalServer.Controllers
     public IEnumerable<AppInfo> Get()
     {
       return new List<AppInfo> { 
-        new AppInfo { Name = "Game Result", AppxUrl = @"http://www.lhotka.net/files/GameResult.zip" },
-        new AppInfo { Name = "Magenic Contact List" }
+        new AppInfo { Name = "Game Result", AppxUrl = @"http://www.lhotka.net/files/GameResult.zip", Version = "1.0" },
+        new AppInfo { Name = "Magenic Contact List", Version = "1.3" }
       };
     }
 

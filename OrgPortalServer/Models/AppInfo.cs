@@ -10,5 +10,6 @@ namespace OrgPortalServer.Models
     public string Description { get; set; }
     public string AppxUrl { get; set; }
     public string ImageUrl { get; set; }
+    public string Version { get; set; }
   }
 }
