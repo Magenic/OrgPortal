@@ -28,11 +28,13 @@ namespace OrgPortalMonitor
       this.notifyIcon1.Visible = true;
       var menu = this.notifyIcon1.ContextMenu = new ContextMenu();
       menu.MenuItems.Add(new MenuItem { Text = "Open log window", Name = "OpenItem", DefaultItem = true });
+      menu.MenuItems.Add(new MenuItem { Text = "Refresh app list", Name = "RefreshAppList" });
       menu.MenuItems.Add(new MenuItem { Text = "Get developer license", Name = "GetDevLicense" });
       menu.MenuItems.Add(new MenuItem { Text = "Exit", Name = "ExitItem" });
       menu.MenuItems[0].Click += (o, a) => DisplayForm();
-      menu.MenuItems[1].Click += (o, a) => GetDevLicense();
-      menu.MenuItems[2].Click += (o, a) =>
+      menu.MenuItems[1].Click += (o, a) => RefreshAppList();
+      menu.MenuItems[2].Click += (o, a) => GetDevLicense();
+      menu.MenuItems[3].Click += (o, a) =>
         {
           _reallyClose = true;
           this.Close();
@@ -40,6 +42,11 @@ namespace OrgPortalMonitor
 
       _installer = new Installer(this.notifyIcon1, this.textBox1, this.fileSystemWatcher1);
       _installer.StartFileWatcher();
+    }
+
+    private void RefreshAppList()
+    {
+      _installer.GetInstalledPackages();
     }
 
     private void GetDevLicense()

@@ -77,9 +77,9 @@ namespace OrgPortalMonitor
         {
           ProcessInstallRequest(outputDoc, input);
         }
-        if (command == "getDevLicense")
+        else if (command == "getDevLicense")
         {
-          GetDevLicense();
+          GetDevLicense(outputDoc);
         }
         else
         {
@@ -89,18 +89,18 @@ namespace OrgPortalMonitor
           this.Output.AppendText("  Input file ignored" + Environment.NewLine);
           this.Output.AppendText("**FAILED" + Environment.NewLine);
         }
-        File.Delete(inputFilePath);
       }
       catch (Exception ex)
       {
-          outputDoc.Add(new XElement("success", "false"));
-          outputDoc.Add(new XElement("error", ex.Message));
+        outputDoc.Add(new XElement("success", "false"));
+        outputDoc.Add(new XElement("error", ex.Message));
         this.Output.AppendText("UNEXPECTED EXCEPTION" + Environment.NewLine);
         this.Output.AppendText(ex.ToString() + Environment.NewLine);
         this.Output.AppendText("**FAILED" + Environment.NewLine);
       }
       finally
       {
+        File.Delete(inputFilePath);
         this.Output.AppendText("<<Processed " + inputFilePath + Environment.NewLine);
         this.Output.AppendText(Environment.NewLine);
         File.WriteAllText(logfilePath, outputDoc.ToString());
@@ -235,8 +235,12 @@ namespace OrgPortalMonitor
 
     public void GetDevLicense()
     {
+      GetDevLicense(new XElement("request"));
+    }
+    public void GetDevLicense(XElement outputDoc)
+    {
       var sb = new StringBuilder();
-      sb.Append(@"Show-WindowsDeveloperLicenseRegistration > d:\users\rockford\documents\x.txt");
+      sb.Append(@"Show-WindowsDeveloperLicenseRegistration");
 
       var process = new System.Diagnostics.Process();
       process.StartInfo.UseShellExecute = true;
@@ -250,6 +254,8 @@ namespace OrgPortalMonitor
 
       while (!process.HasExited) 
         System.Threading.Thread.Sleep(5);
+
+      outputDoc.Add(new XElement("success", "true"));
     }
   }
 }

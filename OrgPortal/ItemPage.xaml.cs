@@ -67,7 +67,7 @@ namespace OrgPortal
     /// session.  The state will be null the first time a page is visited.</param>
     private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
     {
-      var item = (AppInfo)e.NavigationParameter;
+      var item = (OrgPortal.DataModel.ItemPageVM)e.NavigationParameter;
       this.DefaultViewModel["Item"] = item;
     }
 

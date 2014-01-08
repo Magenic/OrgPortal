@@ -70,6 +70,7 @@ namespace OrgPortal
     private async void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
     {
       this.DefaultViewModel.AppList = new ObservableCollection<OrgPortalServer.Models.AppInfo>();
+      this.DefaultViewModel.InstalledList = new ObservableCollection<OrgPortalServer.Models.AppInfo>();
 
       this.defaultViewModel.OrgName = "Magenic";
       this.defaultViewModel.OrgUrl = @"http://www.magenic.com";
@@ -87,11 +88,34 @@ namespace OrgPortal
           var obj = item.GetObject();
           var app = new OrgPortalServer.Models.AppInfo();
           app.Name = obj["Name"].GetString();
+          app.PackageFamilyName = obj["PackageFamilyName"].GetString();
           app.AppxUrl = obj["AppxUrl"].ValueType == JsonValueType.Null ? string.Empty : obj["AppxUrl"].GetString();
           app.Version = obj["Version"].ValueType == JsonValueType.Null ? string.Empty : obj["Version"].GetString();
           app.Description = obj["Description"].ValueType == JsonValueType.Null ? string.Empty : obj["Description"].GetString();
           app.ImageUrl = obj["ImageUrl"].ValueType == JsonValueType.Null ? "Assets/DarkGray.png" : obj["ImageUrl"].GetString();
           this.DefaultViewModel.AppList.Add(app);
+        }
+      }
+
+      var folder = Windows.Storage.ApplicationData.Current.LocalFolder;
+      var file = await folder.GetFileAsync("InstalledPackages.txt");
+      if (file != null)
+      {
+        var installedPackages = await Windows.Storage.FileIO.ReadLinesAsync(file);
+        AppInfo info = new AppInfo();
+        foreach (var line in installedPackages)
+        {
+          if (line.StartsWith("Name"))
+            info.Name = line.Substring(line.IndexOf(":") + 2);
+          else if (line.StartsWith("PackageFamilyName"))
+            info.PackageFamilyName = line.Substring(line.IndexOf(":") + 2);
+          else if (line.StartsWith("Version"))
+            info.Version = line.Substring(line.IndexOf(":") + 2);
+          else if (line.StartsWith("IsDevelopmentMode"))
+          {
+            this.defaultViewModel.InstalledList.Add(info);
+            info = new AppInfo();
+          }
         }
       }
 
@@ -127,8 +151,9 @@ namespace OrgPortal
     {
       // Navigate to the appropriate destination page, configuring the new page
       // by passing required information as a navigation parameter
-      var itemId = (AppInfo)e.ClickedItem;
-      this.Frame.Navigate(typeof(ItemPage), itemId);
+      var selectedItem = (AppInfo)e.ClickedItem;
+      var installedItem = this.DefaultViewModel.InstalledList.Where(r => r.PackageFamilyName == selectedItem.PackageFamilyName).FirstOrDefault();
+      this.Frame.Navigate(typeof(ItemPage), new OrgPortal.DataModel.ItemPageVM { Item = selectedItem, InstalledItem = installedItem });
     }
     #region NavigationHelper registration
 
