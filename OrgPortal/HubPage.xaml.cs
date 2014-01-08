@@ -94,6 +94,15 @@ namespace OrgPortal
           this.DefaultViewModel.AppList.Add(app);
         }
       }
+
+      var query = Windows.Storage.ApplicationData.Current.TemporaryFolder.CreateFileQueryWithOptions(
+        new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".req" }));
+      query.ContentsChanged += async (o, a) =>
+        {
+          var files = await query.GetFilesAsync();
+          var count = files.Count();
+        };
+      await query.GetFilesAsync();
     }
 
     /// <summary>
