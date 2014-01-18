@@ -4,8 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgPortal", "OrgPortal\OrgPortal.csproj", "{DF14FE6B-AFA8-4038-9FB7-124C199C57C9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D05A91D4-1112-48DF-AAB7-E0D61CE4BD10} = {D05A91D4-1112-48DF-AAB7-E0D61CE4BD10}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgPortalMonitor", "OrgPortalMonitor\OrgPortalMonitor.csproj", "{FCA49840-2AB2-493A-BDDF-895FD954C412}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D05A91D4-1112-48DF-AAB7-E0D61CE4BD10} = {D05A91D4-1112-48DF-AAB7-E0D61CE4BD10}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgPortalServer", "OrgPortalServer\OrgPortalServer.csproj", "{D05A91D4-1112-48DF-AAB7-E0D61CE4BD10}"
 EndProject

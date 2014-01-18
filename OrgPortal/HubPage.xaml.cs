@@ -72,9 +72,40 @@ namespace OrgPortal
       this.DefaultViewModel.AppList = new ObservableCollection<OrgPortalServer.Models.AppInfo>();
       this.DefaultViewModel.InstalledList = new ObservableCollection<OrgPortalServer.Models.AppInfo>();
 
-      this.defaultViewModel.OrgName = "Magenic";
-      this.defaultViewModel.OrgUrl = @"http://www.magenic.com";
+      await LoadOrgData();
 
+      await LoadAppList();
+
+      var query = Windows.Storage.ApplicationData.Current.TemporaryFolder.CreateFileQueryWithOptions(
+        new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".req" }));
+      query.ContentsChanged += async (o, a) =>
+        {
+          var files = await query.GetFilesAsync();
+          var count = files.Count();
+        };
+      await query.GetFilesAsync();
+    }
+
+    private async Task LoadOrgData()
+    {
+      var serviceuri = "http://localhost:48257/api/OrgPortal";
+      var client = new System.Net.Http.HttpClient();
+
+      var response = await client.GetAsync(serviceuri);
+      if (response.IsSuccessStatusCode)
+      {
+        var data = await response.Content.ReadAsStringAsync();
+        var info = Windows.Data.Json.JsonArray.Parse(data);
+        if (info.Count > 1)
+        {
+          this.defaultViewModel.OrgName = info[0].GetString();
+          this.defaultViewModel.OrgUrl = info[1].GetString();
+        }
+      }
+    }
+
+    private async Task LoadAppList()
+    {
       var serviceuri = "http://localhost:48257/api/Apps";
       var client = new System.Net.Http.HttpClient();
 
@@ -118,15 +149,6 @@ namespace OrgPortal
           }
         }
       }
-
-      var query = Windows.Storage.ApplicationData.Current.TemporaryFolder.CreateFileQueryWithOptions(
-        new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".req" }));
-      query.ContentsChanged += async (o, a) =>
-        {
-          var files = await query.GetFilesAsync();
-          var count = files.Count();
-        };
-      await query.GetFilesAsync();
     }
 
     /// <summary>

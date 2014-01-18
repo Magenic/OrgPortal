@@ -12,7 +12,7 @@ namespace OrgPortalServer.Controllers
     // GET api/orgportal
     public IEnumerable<string> Get()
     {
-      return new string[] { "Marimer LLC", "http://www.lhotka.net" };
+      return new string[] { "OrgPortal", "http://localhost:48257/Home/Index" };
     }
   }
 }

@@ -8,11 +8,30 @@ using System.Collections.ObjectModel;
 
 namespace OrgPortal.DataModel
 {
-  public class HubPageVM
+  public class HubPageVM : System.ComponentModel.INotifyPropertyChanged
   {
-    public string OrgName { get; set; }
-    public string OrgUrl { get; set; }
+    private string _orgName;
+    public string OrgName {
+      get { return _orgName; }
+      set { _orgName = value; OnPropertyChanged("OrgName"); } 
+    }
+
+    private string _orgUrl;
+    public string OrgUrl
+    {
+      get { return _orgUrl; }
+      set { _orgUrl = value; OnPropertyChanged("OrgUrl"); }
+    }
+
     public ObservableCollection<AppInfo> AppList { get; set; }
     public ObservableCollection<AppInfo> InstalledList { get; set; }
+
+    public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+    protected void OnPropertyChanged(string propertyName)
+    {
+      if (PropertyChanged != null)
+        PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+    }
   }
 }
