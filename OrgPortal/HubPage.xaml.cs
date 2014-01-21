@@ -124,6 +124,7 @@ namespace OrgPortal
           app.Version = obj["Version"].ValueType == JsonValueType.Null ? string.Empty : obj["Version"].GetString();
           app.Description = obj["Description"].ValueType == JsonValueType.Null ? string.Empty : obj["Description"].GetString();
           app.ImageUrl = obj["ImageUrl"].ValueType == JsonValueType.Null ? "Assets/DarkGray.png" : obj["ImageUrl"].GetString();
+          app.InstallMode = obj["InstallMode"].GetString();
           this.DefaultViewModel.AppList.Add(app);
         }
       }
