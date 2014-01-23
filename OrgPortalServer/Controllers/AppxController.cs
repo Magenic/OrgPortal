@@ -42,12 +42,14 @@ namespace OrgPortalServer.Controllers
         public void Put(int id)
         {
             // TODO: Is there any support for this?  Will we over-write an existing app by uploading a new appx file?
+            // [RDL] yes, for upgrades of an appx package there'd need to be the ability to upload a new version of the same file.
         }
 
         // DELETE api/<controller>/5
         public void Delete(int id)
         {
             // TODO: Is there any support for this?
+            // [RDL] I would think there should be a way to remove a package from the server.
         }
     }
 }
