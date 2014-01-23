@@ -86,13 +86,13 @@ namespace OrgPortal
       await query.GetFilesAsync();
     }
 
-    public static readonly string _serviceURI = "http://localhost:48257/api/OrgPortal";
+    public static readonly string _serviceURI = "http://localhost:48257/api/";
 
     private async Task LoadOrgData()
     {
       var client = new System.Net.Http.HttpClient();
 
-      var response = await client.GetAsync(_serviceURI);
+      var response = await client.GetAsync(_serviceURI + "OrgPortal");
       if (response.IsSuccessStatusCode)
       {
         var data = await response.Content.ReadAsStringAsync();
@@ -109,7 +109,7 @@ namespace OrgPortal
     {
       var client = new System.Net.Http.HttpClient();
 
-      var response = await client.GetAsync(_serviceURI);
+      var response = await client.GetAsync(_serviceURI + "Apps");
       if (response.IsSuccessStatusCode)
       {
         var data = await response.Content.ReadAsStringAsync();

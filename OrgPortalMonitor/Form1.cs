@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -80,6 +81,18 @@ namespace OrgPortalMonitor
       this.WindowState = FormWindowState.Normal;
       this.Visible = true;
       this.BringToFront();
+    }
+
+    private int _autoInstallTimer = 0;
+
+    private async void timer1_Tick(object sender, EventArgs e)
+    {
+      var minutes = int.Parse(ConfigurationManager.AppSettings["AutoInstallTime"]);
+      _autoInstallTimer++;
+      if (_autoInstallTimer > minutes)
+        _autoInstallTimer = 1;
+      if (_autoInstallTimer == 1)
+        await _installer.AutoInstallUpdateApps();
     }
   }
 }
