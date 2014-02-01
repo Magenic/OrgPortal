@@ -25,39 +25,41 @@ namespace OrgPortalServer.Controllers
         }
 
         // POST api/<controller>
-        public void Post(HttpPostedFileBase postedFile)
+        public void Post(HttpRequestMessage request)
         {
-            if (postedFile.ContentLength > 0)
-            {
-                var stream = new MemoryStream();
-                postedFile.InputStream.CopyTo(stream);
-                var appxFile = AppxFile.Get(stream.ToArray());
-                appxFile.Save();
-            }
+            using(var fileData = request.Content.ReadAsStreamAsync().Result)
+                if (fileData.Length > 0)
+                {
+                    var appxFile = AppxFile.Get(fileData);
+                    appxFile.Save();
+                }
         }
 
         // PUT api/<controller>
         public void Put(HttpPostedFileBase postedFile)
         {
-            if (postedFile.ContentLength > 0)
-            {
-                var stream = new MemoryStream();
-                postedFile.InputStream.CopyTo(stream);
-                var appxFile = AppxFile.Get(stream.ToArray());
-                appxFile.Save();
-            }
+            //if (postedFile.ContentLength > 0)
+            //{
+            //    AppxFile appxFile;
+            //    using (var stream = new MemoryStream())
+            //    {
+            //        postedFile.InputStream.CopyTo(stream);
+            //        appxFile = AppxFile.Get(stream.ToArray());
+            //    }
+            //    appxFile.Save();
+            //}
         }
 
         // DELETE api/<controller>
         public void Delete(HttpPostedFileBase postedFile)
         {
-            if (postedFile.ContentLength > 0)
-            {
-                var stream = new MemoryStream();
-                postedFile.InputStream.CopyTo(stream);
-                var appxFile = AppxFile.Get(stream.ToArray());
-                appxFile.Delete();
-            }
+            //if (postedFile.ContentLength > 0)
+            //{
+            //    var stream = new MemoryStream();
+            //    postedFile.InputStream.CopyTo(stream);
+            //    var appxFile = AppxFile.Get(stream.ToArray());
+            //    appxFile.Delete();
+            //}
         }
     }
 }

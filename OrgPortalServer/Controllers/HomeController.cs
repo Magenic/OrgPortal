@@ -14,5 +14,11 @@ namespace OrgPortalServer.Controllers
 
       return View();
     }
+
+    public ActionResult Test()
+    {
+        // TODO: Remove this action when it's no longer needed for testing
+        return View();
+    }
   }
 }

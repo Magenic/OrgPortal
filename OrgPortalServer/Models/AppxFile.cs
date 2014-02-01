@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -11,12 +13,12 @@ namespace OrgPortalServer.Models
 
         private AppxFile() { }
 
-        private AppxFile(byte[] data)
+        private AppxFile(Stream data)
         {
-            Data = data;
-            // TODO: We'll likely need some more values along with the data.  Consider moving logic from a constructor to a factory.
-
             // TODO: Validate that the byte array is an APPX file, extract other fields from it, essentially build the application and meta-data from the file.
+            
+            // TODO: This is failing to read the stream.  Maybe the upload is being corrupted in the controller somehow?
+            var zip = ZipFile.Read(data);
         }
 
         public void Save()
@@ -33,10 +35,10 @@ namespace OrgPortalServer.Models
 
         // TODO: Should these factory methods outwardly discern between fetching a known app vs. building a new one?
         //       Unless we find a compelling reason to, I'd like to try keeping them the same.  If we make them different, update the controller.
-        public static AppxFile Get(byte[] data)
+        public static AppxFile Get(Stream data)
         {
             // TODO: Parse an identifier from the APPX data and use that to get the persisted APPX and other fields from the backing data store.
-            return new AppxFile();
+            return new AppxFile(data);
         }
 
         public static AppxFile Get(string id)
