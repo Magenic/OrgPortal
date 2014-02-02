@@ -27,39 +27,40 @@ namespace OrgPortalServer.Controllers
         // POST api/<controller>
         public void Post(HttpRequestMessage request)
         {
-            using(var fileData = request.Content.ReadAsStreamAsync().Result)
-                if (fileData.Length > 0)
-                {
-                    var appxFile = AppxFile.Get(fileData);
-                    appxFile.Save();
-                }
+            var multiPartContents = request.Content.ReadAsMultipartAsync();
+            multiPartContents.Wait();
+            if (multiPartContents.Result.Contents.Count > 0)
+            {
+                var stream = multiPartContents.Result.Contents.First().ReadAsStreamAsync();
+                stream.Wait();
+                AppxFile.Get(stream.Result).Save();
+            }
         }
 
         // PUT api/<controller>
-        public void Put(HttpPostedFileBase postedFile)
+        public void Put(HttpRequestMessage request)
         {
-            //if (postedFile.ContentLength > 0)
-            //{
-            //    AppxFile appxFile;
-            //    using (var stream = new MemoryStream())
-            //    {
-            //        postedFile.InputStream.CopyTo(stream);
-            //        appxFile = AppxFile.Get(stream.ToArray());
-            //    }
-            //    appxFile.Save();
-            //}
+            var multiPartContents = request.Content.ReadAsMultipartAsync();
+            multiPartContents.Wait();
+            if (multiPartContents.Result.Contents.Count > 0)
+            {
+                var stream = multiPartContents.Result.Contents.First().ReadAsStreamAsync();
+                stream.Wait();
+                AppxFile.Get(stream.Result).Save();
+            }
         }
 
         // DELETE api/<controller>
-        public void Delete(HttpPostedFileBase postedFile)
+        public void Delete(HttpRequestMessage request)
         {
-            //if (postedFile.ContentLength > 0)
-            //{
-            //    var stream = new MemoryStream();
-            //    postedFile.InputStream.CopyTo(stream);
-            //    var appxFile = AppxFile.Get(stream.ToArray());
-            //    appxFile.Delete();
-            //}
+            var multiPartContents = request.Content.ReadAsMultipartAsync();
+            multiPartContents.Wait();
+            if (multiPartContents.Result.Contents.Count > 0)
+            {
+                var stream = multiPartContents.Result.Contents.First().ReadAsStreamAsync();
+                stream.Wait();
+                AppxFile.Get(stream.Result).Delete();
+            }
         }
     }
 }
