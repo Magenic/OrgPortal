@@ -30,7 +30,7 @@ namespace OrgPortalServer.Controllers
         public void Post(HttpRequestMessage request)
         {
             var stream = GetStreamFromUploadedFile(request);
-            AppxFile.Get(stream).Save();
+            AppxFile.Create(stream).Save();
         }
 
         // PUT api/<controller>

@@ -31,29 +31,28 @@ namespace OrgPortalServer.Models
 
         public void Save()
         {
-            // TODO: Persist the raw APPX and the extracted values as an application to the backing data store.
-            //       Could be an insert or an update, determine based on some identifier extracted from the APPX.
+            AppxFileRepositoryFactory.Current.Save(this);
         }
 
         public void Delete()
         {
-            // TODO: Delete the persisted application and the associated APPX from the backing data store.
-            //       Identify it by some identifier extracted from the APPX.
+            AppxFileRepositoryFactory.Current.Delete(this);
         }
 
-        // TODO: Should these factory methods outwardly discern between fetching a known app vs. building a new one?
-        //       Unless we find a compelling reason to, I'd like to try keeping them the same.  If we make them different, update the controller.
-        public static AppxFile Get(Stream data)
+        public static AppxFile Create(Stream data)
         {
-            // TODO: Parse an identifier from the APPX data and use that to get the persisted APPX and other fields from the backing data store.
             return new AppxFile(data);
         }
 
-        public static AppxFile Get(string id)
+        public static AppxFile Get(Stream data)
         {
-            // TODO: Might not be a string, determine the unique identifier from the APPX when we've parsed that.
-            // TODO: Get the APPX and related data from the backing data store
-            return new AppxFile();
+            var tempFile = new AppxFile(data);
+            return Get(tempFile.Name);
+        }
+
+        public static AppxFile Get(string name)
+        {
+            return AppxFileRepositoryFactory.Current.Get(name);
         }
 
         private void ExtractValuesFromPackage(Stream data)

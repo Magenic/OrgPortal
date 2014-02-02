@@ -146,6 +146,9 @@
     </Compile>
     <Compile Include="Models\AppInfo.cs" />
     <Compile Include="Models\AppxFile.cs" />
+    <Compile Include="Models\AppxFileRepository.cs" />
+    <Compile Include="Models\AppxFileRepository.FileSystem.cs" />
+    <Compile Include="Models\AppxFileRepository.Mock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
