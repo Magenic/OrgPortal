@@ -20,6 +20,15 @@ namespace OrgPortalServer.Models
                 Directory.CreateDirectory(appFolder);
         }
 
+        public IEnumerable<AppxFile> Get()
+        {
+            var result = new List<AppxFile>();
+            foreach (var fileName in Directory.GetFiles(appFolder, "*.appx"))
+                using (var file = File.OpenRead(fileName))
+                    result.Add(AppxFile.Create(file));
+            return result;
+        }
+
         public AppxFile Get(string name)
         {
             if (!File.Exists(Path.Combine(appFolder, name + ".appx")))

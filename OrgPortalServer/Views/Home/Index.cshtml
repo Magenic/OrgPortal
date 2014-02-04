@@ -11,3 +11,79 @@
     </p>
   </div>
 </div>
+<div class="row">
+    <div class="col-md-4">
+        <table id="appList">
+            <thead>
+                <tr>
+                    <th>Application</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr></tr>
+            </tbody>
+        </table>
+        Add Appx File:
+        <form enctype="multipart/form-data">
+            <input name="file" type="file" />
+            <input type="button" id="upload" value="Upload" />
+        </form>
+    </div>
+</div>
+
+@section scripts
+{
+<script type="text/javascript">
+    var getApps = function () {
+        $('#appList').slideUp(500, function () {
+            $.get('@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "appx" })', function (results) {
+                $('#appList tbody tr').remove();
+                results.forEach(function(result) {
+                    $('#appList tbody').append(
+                        '<tr>' +
+                          '<td>' +
+                            '<a href="@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "appx" })/' + result.Name + '">' + result.Name + '</a>' +
+                          '</td>' +
+                          '<td>' +
+                            '<button class="deleteApp">Delete</button>' +
+                          '</td>' +
+                        '</tr>');
+                });
+                $('#appList').slideDown(500);
+            });
+        });
+    };
+
+    $(function () {
+        getApps();
+
+        $(document).on('click', 'button.deleteApp', function () {
+            var appName = $(this).closest('tr').find('a').text();
+            var button = $(this);
+            $.ajax({
+                url: '@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "appx" })/' + appName,
+                type: 'DELETE'
+            }).done(function (result) {
+                button.closest('tr').slideUp(500, function () {
+                    button.closest('tr').remove();
+                })
+            });
+        });
+
+        $('#upload').click(function () {
+            var formData = new FormData($('form')[0]);
+            $.ajax({
+                url: '@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "appx" })',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).done(function () {
+                getApps();
+            })
+        });
+    })
+</script>
+}

@@ -44,6 +44,11 @@ namespace OrgPortalServer.Models
             return new AppxFile(data);
         }
 
+        public static IEnumerable<AppxFile> Get()
+        {
+            return AppxFileRepositoryFactory.Current.Get();
+        }
+
         public static AppxFile Get(Stream data)
         {
             var tempFile = new AppxFile(data);

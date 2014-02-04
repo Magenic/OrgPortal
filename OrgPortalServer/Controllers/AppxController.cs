@@ -15,6 +15,13 @@ namespace OrgPortalServer.Controllers
 {
     public class AppxController : ApiController
     {
+        // GET api/<controller>
+        public IHttpActionResult Get()
+        {
+            var appxFiles = AppxFile.Get();
+            return Json(appxFiles.Select(a => new { Name = a.Name }));
+        }
+
         // GET api/<controller>/123abc
         public HttpResponseMessage Get(string id)
         {
@@ -28,24 +35,46 @@ namespace OrgPortalServer.Controllers
         }
 
         // POST api/<controller>
-        public void Post(HttpRequestMessage request)
+        public HttpResponseMessage Post(HttpRequestMessage request)
         {
             var stream = GetStreamFromUploadedFile(request);
             AppxFile.Create(stream).Save();
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent("{}");
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return response;
         }
 
         // PUT api/<controller>
-        public void Put(HttpRequestMessage request)
+        public HttpResponseMessage Put(HttpRequestMessage request)
         {
             var stream = GetStreamFromUploadedFile(request);
             AppxFile.Get(stream).Save();
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent("{}");
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return response;
         }
 
         // DELETE api/<controller>
-        public void Delete(HttpRequestMessage request)
+        public HttpResponseMessage Delete(HttpRequestMessage request)
         {
             var stream = GetStreamFromUploadedFile(request);
             AppxFile.Get(stream).Delete();
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent("{}");
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return response;
+        }
+
+        // DELETE api/<controller>/123abc
+        public HttpResponseMessage Delete(string id)
+        {
+            AppxFile.Get(id).Delete();
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent("{}");
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return response;
         }
 
         private static Stream GetStreamFromUploadedFile(HttpRequestMessage request)

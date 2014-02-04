@@ -9,6 +9,11 @@ namespace OrgPortalServer.Models
     {
         private List<AppxFile> files = new List<AppxFile>();
 
+        public IEnumerable<AppxFile> Get()
+        {
+            return files;
+        }
+
         public AppxFile Get(string name)
         {
             var file = files.SingleOrDefault(f => f.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));

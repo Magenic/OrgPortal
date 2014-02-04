@@ -7,6 +7,7 @@ namespace OrgPortalServer.Models
 {
     public interface AppxFileRepository
     {
+        IEnumerable<AppxFile> Get();
         AppxFile Get(string name);
         void Save(AppxFile file);
         void Delete(AppxFile file);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgPortalServer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,14 +12,7 @@ namespace OrgPortalServer.Controllers
     public ActionResult Index()
     {
       ViewBag.Title = "Home Page";
-
       return View();
-    }
-
-    public ActionResult Test()
-    {
-        // TODO: Remove this action when it's no longer needed for testing
-        return View();
     }
   }
 }
