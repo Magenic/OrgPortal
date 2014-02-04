@@ -23,6 +23,7 @@ namespace OrgPortalServer.Controllers
             response.Content = new StreamContent(new MemoryStream(appxFile.Package));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             response.Content.Headers.ContentLength = appxFile.Package.Length;
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = appxFile.Name + ".appx" };
             return response;
         }
 
