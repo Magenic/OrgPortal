@@ -1,17 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace OrgPortalServer.Models
 {
-  public class AppInfo
-  {
-    public string Name { get; set; }
-    public string PackageFamilyName { get; set; }
-    public string Description { get; set; }
-    public string AppxUrl { get; set; }
-    public string ImageUrl { get; set; }
-    public string Version { get; set; }
-    public string InstallMode { get; set; }
-  }
+    public class AppInfo
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Publisher { get; set; }
+        public string Version { get; set; }
+        public string ProcessorArchitecture { get; set; }
+        public string DisplayName { get; set; }
+        public string PublisherDisplayName { get; set; }
+
+        public string AppxUrl
+        {
+            get
+            {
+                var baseUri = new Uri(ConfigurationManager.AppSettings["SiteFolder"]);
+                var fileUri = new Uri(baseUri, Name + ".appx");
+                return fileUri.AbsoluteUri;
+            }
+        }
+
+        public string LogoUrl
+        {
+            get
+            {
+                var baseUri = new Uri(ConfigurationManager.AppSettings["SiteFolder"]);
+                var fileUri = new Uri(baseUri, Name + ".png");
+                return fileUri.AbsoluteUri;
+            }
+        }
+
+        public string SmallLogoUrl
+        {
+            get
+            {
+                var baseUri = new Uri(ConfigurationManager.AppSettings["SiteFolder"]);
+                var fileUri = new Uri(baseUri, Name + "-small.png");
+                return fileUri.AbsoluteUri;
+            }
+        }
+
+        public static IEnumerable<AppInfo> Get()
+        {
+            return AppInfoRepositoryFactory.Current.Get();
+        }
+
+        public static AppInfo Get(string name)
+        {
+            return AppInfoRepositoryFactory.Current.Get(name);
+        }
+
+        public void Delete()
+        {
+            AppxFileRepositoryFactory.Current.Delete(Name);
+            AppInfoRepositoryFactory.Current.Delete(Name);
+        }
+    }
 }

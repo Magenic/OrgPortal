@@ -10,13 +10,8 @@ namespace OrgPortalServer.Models
 {
     public class AppxFile
     {
+        public AppInfo Info { get; private set; }
         public byte[] Package { get; private set; }
-        public string Name { get; private set; }
-        public string Publisher { get; private set; }
-        public string Version { get; private set; }
-        public string ProcessorArchitecture { get; private set; }
-        public string DisplayName { get; private set; }
-        public string PublisherDisplayName { get; private set; }
         public byte[] Logo { get; private set; }
         public byte[] SmallLogo { get; private set; }
 
@@ -24,6 +19,7 @@ namespace OrgPortalServer.Models
 
         private AppxFile(Stream data)
         {
+            Info = new AppInfo();
             ExtractValuesFromPackage(data);
             data.Seek(0, SeekOrigin.Begin);
             Package = ReadFully(data);
@@ -32,33 +28,39 @@ namespace OrgPortalServer.Models
         public void Save()
         {
             AppxFileRepositoryFactory.Current.Save(this);
+            AppInfoRepositoryFactory.Current.Save(Info);
         }
 
-        public void Delete()
+        public bool Exists()
         {
-            AppxFileRepositoryFactory.Current.Delete(this);
+            return AppxFileRepositoryFactory.Current.Exists(Info.Name);
         }
+
+        //public void Delete()
+        //{
+        //    AppxFileRepositoryFactory.Current.Delete(this);
+        //}
 
         public static AppxFile Create(Stream data)
         {
             return new AppxFile(data);
         }
 
-        public static IEnumerable<AppxFile> Get()
-        {
-            return AppxFileRepositoryFactory.Current.Get();
-        }
+        //public static IEnumerable<AppxFile> Get()
+        //{
+        //    return AppxFileRepositoryFactory.Current.Get();
+        //}
 
-        public static AppxFile Get(Stream data)
-        {
-            var tempFile = new AppxFile(data);
-            return Get(tempFile.Name);
-        }
+        //public static AppxFile Get(Stream data)
+        //{
+        //    var tempFile = new AppxFile(data);
+        //    return Get(tempFile.Name);
+        //}
 
-        public static AppxFile Get(string name)
-        {
-            return AppxFileRepositoryFactory.Current.Get(name);
-        }
+        //public static AppxFile Get(string name)
+        //{
+        //    return AppxFileRepositoryFactory.Current.Get(name);
+        //}
 
         private void ExtractValuesFromPackage(Stream data)
         {
@@ -66,6 +68,7 @@ namespace OrgPortalServer.Models
             {
                 var manifest = GetManifestFromZip(zipArchive);
                 ExtractName(manifest);
+                ExtractDescription(manifest);
                 ExtractPublisher(manifest);
                 ExtractVersion(manifest);
                 ExtractProcessorArchitecture(manifest);
@@ -90,44 +93,49 @@ namespace OrgPortalServer.Models
 
         private void ExtractName(XDocument manifest)
         {
-            Name = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
-                           .Attributes().Single(a => a.Name.LocalName == "Name")
-                           .Value;
+            Info.Name = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
+                                .Attributes().Single(a => a.Name.LocalName == "Name")
+                                .Value;
+        }
+
+        private void ExtractDescription(XDocument manifest)
+        {
+            Info.Description = ExtractValueFromVisualElementsNode(manifest, "Description");
         }
 
         private void ExtractPublisher(XDocument manifest)
         {
-            Publisher = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
-                                .Attributes().Single(a => a.Name.LocalName == "Publisher")
-                                .Value;
+            Info.Publisher = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
+                                     .Attributes().Single(a => a.Name.LocalName == "Publisher")
+                                     .Value;
         }
 
         private void ExtractVersion(XDocument manifest)
         {
-            Version = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
-                              .Attributes().Single(a => a.Name.LocalName == "Version")
-                              .Value;
+            Info.Version = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
+                                   .Attributes().Single(a => a.Name.LocalName == "Version")
+                                   .Value;
         }
 
         private void ExtractDisplayName(XDocument manifest)
         {
-            DisplayName = manifest.Descendants().Single(d => d.Name.LocalName == "Properties")
-                                  .Descendants().Single(d => d.Name.LocalName == "DisplayName")
-                                  .Value;
+            Info.DisplayName = manifest.Descendants().Single(d => d.Name.LocalName == "Properties")
+                                       .Descendants().Single(d => d.Name.LocalName == "DisplayName")
+                                       .Value;
         }
 
         private void ExtractPublisherDisplayName(XDocument manifest)
         {
-            PublisherDisplayName = manifest.Descendants().Single(d => d.Name.LocalName == "Properties")
-                                           .Descendants().Single(d => d.Name.LocalName == "PublisherDisplayName")
-                                           .Value;
+            Info.PublisherDisplayName = manifest.Descendants().Single(d => d.Name.LocalName == "Properties")
+                                                .Descendants().Single(d => d.Name.LocalName == "PublisherDisplayName")
+                                                .Value;
         }
 
         private void ExtractProcessorArchitecture(XDocument manifest)
         {
-            ProcessorArchitecture = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
-                                            .Attributes().Single(a => a.Name.LocalName == "ProcessorArchitecture")
-                                            .Value;
+            Info.ProcessorArchitecture = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
+                                                 .Attributes().Single(a => a.Name.LocalName == "ProcessorArchitecture")
+                                                 .Value;
         }
 
         private void ExtractLogo(ZipFile zipArchive, XDocument manifest)
@@ -144,11 +152,7 @@ namespace OrgPortalServer.Models
 
         private static MemoryStream ExtractAssetImageFromVisualElementsNode(ZipFile zipArchive, XDocument manifest, string attributeName)
         {
-            var logoFileName = manifest.Descendants().Single(d => d.Name.LocalName == "Applications")
-                                       .Descendants().First(d => d.Name.LocalName == "Application") // TODO: What if there is more than one application?
-                                       .Descendants().Single(d => d.Name.ToString().EndsWith("VisualElements", StringComparison.InvariantCultureIgnoreCase))
-                                       .Attributes().Single(a => a.Name.LocalName == attributeName)
-                                       .Value;
+            var logoFileName = ExtractValueFromVisualElementsNode(manifest, attributeName);
             var fileName = Path.GetFileNameWithoutExtension(logoFileName);
             var fileExtension = Path.GetExtension(logoFileName);
             var logoFile = zipArchive.Entries.Single(e => Path.GetFileName(e.FileName).StartsWith(fileName, StringComparison.InvariantCultureIgnoreCase) &&
@@ -156,6 +160,16 @@ namespace OrgPortalServer.Models
             var logoData = new MemoryStream();
             logoFile.Extract(logoData);
             return logoData;
+        }
+
+        private static string ExtractValueFromVisualElementsNode(XDocument manifest, string attributeName)
+        {
+            var logoFileName = manifest.Descendants().Single(d => d.Name.LocalName == "Applications")
+                                       .Descendants().First(d => d.Name.LocalName == "Application") // TODO: What if there is more than one application?
+                                       .Descendants().Single(d => d.Name.ToString().EndsWith("VisualElements", StringComparison.InvariantCultureIgnoreCase))
+                                       .Attributes().Single(a => a.Name.LocalName == attributeName)
+                                       .Value;
+            return logoFileName;
         }
 
         private static byte[] ReadFully(Stream input)

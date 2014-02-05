@@ -37,7 +37,7 @@
 <script type="text/javascript">
     var getApps = function () {
         $('#appList').slideUp(500, function () {
-            $.get('@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "appx" })', function (results) {
+            $.get('@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "apps" })', function (results) {
                 $('#appList tbody tr').remove();
                 results.forEach(function(result) {
                     $('#appList tbody').append(
@@ -62,7 +62,7 @@
             var appName = $(this).closest('tr').find('a').text();
             var button = $(this);
             $.ajax({
-                url: '@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "appx" })/' + appName,
+                url: '@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "apps" })/' + appName,
                 type: 'DELETE'
             }).done(function (result) {
                 button.closest('tr').slideUp(500, function () {

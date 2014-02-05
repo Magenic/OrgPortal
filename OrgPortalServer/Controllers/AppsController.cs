@@ -5,40 +5,32 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using OrgPortalServer.Models;
+using System.Net.Http.Headers;
 
 namespace OrgPortalServer.Controllers
 {
-  public class AppsController : ApiController
-  {
-    // GET api/<controller>
-    public IEnumerable<AppInfo> Get()
+    public class AppsController : ApiController
     {
-      return new List<AppInfo> { 
-        new AppInfo { Name = "Game Result", PackageFamilyName="GameResult", AppxUrl = @"http://www.lhotka.net/files/GameResult.zip", Version = "1.0.0.0", InstallMode = "Manual" },
-        new AppInfo { Name = "OrgPortal", PackageFamilyName="OrgPortal_m64ba5zfsemg0", AppxUrl = @"http://www.lhotka.net/files/OrgPortal.zip", Version = "1.2.0.0", InstallMode = "AutoInstall" },
-        new AppInfo { Name = "Magenic Contact List", PackageFamilyName = "ContactList", Version = "1.3.0.0", InstallMode = "AutoUpdate" }
-      };
-    }
+        // GET api/<controller>
+        public IEnumerable<AppInfo> Get()
+        {
+            return AppInfo.Get();
+        }
 
-    // GET api/<controller>/5
-    public string Get(int id)
-    {
-      return "value";
-    }
+        // GET api/<controller>/appname
+        public AppInfo Get(string name)
+        {
+            return AppInfo.Get(name);
+        }
 
-    // POST api/<controller>
-    public void Post([FromBody]string value)
-    {
+        // DELETE api/<controller>/appname
+        public HttpResponseMessage Delete(string name)
+        {
+            AppInfo.Get(name).Delete();
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent("{}");
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return response;
+        }
     }
-
-    // PUT api/<controller>/5
-    public void Put(int id, [FromBody]string value)
-    {
-    }
-
-    // DELETE api/<controller>/5
-    public void Delete(int id)
-    {
-    }
-  }
 }

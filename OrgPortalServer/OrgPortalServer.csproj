@@ -145,10 +145,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AppInfo.cs" />
+    <Compile Include="Models\AppInfoRepository.cs" />
+    <Compile Include="Models\AppInfoRepositoryImpl.cs" />
     <Compile Include="Models\AppxFile.cs" />
     <Compile Include="Models\AppxFileRepository.cs" />
-    <Compile Include="Models\AppxFileRepository.FileSystem.cs" />
-    <Compile Include="Models\AppxFileRepository.Mock.cs" />
+    <Compile Include="Models\AppxFileRepositoryImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
