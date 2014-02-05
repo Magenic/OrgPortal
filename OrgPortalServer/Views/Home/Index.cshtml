@@ -43,7 +43,7 @@
                     $('#appList tbody').append(
                         '<tr>' +
                           '<td>' +
-                            '<a href="@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "appx" })/' + result.Name + '">' + result.Name + '</a>' +
+                            '<a href="' + result.AppxUrl + '">' + result.Name + '</a>' +
                           '</td>' +
                           '<td>' +
                             '<button class="deleteApp">Delete</button>' +

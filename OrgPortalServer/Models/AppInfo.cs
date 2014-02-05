@@ -19,9 +19,7 @@ namespace OrgPortalServer.Models
         {
             get
             {
-                var baseUri = new Uri(ConfigurationManager.AppSettings["SiteFolder"]);
-                var fileUri = new Uri(baseUri, Name + ".appx");
-                return fileUri.AbsoluteUri;
+                return ConfigurationManager.AppSettings["SiteFolder"] + "/" + Name + ".appx";
             }
         }
 
@@ -29,9 +27,7 @@ namespace OrgPortalServer.Models
         {
             get
             {
-                var baseUri = new Uri(ConfigurationManager.AppSettings["SiteFolder"]);
-                var fileUri = new Uri(baseUri, Name + ".png");
-                return fileUri.AbsoluteUri;
+                return ConfigurationManager.AppSettings["SiteFolder"] + "/" + Name + ".png";
             }
         }
 
@@ -39,9 +35,7 @@ namespace OrgPortalServer.Models
         {
             get
             {
-                var baseUri = new Uri(ConfigurationManager.AppSettings["SiteFolder"]);
-                var fileUri = new Uri(baseUri, Name + "-small.png");
-                return fileUri.AbsoluteUri;
+                return ConfigurationManager.AppSettings["SiteFolder"] + "/" + Name + "-small.png";
             }
         }
 

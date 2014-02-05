@@ -18,15 +18,15 @@ namespace OrgPortalServer.Controllers
         }
 
         // GET api/<controller>/appname
-        public AppInfo Get(string name)
+        public AppInfo Get(string id)
         {
-            return AppInfo.Get(name);
+            return AppInfo.Get(id);
         }
 
         // DELETE api/<controller>/appname
-        public HttpResponseMessage Delete(string name)
+        public HttpResponseMessage Delete(string id)
         {
-            AppInfo.Get(name).Delete();
+            AppInfo.Get(id).Delete();
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent("{}");
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
