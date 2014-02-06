@@ -238,22 +238,7 @@ namespace OrgPortalMonitor
     }
     public void GetDevLicense(XElement outputDoc)
     {
-      var sb = new StringBuilder();
-      sb.Append(@"Show-WindowsDeveloperLicenseRegistration");
-
-      var process = new System.Diagnostics.Process();
-      process.StartInfo.UseShellExecute = true;
-
-      process.StartInfo.FileName = "powershell.exe";
-      process.StartInfo.Arguments = sb.ToString();
-
-      process.StartInfo.Verb = "runas";
-
-      process.Start();
-
-      while (!process.HasExited) 
-        System.Threading.Thread.Sleep(5);
-
+      RunAsAdmin("powershell.exe", @"Show-WindowsDeveloperLicenseRegistration");
       outputDoc.Add(new XElement("success", "true"));
     }
 
@@ -377,6 +362,30 @@ namespace OrgPortalMonitor
         }
       }
       return appList;
+    }
+
+    internal void UnlockDevice(string key)
+    {
+      //1.Run “slmgr.vbs /ipk ” to install the key.
+      //2.Run “slmgr.vbs /ato ec67814b-30e6-4a50-bf7b-d55daf729d1e” to activate the key online.
+      RunAsAdmin("cmd.exe", string.Format(@" /c slmgr.vbs /ipk {0}", key));
+      RunAsAdmin("cmd.exe", string.Format(@" /c slmgr.vbs /ato ec67814b-30e6-4a50-bf7b-d55daf729d1e"));
+    }
+
+    private void RunAsAdmin(string fileName, string parameter)
+    {
+      var process = new System.Diagnostics.Process();
+      process.StartInfo.UseShellExecute = true;
+
+      process.StartInfo.FileName = fileName;
+      process.StartInfo.Arguments = parameter;
+
+      process.StartInfo.Verb = "runas";
+
+      process.Start();
+
+      while (!process.HasExited)
+        System.Threading.Thread.Sleep(5);
     }
   }
 }
