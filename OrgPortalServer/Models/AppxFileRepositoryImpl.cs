@@ -20,42 +20,47 @@ namespace OrgPortalServer.Models
                 Directory.CreateDirectory(appFolder);
         }
 
-        //public IEnumerable<AppxFile> Get()
-        //{
-        //    var result = new List<AppxFile>();
-        //    foreach (var fileName in Directory.GetFiles(appFolder, "*.appx"))
-        //        using (var file = File.OpenRead(fileName))
-        //            result.Add(AppxFile.Create(file));
-        //    return result;
-        //}
-
-        //public AppxFile Get(string name)
-        //{
-        //    if (!File.Exists(Path.Combine(appFolder, name + ".appx")))
-        //        throw new ArgumentException("Unable to find an app by that name.");
-        //    using (var file = File.OpenRead(Path.Combine(appFolder, name + ".appx")))
-        //        return AppxFile.Create(file);
-        //}
-
-        public bool Exists(string name)
+        public AppxFile Get(string packageFamilyName)
         {
-            return File.Exists(Path.Combine(appFolder, name + ".appx"));
+            if (!File.Exists(Path.Combine(appFolder, packageFamilyName + ".appx")))
+                throw new ArgumentException("Unable to find an app by that name.");
+            using (var file = File.OpenRead(Path.Combine(appFolder, packageFamilyName + ".appx")))
+                return AppxFile.Create(file);
+        }
+
+        public byte[] GetLogo(string packageFamilyName)
+        {
+            if (!File.Exists(Path.Combine(appFolder, packageFamilyName + ".png")))
+                throw new ArgumentException("Unable to find an app by that name.");
+            return File.ReadAllBytes(Path.Combine(appFolder, packageFamilyName + ".png"));
+        }
+
+        public byte[] GetSmallLogo(string packageFamilyName)
+        {
+            if (!File.Exists(Path.Combine(appFolder, packageFamilyName + "-small.png")))
+                throw new ArgumentException("Unable to find an app by that name.");
+            return File.ReadAllBytes(Path.Combine(appFolder, packageFamilyName + "-small.png"));
+        }
+
+        public bool Exists(string packageFamilyName)
+        {
+            return File.Exists(Path.Combine(appFolder, packageFamilyName + ".appx"));
         }
 
         public void Save(AppxFile file)
         {
-            File.WriteAllBytes(Path.Combine(appFolder, file.Info.Name + ".appx"), file.Package);
-            File.WriteAllBytes(Path.Combine(appFolder, file.Info.Name + ".png"), file.Logo);
-            File.WriteAllBytes(Path.Combine(appFolder, file.Info.Name + "-small.png"), file.SmallLogo);
+            File.WriteAllBytes(Path.Combine(appFolder, file.Info.PackageFamilyName + ".appx"), file.Package);
+            File.WriteAllBytes(Path.Combine(appFolder, file.Info.PackageFamilyName + ".png"), file.Logo);
+            File.WriteAllBytes(Path.Combine(appFolder, file.Info.PackageFamilyName + "-small.png"), file.SmallLogo);
         }
 
-        public void Delete(string name)
+        public void Delete(string packageFamilyName)
         {
-            if (!File.Exists(Path.Combine(appFolder, name + ".appx")))
+            if (!File.Exists(Path.Combine(appFolder, packageFamilyName + ".appx")))
                 throw new ArgumentException("Unable to find an app by that name.");
-            File.Delete(Path.Combine(appFolder, name + ".appx"));
-            File.Delete(Path.Combine(appFolder, name + ".png"));
-            File.Delete(Path.Combine(appFolder, name + "-small.png"));
+            File.Delete(Path.Combine(appFolder, packageFamilyName + ".appx"));
+            File.Delete(Path.Combine(appFolder, packageFamilyName + ".png"));
+            File.Delete(Path.Combine(appFolder, packageFamilyName + "-small.png"));
         }
     }
 }

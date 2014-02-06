@@ -15,24 +15,17 @@ namespace OrgPortalServer.Controllers
 {
     public class AppxController : ApiController
     {
-        //// GET api/<controller>
-        //public IHttpActionResult Get()
-        //{
-        //    var appxFiles = AppxFile.Get();
-        //    return Json(appxFiles.Select(a => new { Name = a.Name }));
-        //}
-
-        //// GET api/<controller>/123abc
-        //public HttpResponseMessage Get(string id)
-        //{
-        //    var appxFile = AppxFile.Get(id);
-        //    var response = new HttpResponseMessage(HttpStatusCode.OK);
-        //    response.Content = new StreamContent(new MemoryStream(appxFile.Package));
-        //    response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        //    response.Content.Headers.ContentLength = appxFile.Package.Length;
-        //    response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = appxFile.Name + ".appx" };
-        //    return response;
-        //}
+        // GET api/<controller>/packagefamilyname
+        public HttpResponseMessage Get(string id)
+        {
+            var appxFile = AppxFile.Get(id);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new MemoryStream(appxFile.Package));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            response.Content.Headers.ContentLength = appxFile.Package.Length;
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = appxFile.Info.PackageFamilyName + ".appx" };
+            return response;
+        }
 
         // POST api/<controller>
         public HttpResponseMessage Post(HttpRequestMessage request)
@@ -75,27 +68,6 @@ namespace OrgPortalServer.Controllers
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return response;
         }
-
-        //// DELETE api/<controller>
-        //public HttpResponseMessage Delete(HttpRequestMessage request)
-        //{
-        //    var stream = GetStreamFromUploadedFile(request);
-        //    AppxFile.Get(stream).Delete();
-        //    var response = new HttpResponseMessage(HttpStatusCode.OK);
-        //    response.Content = new StringContent("{}");
-        //    response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-        //    return response;
-        //}
-
-        //// DELETE api/<controller>/123abc
-        //public HttpResponseMessage Delete(string id)
-        //{
-        //    AppxFile.Get(id).Delete();
-        //    var response = new HttpResponseMessage(HttpStatusCode.OK);
-        //    response.Content = new StringContent("{}");
-        //    response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-        //    return response;
-        //}
 
         private static Stream GetStreamFromUploadedFile(HttpRequestMessage request)
         {

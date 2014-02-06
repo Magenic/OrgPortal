@@ -9,9 +9,9 @@ namespace OrgPortalServer.Models
     public interface AppInfoRepository
     {
         IEnumerable<AppInfo> Get();
-        AppInfo Get(string name);
+        AppInfo Get(string packageFamilyName);
         void Save(AppInfo app);
-        void Delete(string name);
+        void Delete(string packageFamilyName);
     }
 
     public class AppInfoRepositoryFactory

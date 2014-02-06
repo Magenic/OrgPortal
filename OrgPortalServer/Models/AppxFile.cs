@@ -33,34 +33,28 @@ namespace OrgPortalServer.Models
 
         public bool Exists()
         {
-            return AppxFileRepositoryFactory.Current.Exists(Info.Name);
+            return AppxFileRepositoryFactory.Current.Exists(Info.PackageFamilyName);
         }
-
-        //public void Delete()
-        //{
-        //    AppxFileRepositoryFactory.Current.Delete(this);
-        //}
 
         public static AppxFile Create(Stream data)
         {
             return new AppxFile(data);
         }
 
-        //public static IEnumerable<AppxFile> Get()
-        //{
-        //    return AppxFileRepositoryFactory.Current.Get();
-        //}
+        public static AppxFile Get(string packageFamilyName)
+        {
+            return AppxFileRepositoryFactory.Current.Get(packageFamilyName);
+        }
 
-        //public static AppxFile Get(Stream data)
-        //{
-        //    var tempFile = new AppxFile(data);
-        //    return Get(tempFile.Name);
-        //}
+        public static byte[] GetLogo(string packageFamilyName)
+        {
+            return AppxFileRepositoryFactory.Current.GetLogo(packageFamilyName);
+        }
 
-        //public static AppxFile Get(string name)
-        //{
-        //    return AppxFileRepositoryFactory.Current.Get(name);
-        //}
+        public static byte[] GetSmallLogo(string packageFamilyName)
+        {
+            return AppxFileRepositoryFactory.Current.GetSmallLogo(packageFamilyName);
+        }
 
         private void ExtractValuesFromPackage(Stream data)
         {

@@ -51,9 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\OrgPortalServer\Models\AppInfo.cs">
-      <Link>DataModel\AppInfo.cs</Link>
-    </Compile>
+    <Compile Include="DataModel\AppInfo.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

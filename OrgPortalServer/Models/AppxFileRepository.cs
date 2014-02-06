@@ -7,11 +7,12 @@ namespace OrgPortalServer.Models
 {
     public interface AppxFileRepository
     {
-        //IEnumerable<AppxFile> Get();
-        //AppxFile Get(string name);
-        bool Exists(string name);
+        AppxFile Get(string packageFamilyName);
+        byte[] GetLogo(string packageFamilyName);
+        byte[] GetSmallLogo(string packageFamilyName);
+        bool Exists(string packageFamilyName);
         void Save(AppxFile file);
-        void Delete(string name);
+        void Delete(string packageFamilyName);
     }
 
     public class AppxFileRepositoryFactory

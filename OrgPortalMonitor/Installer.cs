@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgPortalMonitor.DataModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -281,7 +282,7 @@ namespace OrgPortalMonitor
       }
     }
 
-    private bool UpdateAvailable(OrgPortalServer.Models.AppInfo serverApp, OrgPortalServer.Models.AppInfo installedApp)
+    private bool UpdateAvailable(AppInfo serverApp, AppInfo installedApp)
     {
       var result = false;
       var serverVersion = serverApp.Version.Split('.');
@@ -297,9 +298,9 @@ namespace OrgPortalMonitor
       return result;
     }
 
-    private async Task<List<OrgPortalServer.Models.AppInfo>> GetAppList()
+    private async Task<List<AppInfo>> GetAppList()
     {
-      var appList = new List<OrgPortalServer.Models.AppInfo>();
+      var appList = new List<AppInfo>();
       var client = new System.Net.Http.HttpClient();
 
       var response = await client.GetAsync(_serviceURI + "Apps");
@@ -335,13 +336,13 @@ namespace OrgPortalMonitor
         }
         foreach (var obj in info)
         {
-          var app = new OrgPortalServer.Models.AppInfo();
+          var app = new AppInfo();
           app.Name = obj["Name"];
           app.PackageFamilyName = obj["PackageFamilyName"];
           app.AppxUrl = obj["AppxUrl"];
           app.Version = obj["Version"];
           app.Description = obj["Description"];
-          app.ImageUrl = obj["ImageUrl"];
+          app.ImageUrl = obj["LogoUrl"];
           if (string.IsNullOrEmpty(app.ImageUrl))
             app.ImageUrl = "Assets/DarkGray.png";
           app.InstallMode = obj["InstallMode"];
@@ -351,15 +352,15 @@ namespace OrgPortalMonitor
       return appList;
     }
 
-    private List<OrgPortalServer.Models.AppInfo> GetInstalledApps()
+    private List<AppInfo> GetInstalledApps()
     {
       GetInstalledPackages();
-      var appList = new List<OrgPortalServer.Models.AppInfo>();
+      var appList = new List<AppInfo>();
       var filePath = LocalPath + "InstalledPackages.txt";
       if (System.IO.File.Exists(filePath))
       {
         var installedPackages = System.IO.File.ReadAllLines(filePath);
-        var info = new OrgPortalServer.Models.AppInfo();
+        var info = new AppInfo();
         foreach (var line in installedPackages)
         {
           if (line.StartsWith("Name"))
@@ -371,7 +372,7 @@ namespace OrgPortalMonitor
           else if (line.StartsWith("IsDevelopmentMode"))
           {
             appList.Add(info);
-            info = new OrgPortalServer.Models.AppInfo();
+            info = new AppInfo();
           }
         }
       }

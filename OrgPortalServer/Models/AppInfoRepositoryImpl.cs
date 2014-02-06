@@ -34,12 +34,12 @@ namespace OrgPortalServer.Models
             return result;
         }
 
-        public AppInfo Get(string name)
+        public AppInfo Get(string packageFamilyName)
         {
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["OrgPortalDB"].ConnectionString))
-            using (var command = new SqlCommand("SELECT [Name], [Publisher], [Version], [ProcessorArchitecture], [DisplayName], [PublisherDisplayName], [Description] FROM [Application] WHERE [Application].[Name] = @Name", connection))
+            using (var command = new SqlCommand("SELECT [Name], [Publisher], [PackageFamilyName], [Version], [ProcessorArchitecture], [DisplayName], [PublisherDisplayName], [Description] FROM [Application] WHERE [Application].[PackageFamilyName] = @PackageFamilyName", connection))
             {
-                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@PackageFamilyName", packageFamilyName);
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {
@@ -67,10 +67,11 @@ namespace OrgPortalServer.Models
         public void Save(AppInfo app)
         {
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["OrgPortalDB"].ConnectionString))
-            using (var command = new SqlCommand("INSERT INTO [Application] ([Name], [Publisher], [Version], [ProcessorArchitecture], [DisplayName], [PublisherDisplayName], [Description]) VALUES (@Name, @Publisher, @Version, @ProcessorArchitecture, @DisplayName, @PublisherDisplayName, @Description)", connection))
+            using (var command = new SqlCommand("INSERT INTO [Application] ([Name], [Publisher], [PackageFamilyName], [Version], [ProcessorArchitecture], [DisplayName], [PublisherDisplayName], [Description]) VALUES (@Name, @Publisher, @PackageFamilyName, @Version, @ProcessorArchitecture, @DisplayName, @PublisherDisplayName, @Description)", connection))
             {
                 command.Parameters.AddWithValue("@Name", app.Name);
                 command.Parameters.AddWithValue("@Publisher", app.Publisher);
+                command.Parameters.AddWithValue("@PackageFamilyName", app.PackageFamilyName);
                 command.Parameters.AddWithValue("@Version", app.Version);
                 command.Parameters.AddWithValue("@ProcessorArchitecture", app.ProcessorArchitecture);
                 command.Parameters.AddWithValue("@DisplayName", app.DisplayName);
@@ -81,12 +82,12 @@ namespace OrgPortalServer.Models
             }
         }
 
-        public void Delete(string name)
+        public void Delete(string packageFamilyName)
         {
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["OrgPortalDB"].ConnectionString))
-            using (var command = new SqlCommand("DELETE FROM [Application] WHERE [Application].[Name] = @Name", connection))
+            using (var command = new SqlCommand("DELETE FROM [Application] WHERE [Application].[PackageFamilyName] = @PackageFamilyName", connection))
             {
-                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@PackageFamilyName", packageFamilyName);
                 connection.Open();
                 command.ExecuteNonQuery();
             }

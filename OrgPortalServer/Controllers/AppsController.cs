@@ -17,13 +17,13 @@ namespace OrgPortalServer.Controllers
             return AppInfo.Get();
         }
 
-        // GET api/<controller>/appname
+        // GET api/<controller>/packagefamilyname
         public AppInfo Get(string id)
         {
             return AppInfo.Get(id);
         }
 
-        // DELETE api/<controller>/appname
+        // DELETE api/<controller>/packagefamilyname
         public HttpResponseMessage Delete(string id)
         {
             AppInfo.Get(id).Delete();

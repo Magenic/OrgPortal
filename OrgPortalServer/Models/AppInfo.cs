@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace OrgPortalServer.Models
 {
@@ -14,12 +15,25 @@ namespace OrgPortalServer.Models
         public string ProcessorArchitecture { get; set; }
         public string DisplayName { get; set; }
         public string PublisherDisplayName { get; set; }
+        public string InstallMode { get; set; }
+
+        public string PackageFamilyName
+        {
+            get
+            {
+                // TODO: This is not correct.  Publisher needs to be the Publisher ID, which is a hash of something.
+                //       Need to figure out how to calculate/fetch the Publisher ID.
+                return Name + "_" + Publisher;
+            }
+        }
 
         public string AppxUrl
         {
             get
             {
-                return ConfigurationManager.AppSettings["SiteFolder"] + "/" + Name + ".appx";
+                // TODO: There must be better ways to construct these URLs
+                var uri = new Uri(ConfigurationManager.AppSettings["OrgUrl"]);
+                return "//" + uri.Authority + "/api/appx/" + PackageFamilyName;
             }
         }
 
@@ -27,7 +41,8 @@ namespace OrgPortalServer.Models
         {
             get
             {
-                return ConfigurationManager.AppSettings["SiteFolder"] + "/" + Name + ".png";
+                var uri = new Uri(ConfigurationManager.AppSettings["OrgUrl"]);
+                return "//" + uri.Authority + "/api/logo/" + PackageFamilyName;
             }
         }
 
@@ -35,8 +50,15 @@ namespace OrgPortalServer.Models
         {
             get
             {
-                return ConfigurationManager.AppSettings["SiteFolder"] + "/" + Name + "-small.png";
+                var uri = new Uri(ConfigurationManager.AppSettings["OrgUrl"]);
+                return "//" + uri.Authority + "/api/smalllogo/" + PackageFamilyName;
             }
+        }
+
+        public AppInfo()
+        {
+            // TODO: This is a default value, replace it with a specified value in the UI.  Maybe pulled from an enum of available values.
+            InstallMode = "AutoUpdate";
         }
 
         public static IEnumerable<AppInfo> Get()
@@ -44,15 +66,15 @@ namespace OrgPortalServer.Models
             return AppInfoRepositoryFactory.Current.Get();
         }
 
-        public static AppInfo Get(string name)
+        public static AppInfo Get(string packageFamilyName)
         {
-            return AppInfoRepositoryFactory.Current.Get(name);
+            return AppInfoRepositoryFactory.Current.Get(packageFamilyName);
         }
 
         public void Delete()
         {
-            AppxFileRepositoryFactory.Current.Delete(Name);
-            AppInfoRepositoryFactory.Current.Delete(Name);
+            AppxFileRepositoryFactory.Current.Delete(PackageFamilyName);
+            AppInfoRepositoryFactory.Current.Delete(PackageFamilyName);
         }
     }
 }

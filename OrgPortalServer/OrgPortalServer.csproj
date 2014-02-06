@@ -139,6 +139,8 @@
     <Compile Include="Controllers\AppsController.cs" />
     <Compile Include="Controllers\AppxController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SmallLogoController.cs" />
+    <Compile Include="Controllers\LogoController.cs" />
     <Compile Include="Controllers\OrgPortalController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
