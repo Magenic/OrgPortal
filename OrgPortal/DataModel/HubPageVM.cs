@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OrgPortalServer.Models;
+using OrgPortalMonitor.DataModel;
 using System.Collections.ObjectModel;
 
 namespace OrgPortal.DataModel

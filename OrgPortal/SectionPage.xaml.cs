@@ -69,7 +69,7 @@ namespace OrgPortal
         /// session.  The state will be null the first time a page is visited.</param>
         private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-          this.DefaultViewModel["Items"] = (ObservableCollection<OrgPortalServer.Models.AppInfo>)e.NavigationParameter;
+          this.DefaultViewModel["Items"] = (ObservableCollection<OrgPortalMonitor.DataModel.AppInfo>)e.NavigationParameter;
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace OrgPortal
         {
           // Navigate to the appropriate destination page, configuring the new page
           // by passing required information as a navigation parameter
-          var itemId = (OrgPortalServer.Models.AppInfo)e.ClickedItem;
+          var itemId = (OrgPortalMonitor.DataModel.AppInfo)e.ClickedItem;
           this.Frame.Navigate(typeof(ItemPage), itemId);
         }
 

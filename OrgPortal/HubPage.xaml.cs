@@ -1,6 +1,6 @@
 ﻿using OrgPortal.Common;
 using OrgPortal.Data;
-using OrgPortalServer.Models;
+using OrgPortalMonitor.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -69,8 +69,8 @@ namespace OrgPortal
     /// session.  The state will be null the first time a page is visited.</param>
     private async void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
     {
-      this.DefaultViewModel.AppList = new ObservableCollection<OrgPortalServer.Models.AppInfo>();
-      this.DefaultViewModel.InstalledList = new ObservableCollection<OrgPortalServer.Models.AppInfo>();
+      this.DefaultViewModel.AppList = new ObservableCollection<OrgPortalMonitor.DataModel.AppInfo>();
+      this.DefaultViewModel.InstalledList = new ObservableCollection<OrgPortalMonitor.DataModel.AppInfo>();
 
       await LoadOrgData();
 
@@ -117,7 +117,7 @@ namespace OrgPortal
         foreach (var item in info)
         {
           var obj = item.GetObject();
-          var app = new OrgPortalServer.Models.AppInfo();
+          var app = new OrgPortalMonitor.DataModel.AppInfo();
           app.Name = obj["Name"].GetString();
           app.PackageFamilyName = obj["PackageFamilyName"].GetString();
           app.AppxUrl = obj["AppxUrl"].ValueType == JsonValueType.Null ? string.Empty : obj["AppxUrl"].GetString();

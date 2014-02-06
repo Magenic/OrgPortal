@@ -109,7 +109,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\OrgPortalServer\Models\AppInfo.cs">
+    <Compile Include="..\OrgPortalMonitor\DataModel\AppInfo.cs">
       <Link>DataModel\AppInfo.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">

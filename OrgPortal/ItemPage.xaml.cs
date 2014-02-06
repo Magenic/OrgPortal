@@ -1,6 +1,6 @@
 ﻿using OrgPortal.Common;
 using OrgPortal.Data;
-using OrgPortalServer.Models;
+using OrgPortalMonitor.DataModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
