@@ -17,6 +17,18 @@ Apps can be designated as _auto-install_, meaning the system tray app will autom
 
 The WinRT client app displays content from a URL, allowing the app to function as an informational portal as well as a private store. It also lists private apps available for installation based on information provided by the ASP.NET server.
 
+The system tray app provides a set of admin related functionality, including:
+
+* Enter and activate a side-loading unlock key
+* Get a temporary development/test unlock key
+* Show a log of activity
+
+The web site provides a set of admin related functionality, including:
+
+* Upload appx files to server so they are available for deployment to clients
+* Set the auto-install/auto-update designation for each appx
+* Remove an appx from the server, preventing future installs to clients
+
 **Note:** This solution does not bypass the need to unlock your device for side-loading, or alter the requirement for the appx package to be signed using a trusted certificate. You will need to meet those two requirements before OrgPortal will function on a device.
 
 **Note:** OrgPortal only works with Intel-based devices. There is no way to run a system tray app on an ARM device, so they are not supported by this solution.
