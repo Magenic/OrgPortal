@@ -1,0 +1,92 @@
+﻿<Page
+    x:Name="pageRoot"
+    x:Class="OrgPortal.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OrgPortal.Views"
+    xmlns:common="using:OrgPortal.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cal="using:Caliburn.Micro"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/ItemTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        
+        <Hub HorizontalContentAlignment="Stretch">
+            <Hub.Header>                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Page title -->
+                    <TextBlock x:Name="OrgName" Style="{StaticResource HeaderTextBlockStyle}"
+                               IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+
+                    <SearchBox Grid.Column="1"
+                               Margin="0"
+                               Width="350" Height="35"
+                               PlaceholderText="Search for apps"
+                               VerticalAlignment="Bottom" 
+                               HorizontalAlignment="Right" />
+                </Grid>
+            </Hub.Header>
+
+            <HubSection Width="780" Margin="0,0,80,0">
+                <DataTemplate>
+                    <WebView Source="{Binding Path=FeatureUrl}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>             
+                </DataTemplate>
+            </HubSection>
+
+            <HubSection Header="Recently Added">
+                <DataTemplate>
+                    <GridView x:Name="InstalledList" />
+                </DataTemplate>
+            </HubSection>
+            
+            <HubSection IsHeaderInteractive="True" Header="All Apps">
+                <DataTemplate>
+                    <GridView
+                        x:Name="AppList"
+                        ItemTemplate="{StaticResource Apps310x260ItemTemplate}"
+                        AutomationProperties.AutomationId="ItemGridView"
+                        AutomationProperties.Name="Items In Group"
+                        SelectionMode="None"
+                        IsSwipeEnabled="false"
+                        IsItemClickEnabled="True"
+                        cal:Message.Attach="[Event ItemClick] = [ShowAppDetails($dataContext)]" />
+                </DataTemplate>
+            </HubSection>
+            
+        </Hub>
+    </Grid>
+
+    <Page.TopAppBar>
+        <AppBar>
+            <ContentControl x:Name="NavigationBar" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
+        </AppBar>
+    </Page.TopAppBar>
+    <Page.BottomAppBar>
+        <AppBar>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="UpdateDevLicense" Style="{StaticResource ProtectedDocumentAppBarButtonStyle}" />
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
+    
+</Page>

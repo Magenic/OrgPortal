@@ -57,6 +57,7 @@ namespace OrgPortal.Common
     /// </code>
     /// </example>
     [Windows.Foundation.Metadata.WebHostHidden]
+    [Obsolete]
     public class NavigationHelper : DependencyObject
     {
         private Page Page { get; set; }

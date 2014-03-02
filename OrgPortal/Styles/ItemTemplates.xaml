@@ -1,0 +1,23 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OrgPortal.Styles">
+
+    <DataTemplate x:Key="Apps310x260ItemTemplate">
+        <Grid Height="250" Width="310" Margin="5,10,5,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" Height="150">
+                <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Name}"/>
+            </Border>
+            <StackPanel Grid.Row="1" Margin="0,10,0,0">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap"/>
+                <TextBlock Text="{Binding Version}" Style="{StaticResource BodyTextBlockStyle}" MaxHeight="60" />
+                <TextBlock Text="{Binding Description}" Style="{StaticResource BodyTextBlockStyle}" MaxHeight="60" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+    
+</ResourceDictionary>

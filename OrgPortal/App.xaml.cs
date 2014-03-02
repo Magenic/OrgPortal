@@ -1,39 +1,24 @@
-﻿using OrgPortal.Common;
-
+﻿using Caliburn.Micro;
+using OrgPortal.Common;
+using OrgPortal.Views;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Composition;
+using System.Composition.Hosting;
+using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Hub App template is documented at http://go.microsoft.com/fwlink/?LinkId=321221
 
 namespace OrgPortal
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    sealed partial class App : Application
+    sealed partial class App : CaliburnApplication
     {
-        /// <summary>
-        /// Initializes the singleton Application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
+        private CompositionHost Container { get; set; }
+
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -43,65 +28,79 @@ namespace OrgPortal
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                this.DebugSettings.EnableFrameRateCounter = true;
-            }
-#endif
+//#if DEBUG
+//            if (System.Diagnostics.Debugger.IsAttached)
+//            {
+//                this.DebugSettings.EnableFrameRateCounter = true;
+//            }
+//#endif
+            
+            DisplayRootView<MainPage>();
 
-            Frame rootFrame = Window.Current.Content as Frame;
 
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
+            //    //Associate the frame with a SuspensionManager key                                
+            //    SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
+            //    // Set the default language
+            //    rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
 
-            if (rootFrame == null)
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-                //Associate the frame with a SuspensionManager key                                
-                SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
-                // Set the default language
-                rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // Restore the saved session state only when appropriate
-                    try
-                    {
-                        await SuspensionManager.RestoreAsync();
-                    }
-                    catch (SuspensionManagerException)
-                    {
-                        //Something went wrong restoring state.
-                        //Assume there is no state and continue
-                    }
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
-            if (rootFrame.Content == null)
-            {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                rootFrame.Navigate(typeof(HubPage), e.Arguments);
-            }
-            // Ensure the current window is active
-            Window.Current.Activate();
+            
+            //    if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            //    {
+            //        // Restore the saved session state only when appropriate
+            //        try
+            //        {
+            //            await SuspensionManager.RestoreAsync();
+            //        }
+            //        catch (SuspensionManagerException)
+            //        {
+            //            //Something went wrong restoring state.
+            //            //Assume there is no state and continue
+            //        }
+            //    }
         }
 
-        /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        protected override void Configure()
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            var configuration = new ContainerConfiguration()
+                .WithAssembly(typeof(App).GetTypeInfo().Assembly);
+
+            Container = configuration.CreateContainer();
+        }
+
+        protected override void PrepareViewFirst(Frame rootFrame)
+        {
+            var nav = Container.GetExport<INavigation>();
+            nav.Initialize(new FrameAdapter(rootFrame));
+        }
+
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            return new[] { typeof(App).GetTypeInfo().Assembly };
+        }
+
+        protected override object GetInstance(Type service, string key)
+        {
+            object instance = null;
+            
+            if (!string.IsNullOrEmpty(key))
+                instance = Container.GetExport(service, key);
+            else
+                instance = Container.GetExport(service);
+
+            if (instance != null)
+                return instance;
+
+            throw new Exception("Could not locate any instances.");
+        }
+
+        protected override IEnumerable<object> GetAllInstances(Type service)
+        {
+            return Container.GetExports(service);
+        }
+
+        protected override void BuildUp(object instance)
+        {
+            Container.SatisfyImports(instance);
         }
 
         /// <summary>
@@ -111,11 +110,12 @@ namespace OrgPortal
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private async void OnSuspending(object sender, SuspendingEventArgs e)
+        protected override async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             await SuspensionManager.SaveAsync();
             deferral.Complete();
         }
+
     }
 }

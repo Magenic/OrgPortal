@@ -1,0 +1,37 @@
+﻿<UserControl
+    x:Class="OrgPortal.Views.NavigationBarView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OrgPortal.Views"
+    xmlns:cal="using:Caliburn.Micro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Background="Transparent" BorderBrush="Green" BorderThickness="0,0,0,1" Padding="20">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="GoHome" Content="Go Home" />
+                <Button x:Name="ShowMyApps" Content="My Apps" Margin="20,0,0,0" />
+            </StackPanel>
+        </Border>
+
+        <ListView Grid.Row="1" Margin="20" x:Name="CategoryList"
+                  IsItemClickEnabled="True"
+                  cal:Message.Attach="[Event ItemClick] = [GoToCategory($dataContext)]">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Vertical" MaxHeight="200" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+
+    </Grid>
+</UserControl>

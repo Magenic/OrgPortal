@@ -1,0 +1,88 @@
+﻿<Page
+    x:Name="pageRoot"
+    x:Class="OrgPortal.Views.AppDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OrgPortal.Views"
+    xmlns:common="using:OrgPortal.Common"
+    xmlns:cal="using:Caliburn.Micro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Back button and page title -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="GoBack" Margin="39,59,39,0"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="Back"
+                    AutomationProperties.AutomationId="BackButton"
+                    AutomationProperties.ItemType="Navigation Button"/>
+            <TextBlock x:Name="pageTitle" Text="{Binding Name}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+                       IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
+        </Grid>
+
+        <Grid Grid.Row="1" VerticalAlignment="Stretch" Margin="120,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>            
+            
+            <!-- First Column -->
+            <Grid VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <Button x:Name="Install" Content="Install" />
+                <!--<Button x:Name="Update" Content="Update" />
+                <Button x:Name="Uninstall" Content="Uninstall" />-->
+            
+                <TextBlock Grid.Row="1" Text="{Binding Item.Name}"/>
+                <TextBlock Grid.Row="2" Text="{Binding Item.PackageName}"/>
+                <TextBlock Grid.Row="3" Text="{Binding Item.Version}"/>
+                <TextBlock Grid.Row="4" Text="{Binding Item.Description}"/>
+                <TextBlock Grid.Row="5" Text="{Binding Item.AppxUrl}"/>
+                <TextBlock Grid.Row="6" Text="{Binding Item.ImageUrl}"/>
+                <TextBlock Grid.Row="7" Text="{Binding IsInstalled}"/>
+                <TextBlock Grid.Row="8" Text="{Binding UpdateAvailable}"/>
+            </Grid>
+            
+            <!-- Second Column -->
+            <Grid Grid.Column="1" VerticalAlignment="Stretch">
+                <Image Source="{Binding Item.ImageUrl}" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,40,40"/>
+            </Grid>
+        </Grid>
+        
+    </Grid>
+    
+    <Page.TopAppBar>
+        <AppBar>
+            <ContentControl x:Name="NavigationBar" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
+        </AppBar>
+    </Page.TopAppBar>
+</Page>
