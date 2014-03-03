@@ -149,8 +149,8 @@ namespace OrgPortalServer.Models
             var logoFileName = ExtractValueFromVisualElementsNode(manifest, attributeName);
             var fileName = Path.GetFileNameWithoutExtension(logoFileName);
             var fileExtension = Path.GetExtension(logoFileName);
-            var logoFile = zipArchive.Entries.Single(e => Path.GetFileName(e.FileName).StartsWith(fileName, StringComparison.InvariantCultureIgnoreCase) &&
-                                                          Path.GetExtension(e.FileName).Equals(fileExtension, StringComparison.InvariantCultureIgnoreCase));
+            var logoFile = zipArchive.Entries.Last(e => Path.GetFileName(e.FileName).StartsWith(fileName, StringComparison.InvariantCultureIgnoreCase) &&
+                                                        Path.GetExtension(e.FileName).Equals(fileExtension, StringComparison.InvariantCultureIgnoreCase));
             var logoData = new MemoryStream();
             logoFile.Extract(logoData);
             return logoData;
