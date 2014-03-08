@@ -2,46 +2,36 @@
 
 <h1>Categories</h1> <button id="addCategoryButton">Add</button>
 <div id="addCategoryForm" style="display:none;">
-    @using (Html.BeginForm("Category", "Categories", FormMethod.Post))
-    {
-        <h2>Add Category</h2>
-        <label>Name</label>
-        <input type="text" name="name" />
-        <input type="hidden" name="id" />
-        <input type="submit" value="Save" />
-        <button id="addCategoryCancelButton">Cancel</button>
-    }
+    <h2>Add Category</h2>
+    <label>Name</label>
+    <input type="text" name="name" />
+    <input type="hidden" name="id" />
+    <button id="addCategorySaveButton">Save</button>
+    <button id="addCategoryCancelButton">Cancel</button>
 </div>
-@if (Model.Count() == 0)
-{
-    <p>You currently have no categories added.</p>
-}
-else
-{
-    <table id="categoryTable">
-        <thead>
+<table id="categoryTable">
+    <thead>
+        <tr>
+            <th style="display:none;"></th>
+            <th>Name</th>
+            <th># of apps</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
             <tr>
-                <th style="display:none;"></th>
-                <th>Name</th>
-                <th># of apps</th>
-                <th></th>
-                <th></th>
+                <td style="display:none;">@category.ID</td>
+                <td>@category.Name</td>
+                <td>@category.Applications.Count()</td>
+                <td><button class="edit">Edit</button></td>
+                <td>@if (category.Applications.Count() == 0) { <button class="delete">Delete</button> }</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var category in Model)
-            {
-                <tr>
-                    <td style="display:none;">@category.ID</td>
-                    <td>@category.Name</td>
-                    <td>@category.Applications.Count()</td>
-                    <td><button class="edit">Edit</button></td>
-                    <td>@*<button class="delete">Delete</button>*@</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+        }
+    </tbody>
+</table>
 
 @section Scripts
 {
@@ -50,6 +40,28 @@ else
             $('#addCategoryForm input[name=name]').val('');
             $('#addCategoryForm input[name=id]').val(0);
             $('#addCategoryForm').slideDown();
+        });
+
+        $(document).on('click', '#addCategorySaveButton', function () {
+            $.post('@Url.Action("Category")', { id: $('#addCategoryForm input[name=id]').val(), name: $('#addCategoryForm input[name=name]').val() })
+             .fail(function (result) { alert('Failed to save category.'); })
+             .done(function (result) {
+                 if (parseInt($('#addCategoryForm input[name=id]').val()) > 0) {
+                     $('#categoryTable tbody td:contains(' + result.ID + ')').next().text(result.Name);
+                 } else {
+                     $('<tr style="display:none;">' +
+                       '<td style="display:none;">' + result.ID + '</td>' +
+                       '<td>' + result.Name + '</td>' +
+                       '<td>0</td>' +
+                       '<td><button class="edit">Edit</button></td>' +
+                       '<td><button class="delete">Delete</button></td>' +
+                       '</tr>').appendTo('#categoryTable tbody').slideDown();
+                 }
+                 $('#addCategoryForm').slideUp(400, function () {
+                     $('#addCategoryForm input[name=name]').val('');
+                     $('#addCategoryForm input[name=id]').val(0);
+                 });
+             });
         });
 
         $(document).on('click', '#addCategoryCancelButton', function () {
@@ -63,6 +75,17 @@ else
             $('#addCategoryForm input[name=id]').val($(this).closest('tr').find('td:eq(0)').text());
             $('#addCategoryForm input[name=name]').val($(this).closest('tr').find('td:eq(1)').text());
             $('#addCategoryForm').slideDown();
+        });
+
+        $(document).on('click', 'button.delete', function () {
+            var element = $(this);
+            $.post('@Url.Action("Delete")', { id: $(this).closest('tr').find('td:eq(0)').text() })
+             .fail(function (result) { alert('Failed to delete category.'); })
+             .done(function (result) {
+                 element.closest('tr').slideUp(400, function () {
+                     $(this).remove();
+                 });
+             });
         });
     </script>
 }

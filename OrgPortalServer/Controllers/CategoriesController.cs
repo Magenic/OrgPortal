@@ -19,20 +19,32 @@ namespace OrgPortalServer.Controllers
         [HttpPost]
         public ActionResult Category(int id, string name)
         {
-            if (id == 0)
-                using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
-                {
-                    uow.CategoryRepository.Add(new Category(name));
-                    uow.Commit();
-                }
-            else
-                using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
-                {
-                    uow.CategoryRepository.Categories.Single(c => c.ID == id).Name = name;
-                    uow.Commit();
-                }
+            using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
+            {
+                var category = uow.CategoryRepository.Categories.SingleOrDefault(c => c.ID == id);
 
-            return RedirectToAction("Index");
+                if (category == null)
+                {
+                    category = new Category(name);
+                    uow.CategoryRepository.Add(category);
+                }
+                else
+                    category.Name = name;
+
+                uow.Commit();
+                return Json(category);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
+            {
+                uow.CategoryRepository.Remove(uow.CategoryRepository.Categories.Single(c => c.ID == id));
+                uow.Commit();
+            }
+            return Json(true);
         }
     }
 }

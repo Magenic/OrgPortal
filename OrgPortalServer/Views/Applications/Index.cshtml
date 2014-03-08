@@ -2,31 +2,34 @@
 
 <div>
     <h2>Upload</h2>
-    @using (Html.BeginForm("Application", "Applications", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @if (OrgPortal.Domain.IoCContainerFactory.Current.GetInstance<OrgPortal.Domain.Repositories.CategoryRepository>().Categories.Count() > 0)
     {
-        <label>Application</label>
-        <input type="file" name="appxFile" />
-        <label>Category</label>
-        <select name="categoryID">
-            @foreach (var category in OrgPortal.Domain.IoCContainerFactory.Current.GetInstance<OrgPortal.Domain.Repositories.CategoryRepository>().Categories)
-            {
-                <option value="@category.ID">@category.Name</option>
-            }
-        </select>
-        <input type="submit" value="Save" />
+        using (Html.BeginForm("Application", "Applications", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <label>Application</label>
+            <input type="file" name="appxFile" />
+            <label>Category</label>
+            <select name="categoryID">
+                @foreach (var category in OrgPortal.Domain.IoCContainerFactory.Current.GetInstance<OrgPortal.Domain.Repositories.CategoryRepository>().Categories)
+                {
+                    <option value="@category.ID">@category.Name</option>
+                }
+            </select>
+            <input type="submit" value="Save" />
+        }
+    }
+    else
+    {
+        <p>You have no categories.  Please @Html.ActionLink("add a category", "Index", "Categories") before adding an application.</p>
     }
 </div>
 
 <div>
     <h2>Application List</h2>
-    @if (Model.Count() == 0)
-    {
-        <h3>You currently have no applications in your store.</h3>
-        <p>Please add your first application to your store.</p>
-    }
     <table id="applicationTable" @(Model.Count() > 0 ? string.Empty : "style=display:none;")>
         <thead>
             <tr>
+                <th style="display:none;"></th>
                 <th>Name</th>
                 <th>Category</th>
                 <th>Date Added</th>
@@ -37,12 +40,29 @@
             @foreach (var application in Model)
             {
                 <tr>
+                    <td style="display:none;">@application.PackageFamilyName</td>
                     <td>@application.Name</td>
                     <td>@application.Category.Name</td>
                     <td>@application.DateAdded</td>
-                    <td>@*<button class="delete">Delete</button>*@</td>
+                    <td><button class="delete">Delete</button></td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).on('click', 'button.delete', function () {
+            var element = $(this);
+            $.post('@Url.Action("Delete")', { id: $(this).closest('tr').find('td:eq(0)').text() })
+             .fail(function (result) { alert('Failed to delete application.'); })
+             .done(function (result) {
+                 element.closest('tr').slideUp(400, function () {
+                     $(this).remove();
+                 });
+             });
+        });
+    </script>
+}

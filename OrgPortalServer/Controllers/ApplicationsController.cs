@@ -27,5 +27,16 @@ namespace OrgPortalServer.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
+            {
+                uow.ApplicationRepository.Remove(uow.ApplicationRepository.Applications.Single(a => a.PackageFamilyName == id));
+                uow.Commit();
+            }
+            return Json(true);
+        }
 	}
 }
