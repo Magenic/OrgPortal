@@ -13,6 +13,8 @@ namespace OrgPortalServer.Models
         public string Description { get; set; }
         public string Version { get; set; }
         public string InstallMode { get; set; }
+        public DateTime DateAdded { get; set; }
+        public string Category { get; set; }
 
         public string AppxUrl
         {

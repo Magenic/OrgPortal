@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -22,6 +23,14 @@ namespace OrgPortal.Domain.Models
         public string PublisherDisplayName { get; private set; }
         public string InstallMode { get; private set; }
         public string PackageFamilyName { get; private set; }
+        public DateTime DateAdded { get; private set; }
+        public int CategoryID { get; set; }
+
+        // TODO: Make this into a proper navigation property somehow
+        public Category Category
+        {
+            get { return IoCContainerFactory.Current.GetInstance<CategoryRepository>().Categories.Single(c => c.ID == CategoryID); }
+        }
 
         private byte[] _package;
         public byte[] Package
@@ -61,11 +70,13 @@ namespace OrgPortal.Domain.Models
 
         private Application() { }
 
-        public Application(Stream data)
+        public Application(Stream data, int categoryID)
         {
             // TODO: This is a default value, replace it with a specified value in the UI.  Maybe pulled from an enum of available values.
             InstallMode = "AutoUpdate";
 
+            CategoryID = categoryID;
+            DateAdded = DateTime.UtcNow;
             ExtractValuesFromPackage(data);
             data.Seek(0, SeekOrigin.Begin);
             Package = ReadFully(data);

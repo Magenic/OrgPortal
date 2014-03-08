@@ -6,17 +6,16 @@ using System.Web.Mvc;
 
 namespace OrgPortalServer.Controllers
 {
-  public class HomeController : Controller
-  {
-    public ActionResult Index()
+    public class HomeController : Controller
     {
-      ViewBag.Title = "Home Page";
-      return View();
-    }
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index", "Applications");
+        }
 
-    public ActionResult Info()
-    {
-      return View();
+        public ActionResult Info()
+        {
+            return View();
+        }
     }
-  }
 }

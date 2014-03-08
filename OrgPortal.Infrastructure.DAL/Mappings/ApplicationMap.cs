@@ -15,6 +15,7 @@ namespace OrgPortal.Infrastructure.DAL.Mappings
         {
             ToTable("Application").HasKey(a => a.PackageFamilyName).Ignore(a => a.Package).Ignore(a => a.Logo).Ignore(a => a.SmallLogo);
             Property(a => a.PackageFamilyName).IsUnicode().IsRequired().HasColumnName("PackageFamilyName");
+            Property(a => a.CategoryID).IsRequired().HasColumnName("CategoryID");
             Property(a => a.Name).IsUnicode().IsRequired().HasColumnName("Name");
             Property(a => a.Publisher).IsUnicode().IsRequired().HasColumnName("Publisher");
             Property(a => a.Version).IsUnicode().IsRequired().HasColumnName("Version");
@@ -23,6 +24,7 @@ namespace OrgPortal.Infrastructure.DAL.Mappings
             Property(a => a.PublisherDisplayName).IsUnicode().IsRequired().HasColumnName("PublisherDisplayName");
             Property(a => a.Description).IsUnicode().IsOptional().HasColumnName("Description");
             Property(a => a.InstallMode).IsUnicode().IsRequired().HasColumnName("InstallMode");
+            Property(a => a.DateAdded).IsRequired().HasColumnName("DateAdded");
         }
     }
 }

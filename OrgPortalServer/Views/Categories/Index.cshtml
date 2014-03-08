@@ -1,0 +1,68 @@
+﻿@model IEnumerable<OrgPortal.Domain.Models.Category>
+
+<h1>Categories</h1> <button id="addCategoryButton">Add</button>
+<div id="addCategoryForm" style="display:none;">
+    @using (Html.BeginForm("Category", "Categories", FormMethod.Post))
+    {
+        <h2>Add Category</h2>
+        <label>Name</label>
+        <input type="text" name="name" />
+        <input type="hidden" name="id" />
+        <input type="submit" value="Save" />
+        <button id="addCategoryCancelButton">Cancel</button>
+    }
+</div>
+@if (Model.Count() == 0)
+{
+    <p>You currently have no categories added.</p>
+}
+else
+{
+    <table id="categoryTable">
+        <thead>
+            <tr>
+                <th style="display:none;"></th>
+                <th>Name</th>
+                <th># of apps</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td style="display:none;">@category.ID</td>
+                    <td>@category.Name</td>
+                    <td>@category.Applications.Count()</td>
+                    <td><button class="edit">Edit</button></td>
+                    <td>@*<button class="delete">Delete</button>*@</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).on('click', '#addCategoryButton', function () {
+            $('#addCategoryForm input[name=name]').val('');
+            $('#addCategoryForm input[name=id]').val(0);
+            $('#addCategoryForm').slideDown();
+        });
+
+        $(document).on('click', '#addCategoryCancelButton', function () {
+            $('#addCategoryForm').slideUp(400, function () {
+                $('#addCategoryForm input[name=name]').val('');
+                $('#addCategoryForm input[name=id]').val(0);
+            });
+        });
+
+        $(document).on('click', 'button.edit', function () {
+            $('#addCategoryForm input[name=id]').val($(this).closest('tr').find('td:eq(0)').text());
+            $('#addCategoryForm input[name=name]').val($(this).closest('tr').find('td:eq(1)').text());
+            $('#addCategoryForm').slideDown();
+        });
+    </script>
+}

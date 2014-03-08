@@ -25,9 +25,10 @@
             </tbody>
         </table>
         Add Appx File:
-        <form enctype="multipart/form-data">
+        <form enctype="multipart/form-data" method="post" action="@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "appx" })">
             <input name="file" type="file" />
-            <input type="button" id="upload" value="Upload" />
+            <select name="categoryID"></select>
+            <input type="submit" id="upload" value="Upload" />
         </form>
     </div>
 </div>
@@ -55,8 +56,17 @@
         });
     };
 
+    var getCategories = function () {
+        $.get('@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "categories" })', function (results) {
+            for (var i = 0; i < results.length; i++) {
+                $('<option value="' + results[i].ID + '">' + results[i].Name + '</option>').appendTo($('select[name=categoryID]'));
+            }
+        });
+    };
+
     $(function () {
         getApps();
+        getCategories();
 
         $(document).on('click', 'button.deleteApp', function () {
             var appName = $(this).closest('tr').find('a').text();
@@ -71,7 +81,7 @@
             });
         });
 
-        $('#upload').click(function () {
+        @*$('#upload').click(function () {
             var formData = new FormData($('form')[0]);
             $.ajax({
                 url: '@Url.RouteUrl("DefaultApi", new { httproute = true, controller = "appx" })',
@@ -83,7 +93,7 @@
             }).done(function () {
                 getApps();
             })
-        });
+        });*@
     })
 </script>
 }

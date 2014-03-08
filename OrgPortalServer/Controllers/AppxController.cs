@@ -31,10 +31,10 @@ namespace OrgPortalServer.Controllers
         }
 
         // POST api/<controller>
-        public HttpResponseMessage Post(HttpRequestMessage request)
+        public HttpResponseMessage Post(HttpRequestMessage request, int categoryID)
         {
             var stream = GetStreamFromUploadedFile(request);
-            var newApplication = new Application(stream);
+            var newApplication = new Application(stream, categoryID);
             var response = new HttpResponseMessage();
 
             using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
@@ -58,10 +58,10 @@ namespace OrgPortalServer.Controllers
         }
 
         // PUT api/<controller>
-        public HttpResponseMessage Put(HttpRequestMessage request)
+        public HttpResponseMessage Put(HttpRequestMessage request, int categoryID)
         {
             var stream = GetStreamFromUploadedFile(request);
-            var newApplication = new Application(stream);
+            var newApplication = new Application(stream, categoryID);
             var response = new HttpResponseMessage();
 
             using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())

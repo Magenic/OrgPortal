@@ -19,9 +19,12 @@ namespace TestingSandbox
 
             using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
             {
+                //uow.CategoryRepository.Add(new Category("test"));
+                //uow.Commit();
+
                 //Application app;
                 //using (var file = File.OpenRead(@"C:\Data\MyVote.appx"))
-                //    app = new Application(file);
+                //    app = new Application(file, 2);
                 //uow.ApplicationRepository.Add(app);
                 //uow.Commit();
 

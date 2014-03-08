@@ -23,7 +23,9 @@ namespace OrgPortalServer.Controllers
                     PackageFamilyName = a.PackageFamilyName,
                     Description = a.Description,
                     Version = a.Version,
-                    InstallMode = a.InstallMode
+                    InstallMode = a.InstallMode,
+                    Category = a.Category.Name,
+                    DateAdded = a.DateAdded
                 });
         }
 
@@ -37,7 +39,9 @@ namespace OrgPortalServer.Controllers
                     PackageFamilyName = a.PackageFamilyName,
                     Description = a.Description,
                     Version = a.Version,
-                    InstallMode = a.InstallMode
+                    InstallMode = a.InstallMode,
+                    Category = a.Category.Name,
+                    DateAdded = a.DateAdded
                 })
                 .Single(a => a.PackageFamilyName == id);
         }
