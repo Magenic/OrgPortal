@@ -10,6 +10,9 @@ using System.Web;
 using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
+using OrgPortal.Domain;
+using OrgPortal.Domain.Repositories;
+using OrgPortal.Domain.Models;
 
 namespace OrgPortalServer.Controllers
 {
@@ -18,12 +21,12 @@ namespace OrgPortalServer.Controllers
         // GET api/<controller>/packagefamilyname
         public HttpResponseMessage Get(string id)
         {
-            var appxFile = AppxFile.Get(id);
+            var application = IoCContainerFactory.Current.GetInstance<ApplicationRepository>().Applications.Single(a => a.PackageFamilyName == id);
             var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StreamContent(new MemoryStream(appxFile.Package));
+            response.Content = new StreamContent(new MemoryStream(application.Package));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-            response.Content.Headers.ContentLength = appxFile.Package.Length;
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = appxFile.Info.PackageFamilyName + ".appx" };
+            response.Content.Headers.ContentLength = application.Package.Length;
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = application.PackageFamilyName + ".appx" };
             return response;
         }
 
@@ -31,19 +34,25 @@ namespace OrgPortalServer.Controllers
         public HttpResponseMessage Post(HttpRequestMessage request)
         {
             var stream = GetStreamFromUploadedFile(request);
-            var file = AppxFile.Create(stream);
+            var newApplication = new Application(stream);
             var response = new HttpResponseMessage();
-            if (file.Exists())
+
+            using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
             {
-                response.StatusCode = HttpStatusCode.MethodNotAllowed;
-                response.Content = new StringContent("{\"error\":\"Application already exists\"}");
+                if (uow.ApplicationRepository.Applications.SingleOrDefault(a => a.PackageFamilyName == newApplication.PackageFamilyName) != null)
+                {
+                    response.StatusCode = HttpStatusCode.MethodNotAllowed;
+                    response.Content = new StringContent("{\"error\":\"Application already exists\"}");
+                }
+                else
+                {
+                    uow.ApplicationRepository.Add(newApplication);
+                    uow.Commit();
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Content = new StringContent("{}");
+                }
             }
-            else
-            {
-                file.Save();
-                response.StatusCode = HttpStatusCode.OK;
-                response.Content = new StringContent("{}");
-            }
+
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return response;
         }
@@ -52,19 +61,24 @@ namespace OrgPortalServer.Controllers
         public HttpResponseMessage Put(HttpRequestMessage request)
         {
             var stream = GetStreamFromUploadedFile(request);
-            var file = AppxFile.Create(stream);
+            var newApplication = new Application(stream);
             var response = new HttpResponseMessage();
-            if (!file.Exists())
+
+            using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
             {
-                response.StatusCode = HttpStatusCode.MethodNotAllowed;
-                response.Content = new StringContent("{\"error\":\"Application already exists\"}");
+                if (uow.ApplicationRepository.Applications.SingleOrDefault(a => a.PackageFamilyName == newApplication.PackageFamilyName) == null)
+                {
+                    response.StatusCode = HttpStatusCode.NotFound;
+                }
+                else
+                {
+                    uow.ApplicationRepository.Add(newApplication);
+                    uow.Commit();
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Content = new StringContent("{}");
+                }
             }
-            else
-            {
-                file.Save();
-                response.StatusCode = HttpStatusCode.OK;
-                response.Content = new StringContent("{}");
-            }
+
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return response;
         }

@@ -1,31 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Configuration;
-using System.Web.Mvc;
+using System.Linq;
+using System.Web;
 
 namespace OrgPortalServer.Models
 {
     public class AppInfo
     {
         public string Name { get; set; }
+        public string PackageFamilyName { get; set; }
         public string Description { get; set; }
-        public string Publisher { get; set; }
         public string Version { get; set; }
-        public string ProcessorArchitecture { get; set; }
-        public string DisplayName { get; set; }
-        public string PublisherDisplayName { get; set; }
         public string InstallMode { get; set; }
-
-        public string PackageFamilyName
-        {
-            get
-            {
-                // TODO: This is not correct.  Publisher needs to be the Publisher ID, which is a hash of something.
-                //       Need to figure out how to calculate/fetch the Publisher ID.
-                return Name + "_" + Publisher;
-            }
-        }
 
         public string AppxUrl
         {
@@ -37,7 +24,7 @@ namespace OrgPortalServer.Models
             }
         }
 
-        public string LogoUrl
+        public string ImageUrl
         {
             get
             {
@@ -46,7 +33,7 @@ namespace OrgPortalServer.Models
             }
         }
 
-        public string SmallLogoUrl
+        public string SmallImageUrl
         {
             get
             {
@@ -55,26 +42,6 @@ namespace OrgPortalServer.Models
             }
         }
 
-        public AppInfo()
-        {
-            // TODO: This is a default value, replace it with a specified value in the UI.  Maybe pulled from an enum of available values.
-            InstallMode = "AutoUpdate";
-        }
-
-        public static IEnumerable<AppInfo> Get()
-        {
-            return AppInfoRepositoryFactory.Current.Get();
-        }
-
-        public static AppInfo Get(string packageFamilyName)
-        {
-            return AppInfoRepositoryFactory.Current.Get(packageFamilyName);
-        }
-
-        public void Delete()
-        {
-            AppxFileRepositoryFactory.Current.Delete(PackageFamilyName);
-            AppInfoRepositoryFactory.Current.Delete(PackageFamilyName);
-        }
+        
     }
 }

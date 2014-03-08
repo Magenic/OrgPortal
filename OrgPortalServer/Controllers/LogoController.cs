@@ -1,4 +1,5 @@
-﻿using OrgPortalServer.Models;
+﻿using OrgPortal.Domain;
+using OrgPortal.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,7 @@ namespace OrgPortalServer.Controllers
         //// GET api/<controller>/packagefamilyname
         public HttpResponseMessage Get(string id)
         {
-            var logo = AppxFile.GetLogo(id);
+            var logo = IoCContainerFactory.Current.GetInstance<ApplicationRepository>().GetLogo(id);
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StreamContent(new MemoryStream(logo));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");

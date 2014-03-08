@@ -1,61 +1,81 @@
 ﻿using Ionic.Zip;
+using OrgPortal.Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace OrgPortalServer.Models
+namespace OrgPortal.Domain.Models
 {
-    public class AppxFile
+    public class Application
     {
-        public AppInfo Info { get; private set; }
-        public byte[] Package { get; private set; }
-        public byte[] Logo { get; private set; }
-        public byte[] SmallLogo { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public string Publisher { get; private set; }
+        public string Version { get; private set; }
+        public string ProcessorArchitecture { get; private set; }
+        public string DisplayName { get; private set; }
+        public string PublisherDisplayName { get; private set; }
+        public string InstallMode { get; private set; }
+        public string PackageFamilyName { get; private set; }
 
-        private AppxFile() { }
-
-        private AppxFile(Stream data)
+        private byte[] _package;
+        public byte[] Package
         {
-            Info = new AppInfo();
+            get
+            {
+                if (_package == null || _package.Length == 0)
+                    _package = IoCContainerFactory.Current.GetInstance<ApplicationRepository>().GetAppx(PackageFamilyName);
+                return _package;
+            }
+            set { _package = value; }
+        }
+
+        private byte[] _logo;
+        public byte[] Logo
+        {
+            get
+            {
+                if (_logo == null || _logo.Length == 0)
+                    _logo = IoCContainerFactory.Current.GetInstance<ApplicationRepository>().GetLogo(PackageFamilyName);
+                return _logo;
+            }
+            set { _logo = value; }
+        }
+
+        private byte[] _smallLogo;
+        public byte[] SmallLogo
+        {
+            get
+            {
+                if (_smallLogo == null || _smallLogo.Length == 0)
+                    _smallLogo = IoCContainerFactory.Current.GetInstance<ApplicationRepository>().GetSmallLogo(PackageFamilyName);
+                return _smallLogo;
+            }
+            set { _smallLogo = value; }
+        }
+
+        private Application() { }
+
+        public Application(Stream data)
+        {
+            // TODO: This is a default value, replace it with a specified value in the UI.  Maybe pulled from an enum of available values.
+            InstallMode = "AutoUpdate";
+
             ExtractValuesFromPackage(data);
             data.Seek(0, SeekOrigin.Begin);
             Package = ReadFully(data);
+
+            // TODO: This is not correct.  Publisher needs to be the Publisher ID, which is a hash of something.
+            //       Need to figure out how to calculate/fetch the Publisher ID.
+            PackageFamilyName = Name + "_" + Publisher;
         }
 
-        public void Save()
-        {
-            AppxFileRepositoryFactory.Current.Save(this);
-            AppInfoRepositoryFactory.Current.Save(Info);
-        }
-
-        public bool Exists()
-        {
-            return AppxFileRepositoryFactory.Current.Exists(Info.PackageFamilyName);
-        }
-
-        public static AppxFile Create(Stream data)
-        {
-            return new AppxFile(data);
-        }
-
-        public static AppxFile Get(string packageFamilyName)
-        {
-            return AppxFileRepositoryFactory.Current.Get(packageFamilyName);
-        }
-
-        public static byte[] GetLogo(string packageFamilyName)
-        {
-            return AppxFileRepositoryFactory.Current.GetLogo(packageFamilyName);
-        }
-
-        public static byte[] GetSmallLogo(string packageFamilyName)
-        {
-            return AppxFileRepositoryFactory.Current.GetSmallLogo(packageFamilyName);
-        }
-
+        // TODO: Move all of this extraction logic into an infrastructure assembly to get the Zip references out of the domain?
         private void ExtractValuesFromPackage(Stream data)
         {
             using (var zipArchive = ZipFile.Read(data))
@@ -87,49 +107,49 @@ namespace OrgPortalServer.Models
 
         private void ExtractName(XDocument manifest)
         {
-            Info.Name = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
-                                .Attributes().Single(a => a.Name.LocalName == "Name")
-                                .Value;
+            Name = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
+                           .Attributes().Single(a => a.Name.LocalName == "Name")
+                           .Value;
         }
 
         private void ExtractDescription(XDocument manifest)
         {
-            Info.Description = ExtractValueFromVisualElementsNode(manifest, "Description");
+            Description = ExtractValueFromVisualElementsNode(manifest, "Description");
         }
 
         private void ExtractPublisher(XDocument manifest)
         {
-            Info.Publisher = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
-                                     .Attributes().Single(a => a.Name.LocalName == "Publisher")
-                                     .Value;
+            Publisher = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
+                                .Attributes().Single(a => a.Name.LocalName == "Publisher")
+                                .Value;
         }
 
         private void ExtractVersion(XDocument manifest)
         {
-            Info.Version = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
-                                   .Attributes().Single(a => a.Name.LocalName == "Version")
-                                   .Value;
+            Version = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
+                              .Attributes().Single(a => a.Name.LocalName == "Version")
+                              .Value;
         }
 
         private void ExtractDisplayName(XDocument manifest)
         {
-            Info.DisplayName = manifest.Descendants().Single(d => d.Name.LocalName == "Properties")
-                                       .Descendants().Single(d => d.Name.LocalName == "DisplayName")
-                                       .Value;
+            DisplayName = manifest.Descendants().Single(d => d.Name.LocalName == "Properties")
+                                  .Descendants().Single(d => d.Name.LocalName == "DisplayName")
+                                  .Value;
         }
 
         private void ExtractPublisherDisplayName(XDocument manifest)
         {
-            Info.PublisherDisplayName = manifest.Descendants().Single(d => d.Name.LocalName == "Properties")
-                                                .Descendants().Single(d => d.Name.LocalName == "PublisherDisplayName")
-                                                .Value;
+            PublisherDisplayName = manifest.Descendants().Single(d => d.Name.LocalName == "Properties")
+                                           .Descendants().Single(d => d.Name.LocalName == "PublisherDisplayName")
+                                           .Value;
         }
 
         private void ExtractProcessorArchitecture(XDocument manifest)
         {
-            Info.ProcessorArchitecture = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
-                                                 .Attributes().Single(a => a.Name.LocalName == "ProcessorArchitecture")
-                                                 .Value;
+            ProcessorArchitecture = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
+                                            .Attributes().Single(a => a.Name.LocalName == "ProcessorArchitecture")
+                                            .Value;
         }
 
         private void ExtractLogo(ZipFile zipArchive, XDocument manifest)
