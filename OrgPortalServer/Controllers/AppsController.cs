@@ -16,19 +16,7 @@ namespace OrgPortalServer.Controllers
         // GET api/<controller>
         public IEnumerable<AppInfo> Get()
         {
-            var apps1 = IoCContainerFactory.Current.GetInstance<ApplicationRepository>().Applications;
-            var apps2 = apps1.Select(a =>
-                new AppInfo
-                {
-                    Name = a.Name,
-                    PackageFamilyName = a.PackageFamilyName,
-                    Description = a.Description,
-                    Version = a.Version,
-                    InstallMode = a.InstallMode,
-                    Category = a.Category.Name,
-                    DateAdded = a.DateAdded
-                });
-            return IoCContainerFactory.Current.GetInstance<ApplicationRepository>().Applications.Select(a =>
+            return IoCContainerFactory.Current.GetInstance<ApplicationRepository>().Applications.ToList().Select(a =>
                 new AppInfo
                 {
                     Name = a.Name,
@@ -44,7 +32,7 @@ namespace OrgPortalServer.Controllers
         // GET api/<controller>/packagefamilyname
         public AppInfo Get(string id)
         {
-            return IoCContainerFactory.Current.GetInstance<ApplicationRepository>().Applications.Select(a =>
+            return IoCContainerFactory.Current.GetInstance<ApplicationRepository>().Applications.ToList().Select(a =>
                 new AppInfo
                 {
                     Name = a.Name,
