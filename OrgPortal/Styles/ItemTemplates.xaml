@@ -14,7 +14,7 @@
             </Border>
             <StackPanel Grid.Row="1" Margin="0,10,0,0">
                 <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap"/>
-                <TextBlock Text="{Binding Version}" Style="{StaticResource BodyTextBlockStyle}" MaxHeight="60" />
+                <!--<TextBlock Text="{Binding Version}" Style="{StaticResource BodyTextBlockStyle}" MaxHeight="60" />-->
                 <TextBlock Text="{Binding Description}" Style="{StaticResource BodyTextBlockStyle}" MaxHeight="60" />
             </StackPanel>
         </Grid>

@@ -14,12 +14,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/ItemTemplates.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>            
         </ResourceDictionary>
     </Page.Resources>
 
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource AppBackgroundBrush}">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
@@ -35,7 +35,7 @@
                     </Grid.ColumnDefinitions>
                     
                     <!-- Page title -->
-                    <TextBlock x:Name="OrgName" Style="{StaticResource HeaderTextBlockStyle}"
+                    <TextBlock x:Name="OrgName" Style="{StaticResource AccentHeaderTextBlockStyle}"
                                IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Top"/>
 
                     <SearchBox Grid.Column="1"
@@ -46,14 +46,14 @@
                                HorizontalAlignment="Right" />
                 </Grid>
             </Hub.Header>
-
-            <HubSection Width="780" Margin="0,0,80,0">
+                        
+            <HubSection Width="780" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">                
                 <DataTemplate>
-                    <WebView Source="{Binding Path=FeatureUrl}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>             
+                    <WebView Source="{Binding Path=FeatureUrl}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>                    
                 </DataTemplate>
             </HubSection>
 
-            <HubSection Header="Recently Added">
+            <HubSection Header="Recently Updated">
                 <DataTemplate>
                     <GridView x:Name="InstalledList" />
                 </DataTemplate>
@@ -62,14 +62,14 @@
             <HubSection IsHeaderInteractive="True" Header="All Apps">
                 <DataTemplate>
                     <GridView
-                        x:Name="AppList"
                         ItemTemplate="{StaticResource Apps310x260ItemTemplate}"
+                        ItemsSource="{Binding Path=AppList}"
                         AutomationProperties.AutomationId="ItemGridView"
                         AutomationProperties.Name="Items In Group"
                         SelectionMode="None"
                         IsSwipeEnabled="false"
                         IsItemClickEnabled="True"
-                        cal:Message.Attach="[Event ItemClick] = [ShowAppDetails($dataContext)]" />
+                        cal:Message.Attach="[Event ItemClick] = [ShowAppDetails($eventArgs)]" />
                 </DataTemplate>
             </HubSection>
             
@@ -77,7 +77,7 @@
     </Grid>
 
     <Page.TopAppBar>
-        <AppBar>
+        <AppBar Style="{StaticResource TopAppBarStyle}">
             <ContentControl x:Name="NavigationBar" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
         </AppBar>
     </Page.TopAppBar>

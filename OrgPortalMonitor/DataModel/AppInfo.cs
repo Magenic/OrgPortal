@@ -21,8 +21,12 @@ namespace OrgPortalMonitor.DataModel
         [DataMember]
         public string ImageUrl { get; set; }
         [DataMember]
+        public string SmallImageUrl { get; set; }
+        [DataMember]
         public string Version { get; set; }
         [DataMember]
         public string InstallMode { get; set; }
+        [DataMember]
+        public string Category { get; set; }
     }
 }
