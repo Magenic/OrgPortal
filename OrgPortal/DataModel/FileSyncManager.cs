@@ -26,7 +26,7 @@ namespace OrgPortal.DataModel
         {
             var results = new List<AppInfo>();
             var folder = GetSyncFolder();
-            var file = await folder.GetFileAsync("InstalledPackages.txt");
+            var file = await folder.TryGetItemAsync("InstalledPackages.txt") as IStorageFile;
             if (file != null)
             {
                 var installedPackages = await FileIO.ReadLinesAsync(file);

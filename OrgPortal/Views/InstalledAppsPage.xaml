@@ -14,7 +14,7 @@
         <CollectionViewSource x:Name="itemsViewSource" Source="{Binding Items}"/>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource AppBackgroundBrush}">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
@@ -65,8 +65,8 @@
                     AutomationProperties.Name="Back"
                     AutomationProperties.AutomationId="BackButton"
                     AutomationProperties.ItemType="Navigation Button"/>
-            
-            <TextBlock x:Name="pageTitle" Text="Your Apps" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+
+            <TextBlock x:Name="pageTitle" Text="Your Apps" Style="{StaticResource AccentHeaderTextBlockStyle}" Grid.Column="1" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
             
             <TextBlock x:Name="appCount" Style="{StaticResource SubheaderTextBlockStyle}" Grid.Column="2" 
@@ -78,7 +78,7 @@
     </Grid>
 
     <Page.TopAppBar>
-        <AppBar>
+        <AppBar Style="{StaticResource TopAppBarStyle}">
             <ContentControl x:Name="NavigationBar" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
         </AppBar>
     </Page.TopAppBar>

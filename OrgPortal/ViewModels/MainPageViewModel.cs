@@ -88,7 +88,7 @@ namespace OrgPortal.ViewModels
             var apps = await _dataSource.GetAppListAsync();
             if (apps != null)
             {
-                _appList.AddRange(apps);
+                AppList = new List<AppInfo>(apps);
             }
 
             var installed = await _fileManager.GetInstalledApps();
@@ -103,11 +103,11 @@ namespace OrgPortal.ViewModels
             FeatureUrl = org.FeatureURL;
         }
 
-        public void ShowAppDetails(object param)
+        public void ShowAppDetails(Windows.UI.Xaml.Controls.ItemClickEventArgs param)
         {
-            if (param is AppInfo)
+            if (param.ClickedItem is AppInfo)
             {
-                Navigation.NavigateToViewModel<AppDetailsPageViewModel>(param);
+                Navigation.NavigateToViewModel<AppDetailsPageViewModel>(param.ClickedItem);
             }
         }
 

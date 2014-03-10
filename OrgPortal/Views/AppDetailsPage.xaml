@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource AppBackgroundBrush}">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
@@ -33,13 +33,13 @@
                     AutomationProperties.Name="Back"
                     AutomationProperties.AutomationId="BackButton"
                     AutomationProperties.ItemType="Navigation Button"/>
-            <TextBlock x:Name="pageTitle" Text="{Binding Name}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+            <TextBlock x:Name="pageTitle" Text="{Binding Item.Name}" Style="{StaticResource AccentHeaderTextBlockStyle}" Grid.Column="1" 
                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
         </Grid>
 
         <Grid Grid.Row="1" VerticalAlignment="Stretch" Margin="120,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition Width="350" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>            
             
@@ -49,27 +49,15 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 
-                <Button x:Name="Install" Content="Install" />
+                <Button x:Name="Install" Content="Install" Margin="0,0,0,40" />
                 <!--<Button x:Name="Update" Content="Update" />
                 <Button x:Name="Uninstall" Content="Uninstall" />-->
-            
-                <TextBlock Grid.Row="1" Text="{Binding Item.Name}"/>
-                <TextBlock Grid.Row="2" Text="{Binding Item.PackageName}"/>
-                <TextBlock Grid.Row="3" Text="{Binding Item.Version}"/>
-                <TextBlock Grid.Row="4" Text="{Binding Item.Description}"/>
-                <TextBlock Grid.Row="5" Text="{Binding Item.AppxUrl}"/>
-                <TextBlock Grid.Row="6" Text="{Binding Item.ImageUrl}"/>
-                <TextBlock Grid.Row="7" Text="{Binding IsInstalled}"/>
-                <TextBlock Grid.Row="8" Text="{Binding UpdateAvailable}"/>
+
+                <TextBlock Grid.Row="1" Text="Description" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBlock Grid.Row="2" Text="{Binding Item.Description}" Margin="0,10"/>                
             </Grid>
             
             <!-- Second Column -->
@@ -81,7 +69,7 @@
     </Grid>
     
     <Page.TopAppBar>
-        <AppBar>
+        <AppBar Style="{StaticResource TopAppBarStyle}">
             <ContentControl x:Name="NavigationBar" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
         </AppBar>
     </Page.TopAppBar>
