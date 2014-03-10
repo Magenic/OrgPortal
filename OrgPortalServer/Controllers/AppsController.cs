@@ -25,7 +25,8 @@ namespace OrgPortalServer.Controllers
                     Version = a.Version,
                     InstallMode = a.InstallMode,
                     Category = a.Category.Name,
-                    DateAdded = a.DateAdded
+                    DateAdded = a.DateAdded,
+                    BackgroundColor = a.BackgroundColor
                 });
         }
 
@@ -41,7 +42,8 @@ namespace OrgPortalServer.Controllers
                     Version = a.Version,
                     InstallMode = a.InstallMode,
                     Category = a.Category.Name,
-                    DateAdded = a.DateAdded
+                    DateAdded = a.DateAdded,
+                    BackgroundColor = a.BackgroundColor
                 })
                 .Single(a => a.PackageFamilyName == id);
         }

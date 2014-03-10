@@ -25,6 +25,7 @@ namespace OrgPortal.Infrastructure.DAL.Mappings
             Property(a => a.Description).IsUnicode().IsOptional().HasColumnName("Description");
             Property(a => a.InstallMode).IsUnicode().IsRequired().HasColumnName("InstallMode");
             Property(a => a.DateAdded).IsRequired().HasColumnName("DateAdded");
+            Property(a => a.BackgroundColor).IsRequired().IsUnicode().HasColumnName("BackgroundColor");
         }
     }
 }

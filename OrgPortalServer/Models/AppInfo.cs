@@ -15,6 +15,7 @@ namespace OrgPortalServer.Models
         public string InstallMode { get; set; }
         public DateTime DateAdded { get; set; }
         public string Category { get; set; }
+        public string BackgroundColor { get; set; }
 
         public string AppxUrl
         {
@@ -22,7 +23,7 @@ namespace OrgPortalServer.Models
             {
                 // TODO: There must be better ways to construct these URLs
                 var uri = new Uri(ConfigurationManager.AppSettings["OrgUrl"]);
-                return "//" + uri.Authority + "/api/appx/" + PackageFamilyName;
+                return "http://" + uri.Authority + "/api/appx/" + PackageFamilyName;
             }
         }
 
@@ -31,7 +32,7 @@ namespace OrgPortalServer.Models
             get
             {
                 var uri = new Uri(ConfigurationManager.AppSettings["OrgUrl"]);
-                return "//" + uri.Authority + "/api/logo/" + PackageFamilyName;
+                return "http://" + uri.Authority + "/api/logo/" + PackageFamilyName;
             }
         }
 
@@ -40,10 +41,8 @@ namespace OrgPortalServer.Models
             get
             {
                 var uri = new Uri(ConfigurationManager.AppSettings["OrgUrl"]);
-                return "//" + uri.Authority + "/api/smalllogo/" + PackageFamilyName;
+                return "http://" + uri.Authority + "/api/smalllogo/" + PackageFamilyName;
             }
         }
-
-        
     }
 }

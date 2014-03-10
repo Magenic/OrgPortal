@@ -25,6 +25,7 @@ namespace OrgPortal.Domain.Models
         public string InstallMode { get; private set; }
         public string PackageFamilyName { get; private set; }
         public DateTime DateAdded { get; private set; }
+        public string BackgroundColor { get; private set; }
         public int CategoryID { get; set; }
 
         // TODO: Make this into a proper navigation property somehow
@@ -100,6 +101,7 @@ namespace OrgPortal.Domain.Models
                 ExtractPublisherDisplayName(manifest);
                 ExtractLogo(zipArchive, manifest);
                 ExtractSmallLogo(zipArchive, manifest);
+                ExtractBackgroundColor(manifest);
             }
         }
 
@@ -118,6 +120,11 @@ namespace OrgPortal.Domain.Models
         private void ExtractName(XDocument manifest)
         {
             Name = ExtractValueFromVisualElementsNode(manifest, "DisplayName");
+        }
+
+        private void ExtractBackgroundColor(XDocument manifest)
+        {
+            BackgroundColor = ExtractValueFromVisualElementsNode(manifest, "BackgroundColor");
         }
 
         private void ExtractDescription(XDocument manifest)
