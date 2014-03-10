@@ -9,8 +9,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" Height="150">
-                <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Name}"/>
+            <Border Background="{Binding BackgroundColor}" Height="150">
+                <Image Source="{Binding ImageUrl}" Stretch="Uniform" 
+                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                       AutomationProperties.Name="{Binding Name}"/>
             </Border>
             <StackPanel Grid.Row="1" Margin="0,10,0,0">
                 <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap"/>

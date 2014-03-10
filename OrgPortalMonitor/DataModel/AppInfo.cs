@@ -28,5 +28,7 @@ namespace OrgPortalMonitor.DataModel
         public string InstallMode { get; set; }
         [DataMember]
         public string Category { get; set; }
+        [DataMember]
+        public string BackgroundColor { get; set; }
     }
 }
