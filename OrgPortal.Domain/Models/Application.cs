@@ -117,9 +117,7 @@ namespace OrgPortal.Domain.Models
 
         private void ExtractName(XDocument manifest)
         {
-            Name = manifest.Descendants().Single(d => d.Name.LocalName == "Identity")
-                           .Attributes().Single(a => a.Name.LocalName == "Name")
-                           .Value;
+            Name = ExtractValueFromVisualElementsNode(manifest, "DisplayName");
         }
 
         private void ExtractDescription(XDocument manifest)
