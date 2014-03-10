@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[Configuration]
+(
+	[Key] NVARCHAR(100) NOT NULL PRIMARY KEY, 
+    [Value] NVARCHAR(1000) NOT NULL
+)

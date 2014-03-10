@@ -1,8 +1,9 @@
 ﻿<div class="left">
     <div class="heading">Features</div>
-    <form name="input" action="/Features" method="post">
+    @using (Html.BeginForm("Feature", "Features"))
+    {
         <div class="formLabel">URL</div>
-        <input type="text" name="user" class="formInput">
+        <input type="text" name="feature" class="formInput" value="@OrgPortal.Domain.Configuration.Feature" />
         <input type="submit" name="submit" value="Save" id="submit1" class="button" />
-    </form>
+    }
 </div>

@@ -1,4 +1,5 @@
 ﻿using Ionic.Zip;
+using OrgPortal.Domain.Extensions;
 using OrgPortal.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -77,7 +78,7 @@ namespace OrgPortal.Domain.Models
             DateAdded = DateTime.UtcNow;
             ExtractValuesFromPackage(data);
             data.Seek(0, SeekOrigin.Begin);
-            Package = ReadFully(data);
+            Package = data.ReadFully();
 
             // TODO: This is not correct.  Publisher needs to be the Publisher ID, which is a hash of something.
             //       Need to figure out how to calculate/fetch the Publisher ID.
@@ -164,13 +165,13 @@ namespace OrgPortal.Domain.Models
         private void ExtractLogo(ZipFile zipArchive, XDocument manifest)
         {
             var logoData = ExtractAssetImageFromVisualElementsNode(zipArchive, manifest, "Square150x150Logo");
-            Logo = ReadFully(new MemoryStream(logoData.ToArray()));
+            Logo = new MemoryStream(logoData.ToArray()).ReadFully();
         }
 
         private void ExtractSmallLogo(ZipFile zipArchive, XDocument manifest)
         {
             var logoData = ExtractAssetImageFromVisualElementsNode(zipArchive, manifest, "Square30x30Logo");
-            SmallLogo = ReadFully(new MemoryStream(logoData.ToArray()));
+            SmallLogo = new MemoryStream(logoData.ToArray()).ReadFully();
         }
 
         private static MemoryStream ExtractAssetImageFromVisualElementsNode(ZipFile zipArchive, XDocument manifest, string attributeName)
@@ -193,19 +194,6 @@ namespace OrgPortal.Domain.Models
                                        .Attributes().Single(a => a.Name.LocalName == attributeName)
                                        .Value;
             return logoFileName;
-        }
-
-        private static byte[] ReadFully(Stream input)
-        {
-            // Provided by Jon Skeet: http://stackoverflow.com/a/221941/328193
-            var buffer = new byte[16 * 1024];
-            using (var ms = new MemoryStream())
-            {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-                    ms.Write(buffer, 0, read);
-                return ms.ToArray();
-            }
         }
     }
 }

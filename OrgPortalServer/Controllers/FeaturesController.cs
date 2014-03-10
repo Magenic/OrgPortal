@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgPortal.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,14 @@ namespace OrgPortalServer.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Feature(string feature)
+        {
+            Configuration.Feature = feature;
+            TempData["WarningMessage"] = "Feature saved.";
+            return RedirectToAction("Index");
         }
 	}
 }

@@ -1,8 +1,9 @@
-﻿<form name="input" action="/Admin" method="post">
+﻿@using (Html.BeginForm("Branding", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     <div class="left">
         <div class="heading">Branding</div>
         <div class="formLabel">Name</div>
-        <input type="text" name="user" class="formInput">
+        <input type="text" name="name" class="formInput" value="@OrgPortal.Domain.Configuration.BrandingName" />
         <br />
         <br />
         <div class="formLabel">Logo</div>
@@ -19,16 +20,40 @@
             <div class="subHeading">Select Theme Color</div>
             <div class="formLabel">Primary Color</div>
             <div class="text">(for outlines, buttons, icons)</div>
-            <input type="text" name="user" class="formInputSmall">
+            <input type="text" name="primaryColor" class="formInputSmall" value="@OrgPortal.Domain.Configuration.BrandingPrimaryColor" />
             <div class="themeColor">
                 <div class="formLabel">Secondary Color</div>
                 <div class="text">(for hover on buttons and links)</div>
-                <input type="text" name="user" class="formInputSmall" />
+                <input type="text" name="secondaryColor" class="formInputSmall" value="@OrgPortal.Domain.Configuration.BrandingSecondaryColor" />
             </div>
         </div>
     </div>
     <div class="pageButtonBranding">
-        <input type="submit" name="submit" value="Preview" id="submit12" class="previewButton" />
-        <input type="submit" name="submit" value="Save" id="submit14" class="button" />
+        <input type="button" name="submit" value="Preview" id="brandingPreviewButton" class="previewButton" />
+        <input type="submit" name="submit" value="Save" id="brandingSaveButton" class="button" />
     </div>
-</form>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('input[name=primaryColor], input[name=secondaryColor]').ColorPicker({
+                onSubmit: function (hsb, hex, rgb, el) {
+                    $(el).val(hex);
+                    $(el).ColorPickerHide();
+                },
+                onBeforeShow: function () {
+                    $(this).ColorPickerSetColor(this.value);
+                }
+            }).bind('keyup', function () {
+                $(this).ColorPickerSetColor(this.value);
+            });
+        });
+
+        $(document).on('click', '#brandingPreviewButton', function (e) {
+            e.preventDefault();
+            return false;
+        });
+    </script>
+}

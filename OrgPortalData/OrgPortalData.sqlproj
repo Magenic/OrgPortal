@@ -65,6 +65,7 @@
   <ItemGroup>
     <Build Include="dbo\Tables\Application.sql" />
     <Build Include="dbo\Tables\Category.sql" />
+    <Build Include="dbo\Tables\Configuration.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="OrgPortalData.refactorlog" />

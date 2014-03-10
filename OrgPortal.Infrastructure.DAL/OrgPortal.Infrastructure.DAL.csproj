@@ -51,6 +51,7 @@
     <Compile Include="Mappings\CategoryMap.cs" />
     <Compile Include="Repositories\ApplicationRepositoryImplementation.cs" />
     <Compile Include="Repositories\CategoryRepositoryImplementation.cs" />
+    <Compile Include="Repositories\ConfigurationRepositoryImplementation.cs" />
     <Compile Include="UnitOfWorkImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
