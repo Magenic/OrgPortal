@@ -1,42 +1,495 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿/* DEFAULTS
+----------------------------------------------------------*/
+
+body   
+{
+    background: #ffffff;
+    font-size: 12px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    line-height: 16px;
+    color: #3c3c3c; /*Dark Gray */
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+a:link, a:visited
+{
+    color: #9ae74a; /*Light Green */
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+a:hover
+{
+    color: #83c341; /*Dark Green */
+    text-decoration: none;
 }
 
-/* styles for validation helpers */
-.field-validation-error {
-    color: #b94a48;
+a:active
+{
+    color: #034af3;
 }
 
-.field-validation-valid {
-    display: none;
+p
+{
 }
 
-input.input-validation-error {
-    border: 1px solid #b94a48;
+.text 
+{
+    font-size:12px;
+    padding:0px;
+    margin:0px;
+    padding-bottom:5px;
 }
 
-input[type="checkbox"].input-validation-error {
-    border: 0 none;
+hr
+{
+  color: #e4e4e4;
 }
 
-.validation-summary-errors {
-    color: #b94a48;
+.height {height:400px;}
+.heightSmall {height:40px;}
+.theme {padding-top:66px;}
+
+
+/* HEADINGS   
+----------------------------------------------------------*/
+
+.siteHeader
+{
+    font-size: 32px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #83c341; /*Dark Green */
+    margin:60px 0px 20px 50px;
+    float:left;
 }
 
-.validation-summary-valid {
-    display: none;
+.logo 
+{
+    margin:0px 20px 0px 0px;
+    background-image:url('/Images/magenicLogo.png');
+    height:108px;
+    width:300px;
+    float:right;
+    vertical-align:top;
 }
+
+.heading 
+{
+ 
+    font-size: 28px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #3c3c3c; /*Dark Gray */
+    font-weight:normal;
+    padding-bottom:30px;
+}
+
+.headingSmall
+{
+ 
+    font-size: 21px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #3c3c3c; /*Dark Gray */
+    font-weight:normal;
+    padding-bottom:30px;
+}
+
+.subHeading 
+{
+ 
+    font-size: 18px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #3c3c3c; /*Dark Gray */
+}
+
+.gridHeading 
+{
+ 
+    font-size: 14px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #3c3c3c; /*Dark Gray */
+}
+
+.gridHeader
+    {
+    font-size: 16px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    font-weight:normal;
+     padding-left:0px;
+}
+
+/* TABLE
+----------------------------------------------------------*/
+table  {
+    width: 100%;  
+}
+
+.tableBorder {
+    border:1px solid #83c341;
+    margin-bottom:5px;
+}
+
+.tableBorder:foucus {
+    background-color: #eee;
+}
+
+.tableBorderDisabled{
+    border:1px solid #c0c0c0;
+    color: #eee;
+}
+
+.edit  
+{
+    font-size: 16px;
+    color:#83c341;
+    cursor:pointer;   
+}
+.edit:hover  
+{
+    color:#9ae74a;
+    cursor:pointer;   
+}
+
+.editDisabled
+{
+    color:#c0c0c0;
+    cursor:text; 
+}
+
+.delete  
+{
+    font-size: 16px;
+    color:#83c341;
+    cursor:pointer; 
+}
+
+.delete:hover  
+{
+    color:#9ae74a;
+    cursor:pointer;   
+}
+
+.deleteDisabled
+{
+    color:#c0c0c0;
+    cursor:text;
+}
+
+td
+{
+    vertical-align:middle;
+    text-align:left;
+    border:0px solid #3c3c3c;
+    height:40px;
+    width:50px;
+    margin-right:10px;   
+    font-size: 14px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    font-weight:normal;
+}
+
+th
+{
+    vertical-align:middle;
+    text-align:left;
+    border:0px solid #3c3c3c;
+    height:40px;
+    width:600px;
+    margin-right:10px;   
+    font-size: 14px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    font-weight:normal;
+   
+}
+
+.gridInput {
+    padding:10px 0px 10px 10px;  
+    font-size: 14px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #3c3c3c; /*Dark Gray*/
+    width: 600px;
+    border: 0px solid #FFF;
+    margin-right:10px;
+}
+
+.gridInput:focus { 
+    background-color:#eee;
+    font-size: 16px;
+} 
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+.topBar 
+{
+    height:78px;
+    background-color: #ffffff;
+    
+}
+
+.navBar
+{
+    height:78px;
+    background-color: #83c341;
+    margin-top:30px;
+    padding-left:20px;
+}
+
+.warning
+{
+    height:54px;
+    background-color: #3c3c3c;
+}
+
+.warningText
+{
+    padding:17px 0px 0px 50px;
+    color:#ffffff;
+    font-size: 14px;
+    font-weight:bold;
+}
+.left
+{ float:left;
+  padding-left:50px;
+  padding-top:50px;
+  position:absolute;
+}
+
+.right
+{ 
+  padding-left:600px;
+  padding-top:50px;
+
+}
+
+.themeColor
+{ 
+  position:relative;
+  left:200px;
+  top:-107px;
+  
+
+}
+.rightButton
+{ 
+  margin-left:240px;
+  position:relative;
+  top:-25px;
+
+}
+
+/* NAVIGATION 
+----------------------------------------------------------*/
+
+nav ul ul {
+	display: none;
+}
+
+nav ul li:hover > ul {
+	display: block;
+}
+
+nav ul {
+	background: #83c341; 
+	margin:0px;
+	list-style: none;
+	position: relative;
+	display: inline-table;
+	font-size: 21px;
+	padding:0px;
+	vertical-align:middle;
+
+}
+
+nav ul:after {
+	content: ""; 
+	clear: both; 
+	display: block;
+}
+
+nav ul li {
+	float: left;
+	height:78px;
+
+
+}
+
+nav ul li a:link {
+	color: #fff;
+}
+
+nav ul li:hover {
+    background: #9ae74a;
+}
+		
+nav ul li:hover a {
+	color: #3c3c3c;
+}
+	
+nav ul li a {
+	display: block; 
+	text-decoration: none;
+	padding: 30px 30px 30px 30px;
+}
+	
+nav ul ul {
+	background: #83c341;  
+	padding: 0;
+	position: absolute; 
+	top: 100%;
+}
+			
+nav ul ul {
+	background: #83c341; 
+	padding: 0;
+	position: absolute; 
+	top: 100%;
+	left:120px;
+}
+
+nav ul ul li {
+	float: none; 
+	position: relative;
+	width:248px;
+}
+
+nav ul ul li a {
+	padding: 30px 65px 30px 30px;
+	margin-left:0px;
+}	
+
+nav ul ul li a:hover {
+	background: #9ae74a;
+	color: #fff;
+}		
+
+/* FORM ELEMENTS   
+----------------------------------------------------------*/
+
+.formLabel
+{
+    padding:20px 10px 10px 0px;  
+    font-size: 16px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #3c3c3c; /*Dark Gray */
+    
+}
+
+.formInput {
+    padding:10px 0px 10px 10px;  
+    font-size: 14px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #3c3c3c; /*Dark Gray*/
+    width: 300px;
+    border: 1px solid #83c341;
+}
+
+.formInput:focus { 
+    background-color:#eee;
+} 
+
+.formInputSmall {
+    padding:10px 0px 10px 10px;  
+    font-size: 14px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #3c3c3c; /*Dark Gray*/
+    width: 100px;
+    border: 1px solid #83c341;
+}
+
+.formInputSmall:focus { 
+    background-color:#eee;
+} 
+
+
+.button {
+    background-color: #83c341;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+    padding:12px 40px 12px 40px;
+    margin-left:10px;
+    font-weight:bold;
+}
+
+.button:hover {
+    border: none;
+    background:#9ae74a;
+    color: #3c3c3c;
+}
+
+.button[disabled]:active, .button[disabled]:hover, .button[disabled] {
+    background-color: #e4e4e4;
+    color: #fff;
+}
+
+
+
+
+.cancelButton {
+    background-color: #979797;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+    padding:12px 40px 12px 40px;
+    margin-left:10px;
+    font-weight:bold;
+}
+
+.cancelButton:hover {
+    border: none;
+    background:#5c5c5c;
+    color: #fff;
+}
+
+.previewButton {
+    background-color: #404040;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+    padding:12px 40px 12px 40px;
+    margin-left:10px;
+    font-weight:bold;
+}
+
+.previewButton:hover {
+    border: none;
+    background:#5c5c5c;
+    color: #fff;
+}
+
+select 
+{
+    padding:10px 10px 10px 10px;  
+    font-size: 14px;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: #3c3c3c; /*Dark Gray*/
+    width: 312px;
+    border: 1px solid #83c341;
+}
+
+select:focus
+ { 
+ background-color:#eee;
+
+ } 
+
+.pageButton 
+{
+    float:right;
+    padding-top:80px;
+}
+
+.pageButtonBranding
+{
+    padding-top:250px;
+    padding-left:232px;
+}
+
+/* MISC  
+----------------------------------------------------------*/
+

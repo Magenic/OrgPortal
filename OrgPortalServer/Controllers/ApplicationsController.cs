@@ -17,14 +17,14 @@ namespace OrgPortalServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult Application(int categoryID, HttpPostedFileBase appxFile)
+        public ActionResult Application(int categoryID, string installMode, HttpPostedFileBase appxFile)
         {
             using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
             {
-                uow.ApplicationRepository.Add(new Application(appxFile.InputStream, categoryID));
+                uow.ApplicationRepository.Add(new Application(appxFile.InputStream, categoryID, installMode));
                 uow.Commit();
             }
-
+            TempData["WarningMessage"] = "Application saved.";
             return RedirectToAction("Index");
         }
 

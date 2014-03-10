@@ -1,1 +1,34 @@
-﻿<h1>Branding</h1>
+﻿<form name="input" action="/Admin" method="post">
+    <div class="left">
+        <div class="heading">Branding</div>
+        <div class="formLabel">Name</div>
+        <input type="text" name="user" class="formInput">
+        <br />
+        <br />
+        <div class="formLabel">Logo</div>
+        <div class="text">200 pixels x 60 pixels</div>
+        <input type="file" name="logo" class="formInput" />
+        <br />
+        <br />
+        <div class="formLabel">Image Header</div>
+        <div class="text">1366 pixels x 48 pixels</div>
+        <input type="file" name="header" class="formInput" />
+    </div>
+    <div class="right">
+        <div class="theme">
+            <div class="subHeading">Select Theme Color</div>
+            <div class="formLabel">Primary Color</div>
+            <div class="text">(for outlines, buttons, icons)</div>
+            <input type="text" name="user" class="formInputSmall">
+            <div class="themeColor">
+                <div class="formLabel">Secondary Color</div>
+                <div class="text">(for hover on buttons and links)</div>
+                <input type="text" name="user" class="formInputSmall" />
+            </div>
+        </div>
+    </div>
+    <div class="pageButtonBranding">
+        <input type="submit" name="submit" value="Preview" id="submit12" class="previewButton" />
+        <input type="submit" name="submit" value="Save" id="submit14" class="button" />
+    </div>
+</form>

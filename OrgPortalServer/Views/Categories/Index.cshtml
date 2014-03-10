@@ -1,37 +1,47 @@
 ﻿@model IEnumerable<OrgPortal.Domain.Models.Category>
 
-<h1>Categories</h1> <button id="addCategoryButton">Add</button>
-<div id="addCategoryForm" style="display:none;">
-    <h2>Add Category</h2>
-    <label>Name</label>
-    <input type="text" name="name" />
-    <input type="hidden" name="id" />
-    <button id="addCategorySaveButton">Save</button>
-    <button id="addCategoryCancelButton">Cancel</button>
-</div>
-<table id="categoryTable">
-    <thead>
+<div class="left">
+    <div class="heading">Categories <button id="addCategoryButton" class="button">Add</button></div>
+    <div id="addCategoryForm" style="display:none;">
+        <div class="subHeading">Add Category</div>
+        <div class="formLabel">Name</div>
+        <input type="text" name="name" />
+        <input type="hidden" name="id" />
+        <button id="addCategorySaveButton" class="button">Save</button>
+        <button id="addCategoryCancelButton" class="cancelButton">Cancel</button>
+    </div>
+    <div class="subHeading">Category List</div>
+    <table>
         <tr>
             <th style="display:none;"></th>
-            <th>Name</th>
-            <th># of apps</th>
-            <th></th>
-            <th></th>
+            <th class="gridHeader">Name</th>
+            <td class="gridHeader">Apps</td>
+            <td></td>
+            <td></td>
         </tr>
-    </thead>
-    <tbody>
+    </table>
+    <div id="categoryTable">
         @foreach (var category in Model)
         {
-            <tr>
-                <td style="display:none;">@category.ID</td>
-                <td>@category.Name</td>
-                <td>@category.Applications.Count()</td>
-                <td><button class="edit">Edit</button></td>
-                <td>@if (category.Applications.Count() == 0) { <button class="delete">Delete</button> }</td>
-            </tr>
+            <table class="tableBorder">
+                <tr >
+                    <td style="display:none;">@category.ID</td>
+                    <th>@category.Name</th>
+                    <td>@category.Applications.Count()</td>
+                    <td class="edit">Edit</td>
+                    @if (category.Applications.Count() > 0)
+                    {
+                        <td class="deleteDisabled" title="All apps must be removed (0) before category can be deleted.">Delete</td>
+                    }
+                    else
+                    {
+                        <td class="delete">Delete</td>
+                    }
+                </tr>
+            </table>
         }
-    </tbody>
-</table>
+    </div>
+</div>
 
 @section Scripts
 {
@@ -39,27 +49,33 @@
         $(document).on('click', '#addCategoryButton', function () {
             $('#addCategoryForm input[name=name]').val('');
             $('#addCategoryForm input[name=id]').val(0);
-            $('#addCategoryForm').slideDown();
+            $('#addCategoryForm').slideDown(400, function () {
+                $('#addCategoryForm input[name=name]').focus();
+            });
         });
 
         $(document).on('click', '#addCategorySaveButton', function () {
             $.post('@Url.Action("Category")', { id: $('#addCategoryForm input[name=id]').val(), name: $('#addCategoryForm input[name=name]').val() })
-             .fail(function (result) { alert('Failed to save category.'); })
+             .fail(function (result) { showWarning('Failed to save category.'); })
              .done(function (result) {
                  if (parseInt($('#addCategoryForm input[name=id]').val()) > 0) {
-                     $('#categoryTable tbody td:contains(' + result.ID + ')').next().text(result.Name);
+                     $('#categoryTable table tr td').filter(function () { return $(this).text() == result.ID; }).next('th').text(result.Name);
                  } else {
-                     $('<tr style="display:none;">' +
+                     $('<table class="tableBorder" style="display:none;">' +
+                       '<tr>' +
                        '<td style="display:none;">' + result.ID + '</td>' +
-                       '<td>' + result.Name + '</td>' +
+                       '<th>' + result.Name + '</th>' +
                        '<td>0</td>' +
-                       '<td><button class="edit">Edit</button></td>' +
-                       '<td><button class="delete">Delete</button></td>' +
-                       '</tr>').appendTo('#categoryTable tbody').slideDown();
+                       '<td class="edit">Edit</td>' +
+                       '<td class="delete">Delete</td>' +
+                       '</tr>' +
+                       '</table>').appendTo('#categoryTable').slideDown();
                  }
                  $('#addCategoryForm').slideUp(400, function () {
+                     $('#addCategoryForm .subHeading').text('Add Category');
                      $('#addCategoryForm input[name=name]').val('');
                      $('#addCategoryForm input[name=id]').val(0);
+                     showWarning('Category saved.');
                  });
              });
         });
@@ -71,21 +87,29 @@
             });
         });
 
-        $(document).on('click', 'button.edit', function () {
+        $(document).on('click', '.edit', function () {
+            $('#addCategoryForm .subHeading').text('Manage Category');
             $('#addCategoryForm input[name=id]').val($(this).closest('tr').find('td:eq(0)').text());
-            $('#addCategoryForm input[name=name]').val($(this).closest('tr').find('td:eq(1)').text());
-            $('#addCategoryForm').slideDown();
+            $('#addCategoryForm input[name=name]').val($(this).closest('tr').find('th:eq(0)').text());
+            $('#addCategoryForm').slideDown(400, function () {
+                $('#addCategoryForm input[name=name]').focus();
+            });
         });
 
-        $(document).on('click', 'button.delete', function () {
+        $(document).on('click', '.delete', function () {
             var element = $(this);
             $.post('@Url.Action("Delete")', { id: $(this).closest('tr').find('td:eq(0)').text() })
-             .fail(function (result) { alert('Failed to delete category.'); })
+             .fail(function (result) { showWarning('Failed to delete category.'); })
              .done(function (result) {
-                 element.closest('tr').slideUp(400, function () {
+                 element.closest('table').slideUp(400, function () {
                      $(this).remove();
+                     showWarning('Category deleted.');
                  });
              });
+        });
+
+        $(document).on('keypress', '#addCategoryForm input[name=name]', function (e) {
+            if (e.keyCode == 13) { $('#addCategorySaveButton').trigger('click'); }
         });
     </script>
 }

@@ -1,21 +1,27 @@
 ﻿@model IEnumerable<OrgPortal.Domain.Models.Application>
 
-<div>
-    <h2>Upload</h2>
+<div class="left">
+    <div class="heading">Upload</div>
     @if (OrgPortal.Domain.IoCContainerFactory.Current.GetInstance<OrgPortal.Domain.Repositories.CategoryRepository>().Categories.Count() > 0)
     {
         using (Html.BeginForm("Application", "Applications", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            <label>Application</label>
-            <input type="file" name="appxFile" />
-            <label>Category</label>
+            <div class="formLabel">Application</div>
+            <input type="file" name="appxFile" class="formInput">
+            <div class="formLabel">Category</div>
             <select name="categoryID">
                 @foreach (var category in OrgPortal.Domain.IoCContainerFactory.Current.GetInstance<OrgPortal.Domain.Repositories.CategoryRepository>().Categories)
                 {
                     <option value="@category.ID">@category.Name</option>
                 }
             </select>
-            <input type="submit" value="Save" />
+            <div class="formLabel">Install Mode</div>
+            <select name="installMode">
+                <option>AutoUpdate</option>
+            </select>
+            <div class="pageButton">
+                <input type="submit" name="submit" value="Save" id="submit2" class="button" />
+            </div>
         }
     }
     else
@@ -23,9 +29,12 @@
         <p>You have no categories.  Please @Html.ActionLink("add a category", "Index", "Categories") before adding an application.</p>
     }
 </div>
-
-<div>
-    <h2>Application List</h2>
+<div class="right">
+    <div class="heading">Application List</div>
+    <div id="noApplicationsMessage" @(Model.Count() > 0 ? "style=display:none;" : string.Empty)>
+        <div class="subHeading">You currently have no applications in your store.</div>
+        <p>Please add your first application to your store.</p>
+    </div>
     <table id="applicationTable" @(Model.Count() > 0 ? string.Empty : "style=display:none;")>
         <thead>
             <tr>
@@ -43,7 +52,7 @@
                     <td style="display:none;">@application.PackageFamilyName</td>
                     <td>@application.Name</td>
                     <td>@application.Category.Name</td>
-                    <td>@application.DateAdded</td>
+                    <td>@application.DateAdded.ToShortDateString()</td>
                     <td><button class="delete">Delete</button></td>
                 </tr>
             }
@@ -57,10 +66,16 @@
         $(document).on('click', 'button.delete', function () {
             var element = $(this);
             $.post('@Url.Action("Delete")', { id: $(this).closest('tr').find('td:eq(0)').text() })
-             .fail(function (result) { alert('Failed to delete application.'); })
+             .fail(function (result) { showWarning('Failed to delete application.'); })
              .done(function (result) {
                  element.closest('tr').slideUp(400, function () {
                      $(this).remove();
+                     showWarning('Application deleted.');
+                     if ($('#applicationTable tbody tr').length == 0) {
+                         $('#applicationTable').slideUp(400, function () {
+                             $('#noApplicationsMessage').slideDown();
+                         });
+                     }
                  });
              });
         });

@@ -45,20 +45,5 @@ namespace OrgPortalServer.Controllers
                 })
                 .Single(a => a.PackageFamilyName == id);
         }
-
-        // DELETE api/<controller>/packagefamilyname
-        public HttpResponseMessage Delete(string id)
-        {
-            using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
-            {
-                uow.ApplicationRepository.Remove(uow.ApplicationRepository.Applications.Single(a => a.PackageFamilyName == id));
-                uow.Commit();
-            }
-
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent("{}");
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            return response;
-        }
     }
 }

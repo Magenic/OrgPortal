@@ -1,35 +1,54 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>OrgPortal</title>
+    <title>OrgPortal Web</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <header>
-        <h1>OrgPortal</h1>
+    <div class="topBar">
+        <div class="siteHeader">OrgPortal</div>
+        <div class="logo"></div>
+    </div>  
+    <div class="navBar">
         <nav>
             <ul>
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>Manage Store
+                <li>@Html.ActionLink("HOME", "Index", "Home")</li>
+                <li>
+                    <a>MANAGE STORE &nbsp; &or;</a>
                     <ul>
-                        <li>@Html.ActionLink("Features", "Index", "Features")</li>
-                        <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
-                        <li>@Html.ActionLink("Branding", "Index", "Admin")</li>
+                        <li>@Html.ActionLink("FEATURES", "Index", "Features")</li>
+                        <li>@Html.ActionLink("CATEGORY", "Index", "Categories")</li>
+                        <li>@Html.ActionLink("BRANDING", "Index", "Admin")</li>
                     </ul>
                 </li>
             </ul>
         </nav>
-    </header>
-
+    </div>
+    <div class="warning">
+        <div class="warningText">@TempData["WarningMessage"]</div>
+    </div>
     @RenderBody()
-
-    <footer></footer>
-
+    <div class="height"></div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        var hideWarning = function () {
+            setTimeout(function () {
+                $('.warningText').fadeOut(400, function () {
+                    $('.warningText').text('');
+                });
+            }, 3000);
+        };
+
+        var showWarning = function (warning) {
+            $('.warningText').text(warning).fadeIn(400, hideWarning);
+        };
+
+        $(hideWarning);
+    </script>
 </body>
 </html>

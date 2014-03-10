@@ -70,12 +70,10 @@ namespace OrgPortal.Domain.Models
 
         private Application() { }
 
-        public Application(Stream data, int categoryID)
+        public Application(Stream data, int categoryID, string installMode)
         {
-            // TODO: This is a default value, replace it with a specified value in the UI.  Maybe pulled from an enum of available values.
-            InstallMode = "AutoUpdate";
-
             CategoryID = categoryID;
+            InstallMode = installMode;
             DateAdded = DateTime.UtcNow;
             ExtractValuesFromPackage(data);
             data.Seek(0, SeekOrigin.Begin);
