@@ -13,6 +13,7 @@ namespace OrgPortal.Domain.Extensions
         {
             // Provided by Jon Skeet: http://stackoverflow.com/a/221941/328193
             var buffer = new byte[16 * 1024];
+            input.Position = 0;
             using (var ms = new MemoryStream())
             {
                 int read;
