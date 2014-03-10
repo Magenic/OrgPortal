@@ -59,7 +59,7 @@
       // fileSystemWatcher1
       // 
       this.fileSystemWatcher1.EnableRaisingEvents = true;
-      this.fileSystemWatcher1.Filter = "*.req";
+      this.fileSystemWatcher1.Filter = "*.rt2win";
       this.fileSystemWatcher1.SynchronizingObject = this;
       // 
       // timer1

@@ -55,14 +55,14 @@ namespace OrgPortalMonitor
           ProcessRequest(e.FullPath);
         };
 
-      var existingFiles = Directory.EnumerateFiles(this.TempPath, "*.req");
+      var existingFiles = Directory.EnumerateFiles(this.TempPath, "*.rt2win");
       foreach (var item in existingFiles)
         ProcessRequest(item);
     }
 
     private void ProcessRequest(string inputFilePath)
     {
-      var logfilePath = inputFilePath.Replace(".req", ".log");
+      var logfilePath = inputFilePath.Replace(".rt2win", ".log");
       var outputDoc = new XElement("request");
       outputDoc.Add(new XElement("requestFile", inputFilePath));
       this.Output.AppendText(">>Processing " + inputFilePath + Environment.NewLine);
@@ -256,7 +256,7 @@ namespace OrgPortalMonitor
         if ((installedApp != null && serverApp.InstallMode.StartsWith("Auto") && UpdateAvailable(serverApp, installedApp)) || 
             (installedApp == null && serverApp.InstallMode == "AutoInstall"))
         {
-          var requestFile = System.IO.File.CreateText(TempPath + System.Guid.NewGuid().ToString() + ".req");
+          var requestFile = System.IO.File.CreateText(TempPath + System.Guid.NewGuid().ToString() + ".rt2win");
           using (requestFile)
           {
             await requestFile.WriteLineAsync(serverApp.Name);
