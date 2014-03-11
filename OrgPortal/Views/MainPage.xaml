@@ -55,14 +55,28 @@
 
             <HubSection Header="Recently Updated">
                 <DataTemplate>
-                    <GridView x:Name="InstalledList" />
+                    <ListView x:Name="InstalledList"
+                              ItemTemplate="{StaticResource AppSmallItemTemplate}"
+                              ItemsSource="{Binding Path=InstalledList}"
+                              AutomationProperties.AutomationId="ItemGridView"
+                              AutomationProperties.Name="Items In Group"
+                              SelectionMode="None"
+                              IsSwipeEnabled="false"
+                              IsItemClickEnabled="True"
+                              cal:Message.Attach="[Event ItemClick] = [ShowAppDetails($eventArgs)]">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0,10" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
                 </DataTemplate>
             </HubSection>
             
             <HubSection IsHeaderInteractive="True" Header="All Apps">
                 <DataTemplate>
                     <GridView
-                        ItemTemplate="{StaticResource Apps310x260ItemTemplate}"
+                        ItemTemplate="{StaticResource AppLargeItemTemplate}"
                         ItemsSource="{Binding Path=AppList}"
                         AutomationProperties.AutomationId="ItemGridView"
                         AutomationProperties.Name="Items In Group"

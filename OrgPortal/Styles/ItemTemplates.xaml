@@ -3,21 +3,44 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:OrgPortal.Styles">
 
-    <DataTemplate x:Key="Apps310x260ItemTemplate">
+    <DataTemplate x:Key="AppLargeItemTemplate">
         <Grid Height="250" Width="310" Margin="5,10,5,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            
             <Border Background="{Binding BackgroundColor}" Height="150">
                 <Image Source="{Binding ImageUrl}" Stretch="Uniform" 
                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                        AutomationProperties.Name="{Binding Name}"/>
             </Border>
+            
             <StackPanel Grid.Row="1" Margin="0,10,0,0">
-                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap"/>
-                <!--<TextBlock Text="{Binding Version}" Style="{StaticResource BodyTextBlockStyle}" MaxHeight="60" />-->
-                <TextBlock Text="{Binding Description}" Style="{StaticResource BodyTextBlockStyle}" MaxHeight="60" />
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" ToolTipService.ToolTip="{Binding Name}"/>
+                <!--<TextBlock Text="{Binding Version}" Style="{StaticResource BodyTextBlockStyle}" />-->
+                <TextBlock Text="{Binding Description}" Style="{StaticResource BodyTextBlockStyle}" MaxHeight="60" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="AppSmallItemTemplate">
+        <Grid Width="250" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Border Background="{Binding BackgroundColor}" Height="80" Width="80">
+                <Image Source="{Binding ImageUrl}" Stretch="Uniform" 
+                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                       AutomationProperties.Name="{Binding Name}"/>
+            </Border>
+            
+            <StackPanel Grid.Column="1" Margin="20,0,0,0">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" ToolTipService.ToolTip="{Binding Name}"/>
+                <!--<TextBlock Text="{Binding Version}" Style="{StaticResource BodyTextBlockStyle}" />-->
+                <TextBlock Text="{Binding Category}" Style="{StaticResource BodyTextBlockStyle}" />
             </StackPanel>
         </Grid>
     </DataTemplate>

@@ -92,7 +92,10 @@ namespace OrgPortal.ViewModels
             }
 
             var installed = await _fileManager.GetInstalledApps();
-            _installedList.AddRange(installed);
+            if (installed != null)
+            {
+                InstalledList = new List<AppInfo>(installed);
+            }
         }
 
         private async Task LoadPortalData()
