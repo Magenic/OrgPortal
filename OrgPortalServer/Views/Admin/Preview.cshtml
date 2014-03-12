@@ -1,0 +1,90 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <title>Preview</title>
+</head>
+<body>
+    <div id="preview" class="winRT">
+        <div class="winRTbackground">
+            <div class="winRTLogo"></div>
+            <div class="winRTName"></div>
+            <div class="winRTFeature">@OrgPortal.Domain.Configuration.Feature</div>
+            <div class="updated">
+                <div class="recentlyUpdatedHeader">Recently Updated</div>
+                <div class="recentlyBody">
+                    <div class="recentlyImage"></div>
+                    <div class="recentlyUpdated">
+                        <div class="recentlyText">App Title</div>
+                        <div class="brandingColor">Uploaded 02/19/14</div>
+                        <div class="recentlyTextCategory">Category Name</div>
+                    </div>
+                </div>
+                <div class="recentlyBody">
+                    <div class="recentlyImage"></div>
+                    <div class="recentlyUpdated">
+                        <div class="recentlyText">App Title</div>
+                        <div class="brandingColor">Uploaded 02/19/14</div>
+                        <div class="recentlyTextCategory">Category Name</div>
+                    </div>
+                </div>
+                <div class="recentlyBody">
+                    <div class="recentlyImage"></div>
+                    <div class="recentlyUpdated">
+                        <div class="recentlyText">App Title</div>
+                        <div class="brandingColor">Uploaded 02/19/14</div>
+                        <div class="recentlyTextCategory">Category Name</div>
+                    </div>
+                </div>
+                <div class="recentlyBody">
+                    <div class="recentlyImage"></div>
+                    <div class="recentlyUpdated">
+                        <div class="recentlyText">App Title</div>
+                        <div class="brandingColor">Uploaded 02/19/14</div>
+                        <div class="recentlyTextCategory">Category Name</div>
+                    </div>
+                </div>
+                <div class="recentlyBody">
+                    <div class="recentlyImage"></div>
+                    <div class="recentlyUpdated">
+                        <div class="recentlyText">App Title</div>
+                        <div class="brandingColor">Uploaded 02/19/14</div>
+                        <div class="recentlyTextCategory">Category Name</div>
+                    </div>
+                </div>
+                <div class="recentlyBody">
+                    <div class="recentlyImage"></div>
+                    <div class="recentlyUpdated">
+                        <div class="recentlyText">App Title</div>
+                        <div class="brandingColor">Uploaded 02/19/14</div>
+                        <div class="recentlyTextCategory">Category Name</div>
+                    </div>
+                </div>
+            </div>
+            <div class="winRTFont"></div>
+            <div class="winRTButtons">
+                <div class="buttonPrimary">Primary</div>
+                <div class="buttonSecondary">Secondary</div>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        $(function () {
+            $('.winRTName').text(window.opener.getElement('input[name=name]').val());
+            $('.buttonPrimary').css('background-color', '#' + window.opener.getElement('input[name=primaryColor]').val());
+            $('.buttonSecondary').css('background-color', '#' + window.opener.getElement('input[name=secondaryColor]').val());
+            $('.brandingColor').css('color', '#' + window.opener.getElement('input[name=primaryColor]').val());
+            $('.winRTLogo').css('background-image', 'url(' + window.opener.getElement('#logoPreview').attr('src') + ')');
+            // TODO: Currently the background for the header image repeats vertically.  Need to fix that before we can display it.
+            //$('.winRTbackground').css('background', 'url(' + window.opener.getElement('#headerPreview').attr('src') + ')');
+        });
+    </script>
+</body>
+</html>

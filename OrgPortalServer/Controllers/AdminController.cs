@@ -38,10 +38,16 @@ namespace OrgPortalServer.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Preview()
+        {
+            return View();
+        }
+
         private bool IsValid(HttpPostedFileBase imageFile, int width, int height)
         {
             if (imageFile == null)
                 return true;
+            // TODO: Support other image file types?  Check the requirements for the Windows app.
             if (!imageFile.ContentType.Equals("image/png", StringComparison.InvariantCultureIgnoreCase))
                 return false;
             using (Image image = Image.FromStream(imageFile.InputStream, true, true))

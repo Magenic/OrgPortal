@@ -438,11 +438,12 @@ nav ul ul li a:hover {
     font-weight:bold;
 }
 
-.cancelButton:hover {
+.cancelButton:hover 
+{
     border: none;
     background:#5c5c5c;
     color: #fff;
-}
+    }
 
 .previewButton {
     background-color: #404040;
@@ -454,13 +455,13 @@ nav ul ul li a:hover {
     padding:12px 40px 12px 40px;
     margin-left:10px;
     font-weight:bold;
-}
+    }
 
 .previewButton:hover {
     border: none;
     background:#5c5c5c;
     color: #fff;
-}
+    }
 
 select 
 {
@@ -470,25 +471,204 @@ select
     color: #3c3c3c; /*Dark Gray*/
     width: 312px;
     border: 1px solid #83c341;
-}
+    }
 
 select:focus
- { 
- background-color:#eee;
-
- } 
+{ 
+    background-color:#eee;
+    } 
 
 .pageButton 
 {
     float:right;
     padding-top:80px;
-}
+    }
 
 .pageButtonBranding
 {
     padding-top:250px;
     padding-left:232px;
-}
+    }
+
+/* PREVIEW  
+----------------------------------------------------------*/
+
+.winRT
+{
+    background-image:url('/Images/winRT.png');
+    background-repeat:no-repeat;
+    width:1570px;
+    height:1015px;
+    }
+
+
+/* Change background image
+*********************************************************************************************************/    
+
+.winRTbackground 
+{
+    position:relative;
+    height:768px;
+    width:1366px;
+    background-color:#fff;
+    top:80px;
+    left:99px;
+    background-image:url('');
+    }
+    
+/*********************************************************************************************************/     
+.winRTLogo 
+{
+    position:relative;
+    background-repeat:no-repeat;
+    font-family:Segoe UI;
+    font-size:55px;
+    height: 60px;
+    width:200px;
+    background-color:Black;
+    display:inline-block;
+    top:30px;
+    left:-760px;
+    }
+   
+.winRTName
+{
+    position:relative;
+    top:20px;
+    left:-740px;
+    background-repeat:no-repeat;
+    font-family:Segoe UI;
+    font-size:55px;
+    background-image:url('');
+    display:inline-block;
+    }
+    
+.winRTFeature 
+{
+    position:relative;
+    height:600px;
+    width:500px;
+    background-color:#eee;
+    float:left;
+    margin: 110px 40px 0px 80px;
+    }       
+          
+.winRTFont
+{
+    color:#000;
+    font-family:Segoe UI;
+    font-size:14px;
+    position:relative;
+    left:720px;
+    line-height:21px;
+    top:-460px;
+    width:600px;
+    }
+    
+.winRTButtons    
+{
+    float:left;
+    position:relative;
+    left:100px;
+    top:155px;
+    }
+                      
+ .updated 
+ {
+    float:left; 
+    margin: 110px 0px 0px 0px; 
+    }  
+                   
+ .recentlyBody  
+ {
+    display:block;
+    height:95px;
+    }  
+                 
+                  
+.recentlyUpdatedHeader   
+ {
+    font-size: 28px;
+    font-family:Segoe UI;
+    padding-bottom:30px;
+    }
+
+ 
+.recentlyUpdated    
+ {
+    position:relative;
+    left:100px;
+    top:-80px;
+    }
+
+
+.recentlyImage 
+{
+    height:80px;
+    width:80px;
+    background-color:#eee;
+    margin-right:10px;
+    }
+
+.recentlyText
+{
+    font-size: 18px;
+    font-family:Segoe UI;
+    line-height:24px;
+    }
+
+
+
+.recentlyTextCategory 
+{
+    font-size: 14px;
+     font-family:Segoe UI;
+    color: #9c9c9c;
+    line-height:18px;
+    }
+
+/* Change branding color here "PRIMARY COLOR"
+*********************************************************************************************************/
+
+.brandingColor 
+{
+    font-size: 16px;
+    font-family:Segoe UI;
+    color: #83c341;
+    line-height:24px;
+     }
+     
+/********************************************************************************************************/
+
+.buttonPrimary    
+{
+    background-color: #83c341;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+    padding:12px 40px 12px 40px;
+    margin-left:10px;
+    font-weight:bold;
+    float:left;
+
+    }
+    
+.buttonSecondary 
+{
+    background-color: #9ae74a;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+    padding:12px 40px 12px 40px;
+    margin-left:10px;
+    font-weight:bold;
+    float:right;
+    }  
+
 
 /* MISC  
 ----------------------------------------------------------*/

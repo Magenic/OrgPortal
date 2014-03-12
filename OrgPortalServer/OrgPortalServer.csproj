@@ -185,6 +185,7 @@
     <Content Include="Images\select.png" />
     <Content Include="Images\select2.png" />
     <Content Include="Images\slider.png" />
+    <Content Include="Images\winRT.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -226,6 +227,7 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Features\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Preview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OrgPortal.Domain\OrgPortal.Domain.csproj">
