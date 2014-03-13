@@ -9,14 +9,13 @@
         <div class="formLabel">Logo</div>
         <div class="text">200 pixels x 60 pixels .png</div>
         <input type="file" name="logo" class="formInput" />
-        <img id="logoPreview" src="@string.Format("data:image/png;base64,{0}", Convert.ToBase64String(OrgPortal.Domain.Configuration.BrandingLogo))" />
+        <img id="logoPreview" src="@string.Format("data:image/png;base64,{0}", Convert.ToBase64String(OrgPortal.Domain.Configuration.BrandingLogo))" @(OrgPortal.Domain.Configuration.BrandingLogo.Length == 0 ? "style=display:none;" : string.Empty) />
         <br />
         <br />
         <div class="formLabel">Image Header</div>
         <div class="text">1366 pixels x 48 pixels .png</div>
         <input type="file" name="header" class="formInput" />
-        <img id="headerPreview" style="width:683px;height:24px;" src="@string.Format("data:image/png;base64,{0}", Convert.ToBase64String(OrgPortal.Domain.Configuration.BrandingHeader))" />
-    </div>
+        <img id="headerPreview" src="@string.Format("data:image/png;base64,{0}", Convert.ToBase64String(OrgPortal.Domain.Configuration.BrandingHeader))" @(OrgPortal.Domain.Configuration.BrandingHeader.Length == 0 ? "style=display:none;width:683px;height:24px;" : "style=width:683px;height:24px;") /></div>
     <div class="right">
         <div class="theme">
             <div class="subHeading">Select Theme Color</div>
@@ -53,13 +52,16 @@
             });
 
             $('input[type=file]').change(function () {
-                var input = this;
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $(input).next('img').attr('src', e.target.result);
+                if (window.FileReader) {
+                    var input = this;
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $(input).next('img').attr('src', e.target.result);
+                        }
+                        reader.readAsDataURL(input.files[0]);
                     }
-                    reader.readAsDataURL(input.files[0]);
+                    $(input).next('img').slideDown();
                 }
             });
         });

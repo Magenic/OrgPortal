@@ -81,7 +81,9 @@
             $('.buttonPrimary').css('background-color', '#' + window.opener.getElement('input[name=primaryColor]').val());
             $('.buttonSecondary').css('background-color', '#' + window.opener.getElement('input[name=secondaryColor]').val());
             $('.brandingColor').css('color', '#' + window.opener.getElement('input[name=primaryColor]').val());
-            $('.winRTLogo').css('background-image', 'url(' + window.opener.getElement('#logoPreview').attr('src') + ')');
+            if (window.opener.getElement('#logoPreview').is(':visible')) {
+                $('.winRTLogo').css('background-image', 'url(' + window.opener.getElement('#logoPreview').attr('src') + ')');
+            }
             // TODO: Currently the background for the header image repeats vertically.  Need to fix that before we can display it.
             //$('.winRTbackground').css('background', 'url(' + window.opener.getElement('#headerPreview').attr('src') + ')');
         });
