@@ -91,9 +91,7 @@
     </Grid>
 
     <Page.TopAppBar>
-        <AppBar Style="{StaticResource TopAppBarStyle}">
-            <ContentControl x:Name="NavigationBar" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
-        </AppBar>
+        <AppBar Style="{StaticResource TopAppBarStyle}" />
     </Page.TopAppBar>
     <Page.BottomAppBar>
         <AppBar>

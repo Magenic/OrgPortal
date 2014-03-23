@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="800">
 
-    <Grid Background="{StaticResource AppBackgroundBrush}">
+    <Grid Background="{StaticResource AppBackgroundBrush}" DataContext="{Binding Path=NavigationBar}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -18,8 +18,8 @@
 
         <Border Background="Transparent" BorderThickness="0,0,0,1" Padding="20">
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="GoHome" Content="Go Home" />
-                <Button x:Name="ShowMyApps" Content="My Apps" Margin="20,0,0,0" />
+                <Button x:Name="GoHome" Content="Go Home" cal:Message.Attach="[Event Click] = [GoHome()]" />
+                <Button x:Name="ShowMyApps" Content="My Apps" Margin="20,0,0,0" cal:Message.Attach="[Event Click] = [ShowMyApps()]"/>
             </StackPanel>
         </Border>
 
