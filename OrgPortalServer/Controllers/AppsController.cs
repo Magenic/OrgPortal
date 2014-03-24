@@ -47,5 +47,24 @@ namespace OrgPortalServer.Controllers
                 })
                 .Single(a => a.PackageFamilyName == id);
         }
+
+        // POST api/<controller>/?search=<string>
+        public IEnumerable<AppInfo> Post(string search)
+        {
+            return IoCContainerFactory.Current.GetInstance<ApplicationRepository>().Applications
+                .Where(a => a.Name.ToLower().Contains(search.ToLower())).ToList()
+                .Select(a =>
+                new AppInfo
+                {
+                    Name = a.Name,
+                    PackageFamilyName = a.PackageFamilyName,
+                    Description = a.Description,
+                    Version = a.Version,
+                    InstallMode = a.InstallMode,
+                    Category = a.Category.Name,
+                    DateAdded = a.DateAdded,
+                    BackgroundColor = a.BackgroundColor
+                });
+        }
     }
 }

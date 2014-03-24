@@ -135,6 +135,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApplicationsController.cs" />
     <Compile Include="Controllers\AppsController.cs" />
+    <Compile Include="Controllers\BrandingController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\AppxController.cs" />
     <Compile Include="Controllers\FeaturesController.cs" />
@@ -147,6 +148,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AppInfo.cs" />
+    <Compile Include="Models\BrandingInfo.cs" />
     <Compile Include="Models\CategoryInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
