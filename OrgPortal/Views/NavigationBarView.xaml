@@ -9,8 +9,8 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="800">
-
-    <Grid Background="{StaticResource AppBackgroundBrush}" DataContext="{Binding Path=NavigationBar}">
+	
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DataContext="{Binding Path=NavigationBar}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />

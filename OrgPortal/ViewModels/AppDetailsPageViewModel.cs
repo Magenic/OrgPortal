@@ -16,8 +16,12 @@ namespace OrgPortal.ViewModels
         private AppInfo _installedItem;
 
         [ImportingConstructor]
-        public AppDetailsPageViewModel(INavigation navigation, IMessageBox messageBox, INavigationBar navBar, IFileSyncManager fileManager)
-            : base(navigation, navBar)
+        public AppDetailsPageViewModel(INavigation navigation, 
+            IMessageBox messageBox, 
+            INavigationBar navBar, 
+            IFileSyncManager fileManager,
+            BrandingViewModel branding)
+            : base(navigation, navBar, branding)
         {
             this._messageBox = messageBox;
             this._fileManager = fileManager;

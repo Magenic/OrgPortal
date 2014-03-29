@@ -17,8 +17,12 @@ namespace OrgPortal.ViewModels
         private readonly IFileSyncManager _fileManager;
 
         [ImportingConstructor]
-        public InstalledAppsPageViewModel(INavigation navigation, IMessageBox messageBox, INavigationBar navBar, IFileSyncManager fileManager)
-            : base(navigation, navBar)
+        public InstalledAppsPageViewModel(INavigation navigation, 
+            IMessageBox messageBox, 
+            INavigationBar navBar, 
+            IFileSyncManager fileManager,
+            BrandingViewModel branding)
+            : base(navigation, navBar, branding)
         {
             this._messageBox = messageBox;
             this._fileManager = fileManager;

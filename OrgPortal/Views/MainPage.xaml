@@ -19,75 +19,87 @@
     </Page.Resources>
 
 
-    <Grid Background="{ThemeResource AppBackgroundBrush}">
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Image Source="{Binding Path=Branding.HeaderImage}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Stretch="Uniform" />
         
-        <Hub HorizontalContentAlignment="Stretch">
-            <Hub.Header>                
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition/>
+                </TransitionCollection>
+            </Grid.ChildrenTransitions>
+        
+            <Hub HorizontalContentAlignment="Stretch">
+                <Hub.Header>                
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
                     
-                    <!-- Page title -->
-                    <TextBlock x:Name="OrgName" Style="{StaticResource AccentHeaderTextBlockStyle}"
-                               IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+                        <Image Source="{Binding Path=Branding.LogoImage}" 
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Left" 
+                               Margin="0,0,20,0" />
+                    
+                        <!-- Page title -->
+                        <TextBlock Grid.Column="1"
+                                   Style="{StaticResource AccentHeaderTextBlockStyle}"
+                                   Text="{Binding Path=Branding.Name}"
+                                   IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" />
 
-                    <SearchBox Grid.Column="1"
-                               Margin="0"
-                               Width="350" Height="35"
-                               PlaceholderText="Search for apps"
-                               VerticalAlignment="Bottom" 
-                               HorizontalAlignment="Right" />
-                </Grid>
-            </Hub.Header>
+                        <SearchBox Grid.Column="2"
+                                   Margin="0"
+                                   Width="350" Height="35"
+                                   PlaceholderText="Search for apps"
+                                   VerticalAlignment="Bottom" 
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+                </Hub.Header>
                         
-            <HubSection Width="780" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">                
-                <DataTemplate>
-                    <WebView Source="{Binding Path=FeatureUrl}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>                    
-                </DataTemplate>
-            </HubSection>
+                <HubSection Width="650" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">                
+                    <DataTemplate>
+                        <WebView Source="{Binding Path=FeatureUrl}" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                    </DataTemplate>
+                </HubSection>
 
-            <HubSection Header="Recently Updated">
-                <DataTemplate>
-                    <ListView x:Name="InstalledList"
-                              ItemTemplate="{StaticResource AppSmallItemTemplate}"
-                              ItemsSource="{Binding Path=InstalledList}"
-                              AutomationProperties.AutomationId="ItemGridView"
-                              AutomationProperties.Name="Items In Group"
-                              SelectionMode="None"
-                              IsSwipeEnabled="false"
-                              IsItemClickEnabled="True"
-                              cal:Message.Attach="[Event ItemClick] = [ShowAppDetails($eventArgs)]">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Margin" Value="0,10" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-                </DataTemplate>
-            </HubSection>
+                <HubSection Header="Recently Updated">
+                    <DataTemplate>
+                        <ListView x:Name="InstalledList"
+                                  ItemTemplate="{StaticResource AppSmallItemTemplate}"
+                                  ItemsSource="{Binding Path=InstalledList}"
+                                  AutomationProperties.AutomationId="ItemGridView"
+                                  AutomationProperties.Name="Items In Group"
+                                  SelectionMode="None"
+                                  IsSwipeEnabled="false"
+                                  IsItemClickEnabled="True"
+                                  cal:Message.Attach="[Event ItemClick] = [ShowAppDetails($eventArgs)]">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0,10" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </DataTemplate>
+                </HubSection>
             
-            <HubSection IsHeaderInteractive="True" Header="All Apps">
-                <DataTemplate>
-                    <GridView
-                        ItemTemplate="{StaticResource AppLargeItemTemplate}"
-                        ItemsSource="{Binding Path=AppList}"
-                        AutomationProperties.AutomationId="ItemGridView"
-                        AutomationProperties.Name="Items In Group"
-                        SelectionMode="None"
-                        IsSwipeEnabled="false"
-                        IsItemClickEnabled="True"
-                        cal:Message.Attach="[Event ItemClick] = [ShowAppDetails($eventArgs)]" />
-                </DataTemplate>
-            </HubSection>
+                <HubSection IsHeaderInteractive="True" Header="All Apps">
+                    <DataTemplate>
+                        <GridView
+                            ItemTemplate="{StaticResource AppLargeItemTemplate}"
+                            ItemsSource="{Binding Path=AppList}"
+                            AutomationProperties.AutomationId="ItemGridView"
+                            AutomationProperties.Name="Items In Group"
+                            SelectionMode="None"
+                            IsSwipeEnabled="false"
+                            IsItemClickEnabled="True"
+                            cal:Message.Attach="[Event ItemClick] = [ShowAppDetails($eventArgs)]" />
+                    </DataTemplate>
+                </HubSection>
             
-        </Hub>
+            </Hub>
+        </Grid>
     </Grid>
 
     <Page.TopAppBar>

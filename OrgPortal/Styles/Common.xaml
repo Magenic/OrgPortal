@@ -4,10 +4,25 @@
     xmlns:local="using:OrgPortal.Styles"
     xmlns:common="using:OrgPortal.Common">
     
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+
+            <common:ThemeManager x:Key="ThemeManager" />
+            
+            <SolidColorBrush x:Key="PrimaryColorBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.PrimaryColor}" />
+            <SolidColorBrush x:Key="AccentColorBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.AccentColor}" />
+            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.BackgroundColor}" />
+
+            <SolidColorBrush x:Key="ButtonBackgroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.PrimaryColor}" />
+            <SolidColorBrush x:Key="ButtonPointerOverBackgroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.AccentColor}" />
+            <SolidColorBrush x:Key="ButtonPressedBackgroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.AccentColor}" />
+
+            <SolidColorBrush x:Key="SearchBoxButtonBackgroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.PrimaryColor}" />            
+            <SolidColorBrush x:Key="SearchBoxButtonPointerOverBackgroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.AccentColor}" />
+            
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
     <common:ThemeManager x:Key="ThemeManager" />
-    
-    <SolidColorBrush x:Key="AppBackgroundBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.BackgroundColor}" />
-    <SolidColorBrush x:Key="PrimaryColorBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.PrimaryColor}" />
-    <SolidColorBrush x:Key="AccentColorBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.AccentColor}" />
     
 </ResourceDictionary>

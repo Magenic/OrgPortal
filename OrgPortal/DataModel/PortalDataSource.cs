@@ -54,5 +54,22 @@ namespace OrgPortal.DataModel
 
             return null;
         }
+
+        public async Task<BrandingInfo> GetBrandingDataAsync()
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(_serviceURI + "Branding");
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var branding = JsonConvert.DeserializeObject<BrandingInfo>(data);
+
+                    return branding;
+                }
+            }
+
+            return null;
+        }
     }
 }

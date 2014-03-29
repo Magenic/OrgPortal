@@ -14,13 +14,15 @@ namespace OrgPortal.ViewModels
         private readonly IPortalDataSource _dataSource;
         private readonly IFileSyncManager _fileManager;
 
+
         [ImportingConstructor]
         public MainPageViewModel(INavigation navigation, 
             IMessageBox messageBox, 
             INavigationBar navBar, 
             IPortalDataSource dataSource, 
-            IFileSyncManager fileManager)
-            : base(navigation, navBar)
+            IFileSyncManager fileManager,
+            BrandingViewModel branding)
+            : base(navigation, navBar, branding)
         {
             this._messageBox = messageBox;
             this._dataSource = dataSource;
@@ -29,17 +31,6 @@ namespace OrgPortal.ViewModels
             LoadData();
         }
 
-
-        private string _orgName;
-        public string OrgName
-        {
-            get { return _orgName; }
-            set
-            {
-                _orgName = value;
-                NotifyOfPropertyChange(() => OrgName);
-            }
-        }
 
         private string _featureUrl;
         public string FeatureUrl
@@ -101,8 +92,6 @@ namespace OrgPortal.ViewModels
         private async Task LoadPortalData()
         {
             var org = await _dataSource.LoadPortalDataAsync();
-
-            OrgName = org.Name;
             FeatureUrl = org.FeatureURL;
         }
 

@@ -34,8 +34,11 @@ namespace OrgPortal
 //                this.DebugSettings.EnableFrameRateCounter = true;
 //            }
 //#endif
-            
-            DisplayRootView<MainPage>();
+
+            if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning)
+                DisplayRootView<ExtendedSplashPage>();
+            else
+                DisplayRootView<MainPage>();
 
 
             //    //Associate the frame with a SuspensionManager key                                
