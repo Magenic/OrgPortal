@@ -17,7 +17,6 @@ namespace OrgPortal.Infrastructure.DAL.Repositories
         {
             using (var db = new ConfigDbContext())
             {
-                
                 var setting = db.Set<ConfigSetting>().SingleOrDefault(c => c.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase));
                 return setting == null ? string.Empty : setting.Value;
             }

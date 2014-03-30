@@ -9,5 +9,12 @@ namespace OrgPortalServer.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public IEnumerable<AppInfo> Apps { get; set; }
+
+        public CategoryInfo()
+        {
+            Name = string.Empty;
+            Apps = new List<AppInfo>();
+        }
     }
 }
