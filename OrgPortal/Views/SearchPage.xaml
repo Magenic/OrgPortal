@@ -1,0 +1,90 @@
+﻿<Page
+    x:Class="OrgPortal.Views.SearchPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OrgPortal.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cal="using:Caliburn.Micro"
+    xmlns:converters="using:OrgPortal.Converters"
+    mc:Ignorable="d">
+    
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Image Source="{Binding Path=Branding.HeaderImage}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Stretch="Uniform" />
+
+        <Grid Visibility="{Binding Path=IsSearching, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Searching..." Style="{StaticResource SubheaderTextBlockStyle}" />
+                <ProgressRing IsActive="{Binding Path=IsSearching}" Height="50" Width="50" Margin="20" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Visibility="{Binding Path=IsSearching, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+            <Grid.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition />
+                </TransitionCollection>
+            </Grid.ChildrenTransitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Horizontal scrolling grid -->
+            <GridView
+                x:Name="itemGridView"
+                AutomationProperties.AutomationId="ItemsGridView"
+                AutomationProperties.Name="Items"
+                TabIndex="1"
+                Grid.RowSpan="2"
+                Padding="116,136,116,46"
+                SelectionMode="None"
+                IsSwipeEnabled="false"
+                ItemTemplate="{StaticResource AppLargeItemTemplate}"
+                ItemsSource="{Binding Path=AppList}"
+                IsItemClickEnabled="True"
+                cal:Message.Attach="[Event ItemClick] = [ShowAppDetails($eventArgs)]"/>
+
+            <!-- Back button and page title -->
+            <Grid Margin="0,0,40,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="GoBack" Margin="39,59,39,0" 
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="Back"
+                        AutomationProperties.AutomationId="BackButton"
+                        AutomationProperties.ItemType="Navigation Button"/>
+
+                <TextBlock Text="{Binding Path=LastSearchQuery}" Style="{StaticResource AccentHeaderTextBlockStyle}" Grid.Column="1" 
+                           IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40" />
+
+                <TextBlock Text="{Binding Path=ResultCount}" Style="{StaticResource SubheaderTextBlockStyle}" Grid.Column="2" 
+                           IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="20,0,30,40" />
+
+                <SearchBox Grid.Column="3"
+                           Width="350" Height="35"
+                           Margin="0,65,0,0"
+                           PlaceholderText="Search for apps"
+                           VerticalAlignment="Top" 
+                           HorizontalAlignment="Right"
+                           QueryText="{Binding Path=SearchQueryText, Mode=TwoWay}"
+                           cal:Message.Attach="[Event QuerySubmitted] = [RunSearch()]"/>
+            </Grid>
+        </Grid>
+    </Grid>
+
+    <Page.TopAppBar>
+        <AppBar Style="{StaticResource TopAppBarStyle}" />
+    </Page.TopAppBar>
+</Page>

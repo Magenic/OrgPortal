@@ -3,6 +3,7 @@ using OrgPortalMonitor.DataModel;
 using System.Collections.Generic;
 using System.Composition;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace OrgPortal.DataModel
@@ -18,6 +19,24 @@ namespace OrgPortal.DataModel
             using (var client = new HttpClient())
             {
                 var response = await client.GetAsync(_serviceURI + "Apps");
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var apps = JsonConvert.DeserializeObject<List<AppInfo>>(data);
+
+                    return apps;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<List<AppInfo>> SearchAppsAsync(string query)
+        {
+            using (var client = new HttpClient())
+            {
+                var requestUrl = string.Format("{0}Apps?search={1}", _serviceURI, query);
+                var response = await client.PostAsync(requestUrl, null);
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();

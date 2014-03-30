@@ -65,6 +65,18 @@ namespace OrgPortal.ViewModels
             }
         }
 
+        private string _searchQueryText;
+        public string SearchQueryText
+        {
+            get { return _searchQueryText; }
+            set
+            {
+                _searchQueryText = value;
+                NotifyOfPropertyChange(() => SearchQueryText);
+            }
+        }
+
+
         
 
         private async Task LoadData()
@@ -107,6 +119,14 @@ namespace OrgPortal.ViewModels
         {
             await _fileManager.UpdateDevLicense();
             await _messageBox.ShowAsync("License key request sent; you may need to switch to the Desktop to complete the process", "Get Dev License");
+        }
+
+        public async Task RunSearch()
+        {
+            if (!string.IsNullOrWhiteSpace(_searchQueryText))
+            {
+                Navigation.NavigateToViewModel<SearchPageViewModel>(_searchQueryText);
+            }
         }
     }
 }

@@ -10,15 +10,6 @@
     xmlns:cal="using:Caliburn.Micro"
     mc:Ignorable="d">
 
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles/ItemTemplates.xaml" />
-            </ResourceDictionary.MergedDictionaries>            
-        </ResourceDictionary>
-    </Page.Resources>
-
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Image Source="{Binding Path=Branding.HeaderImage}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Stretch="Uniform" />
         
@@ -28,7 +19,7 @@
                     <EntranceThemeTransition/>
                 </TransitionCollection>
             </Grid.ChildrenTransitions>
-        
+            
             <Hub HorizontalContentAlignment="Stretch">
                 <Hub.Header>                
                     <Grid>
@@ -54,7 +45,10 @@
                                    Width="350" Height="35"
                                    PlaceholderText="Search for apps"
                                    VerticalAlignment="Bottom" 
-                                   HorizontalAlignment="Right" />
+                                   HorizontalAlignment="Right"
+                                   FocusOnKeyboardInput="True"
+                                   QueryText="{Binding Path=SearchQueryText, Mode=TwoWay}"
+                                   cal:Message.Attach="[Event QuerySubmitted] = [RunSearch()]"/>
                     </Grid>
                 </Hub.Header>
                         

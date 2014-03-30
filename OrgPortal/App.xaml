@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Common.xaml" />
                 <ResourceDictionary Source="Styles/AppBar.xaml" />
+                <ResourceDictionary Source="Styles/ItemTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
         

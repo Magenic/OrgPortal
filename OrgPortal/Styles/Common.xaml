@@ -19,6 +19,10 @@
 
             <SolidColorBrush x:Key="SearchBoxButtonBackgroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.PrimaryColor}" />            
             <SolidColorBrush x:Key="SearchBoxButtonPointerOverBackgroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.AccentColor}" />
+            <SolidColorBrush x:Key="SearchBoxHitHighlightForegroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.AccentColor}" />
+
+            <SolidColorBrush x:Key="TextSelectionHighlightColorThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.PrimaryColor}" />
+            <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="{Binding Source={StaticResource ThemeManager}, Path=CurrentTheme.PrimaryColor}" />
             
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
