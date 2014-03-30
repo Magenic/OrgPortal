@@ -5,6 +5,7 @@ using System.Composition;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace OrgPortal.DataModel
 {
@@ -85,6 +86,40 @@ namespace OrgPortal.DataModel
                     var branding = JsonConvert.DeserializeObject<BrandingInfo>(data);
 
                     return branding;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<List<CategoryInfo>> GetCategoryListAsync()
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(_serviceURI + "AppCategories");
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var categories = JsonConvert.DeserializeObject<List<CategoryInfo>>(data);
+
+                    return categories;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<List<AppInfo>> GetAppsForCategoryAsync(int categoryId)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(string.Format("{0}{1}{2}", _serviceURI, "AppCategories/", categoryId));
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var category = JsonConvert.DeserializeObject<CategoryInfo>(data);
+
+                    return category.Apps.ToList();
                 }
             }
 

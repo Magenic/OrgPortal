@@ -1,13 +1,14 @@
-﻿using System;
+﻿using OrgPortal.DataModel;
+using System;
 using System.Collections.Generic;
 
 namespace OrgPortal.ViewModels
 {
     public interface INavigationBar
     {
-        List<string> CategoryList { get; set; }
+        List<CategoryInfo> CategoryList { get; set; }
         void GoHome();
-        void GoToCategory(object category);
+        void GoToCategory(Windows.UI.Xaml.Controls.ItemClickEventArgs category);
         void ShowMyApps();
     }
 }

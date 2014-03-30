@@ -16,21 +16,41 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Background="Transparent" BorderThickness="0,0,0,1" Padding="20">
+        <Border Background="Transparent" BorderThickness="0,0,0,1" Padding="20,20,20,10">
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="GoHome" Content="Go Home" cal:Message.Attach="[Event Click] = [GoHome()]" />
-                <Button x:Name="ShowMyApps" Content="My Apps" Margin="20,0,0,0" cal:Message.Attach="[Event Click] = [ShowMyApps()]"/>
+                <Button x:Name="GoHome" Content="Go Home"
+                        Height="45" Width="200"
+                        cal:Message.Attach="[Event Click] = [GoHome()]" />
+                
+                <Button x:Name="ShowMyApps" Content="My Apps" Margin="5,0,0,0"
+                        Height="45" Width="200"
+                        cal:Message.Attach="[Event Click] = [ShowMyApps()]"/>
             </StackPanel>
         </Border>
 
-        <ListView Grid.Row="1" Margin="20" x:Name="CategoryList"
+        <ListView Grid.Row="1" Margin="20,10,20,10"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding Path=CategoryList}"
                   IsItemClickEnabled="True"
-                  cal:Message.Attach="[Event ItemClick] = [GoToCategory($dataContext)]">
+                  cal:Message.Attach="[Event ItemClick] = [GoToCategory($eventArgs)]">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid Orientation="Vertical" MaxHeight="200" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="MinWidth" Value="190" />
+                    <Setter Property="Padding" Value="10,0" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Name}" FontSize="11" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
 
     </Grid>

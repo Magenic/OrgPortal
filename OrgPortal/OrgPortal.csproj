@@ -124,6 +124,7 @@
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="DataModel\BrandingInfo.cs" />
+    <Compile Include="DataModel\CategoryInfo.cs" />
     <Compile Include="DataModel\FileSyncManager.cs" />
     <Compile Include="DataModel\IFileSyncManager.cs" />
     <Compile Include="DataModel\IPortalDataSource.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="ViewModels\AppDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\BrandingViewModel.cs" />
+    <Compile Include="ViewModels\CategoryPageViewModel.cs" />
     <Compile Include="ViewModels\ExtendedSplashPageViewModel.cs" />
     <Compile Include="ViewModels\INavigationBar.cs" />
     <Compile Include="ViewModels\InstalledAppsPageViewModel.cs" />
@@ -146,6 +148,9 @@
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AppDetailsPage.xaml.cs">
       <DependentUpon>AppDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CategoryPage.xaml.cs">
+      <DependentUpon>CategoryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedSplashPage.xaml.cs">
       <DependentUpon>ExtendedSplashPage.xaml</DependentUpon>
@@ -204,6 +209,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\AppDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CategoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

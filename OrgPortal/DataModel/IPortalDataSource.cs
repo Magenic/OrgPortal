@@ -11,5 +11,7 @@ namespace OrgPortal.DataModel
         Task<OrgInfo> LoadPortalDataAsync();
         Task<BrandingInfo> GetBrandingDataAsync();
         Task<List<AppInfo>> SearchAppsAsync(string query);
+        Task<List<CategoryInfo>> GetCategoryListAsync();
+        Task<List<AppInfo>> GetAppsForCategoryAsync(int categoryId);
     }
 }

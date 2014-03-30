@@ -8,38 +8,29 @@ using System.Threading.Tasks;
 namespace OrgPortal.ViewModels
 {
     [Export]
-    public class MainPageViewModel : PageViewModelBase
+    public class CategoryPageViewModel : PageViewModelBase
     {
-        private readonly IMessageBox _messageBox;
         private readonly IPortalDataSource _dataSource;
-        private readonly IFileSyncManager _fileManager;
+        private CategoryInfo category;
+        private bool initialized;
 
 
         [ImportingConstructor]
-        public MainPageViewModel(INavigation navigation, 
-            IMessageBox messageBox, 
-            INavigationBar navBar, 
-            IPortalDataSource dataSource, 
-            IFileSyncManager fileManager,
-            BrandingViewModel branding)
+        public CategoryPageViewModel(INavigation navigation, INavigationBar navBar, BrandingViewModel branding, IPortalDataSource dataSource)
             : base(navigation, navBar, branding)
         {
-            this._messageBox = messageBox;
             this._dataSource = dataSource;
-            this._fileManager = fileManager;
-
-            LoadData();
         }
 
 
-        private string _featureUrl;
-        public string FeatureUrl
+        private string _categoryName;
+        public string CategoryName
         {
-            get { return _featureUrl; }
+            get { return _categoryName; }
             private set
             {
-                _featureUrl = value;
-                NotifyOfPropertyChange(() => FeatureUrl);
+                _categoryName = value;
+                NotifyOfPropertyChange(() => CategoryName);
             }
         }
 
@@ -54,14 +45,14 @@ namespace OrgPortal.ViewModels
             }
         }
 
-        private List<AppInfo> _installedList = new List<AppInfo>();
-        public List<AppInfo> InstalledList
+        private string _appCount;
+        public string AppCount
         {
-            get { return _installedList; }
+            get { return _appCount; }
             private set
             {
-                _installedList = value;
-                NotifyOfPropertyChange(() => InstalledList);
+                _appCount = value;
+                NotifyOfPropertyChange(() => AppCount);
             }
         }
 
@@ -77,34 +68,37 @@ namespace OrgPortal.ViewModels
         }
 
 
-        
 
-        private async Task LoadData()
+        protected override async void DeserializeParameter(string value)
         {
-            await LoadPortalData();
+            if (!initialized)
+            {
+                category = Serializer.Deserialize<CategoryInfo>(value);
+                CategoryName = category.Name;
 
-            await LoadAppList();
+                await LoadAppList();
+
+                initialized = true;
+            }
         }
 
-        private async Task LoadAppList()
+        public async Task LoadAppList()
         {
-            var apps = await _dataSource.GetAppListAsync();
+            if (category == null)
+                return;
+
+            IsBusy = true;
+            
+            var apps = await _dataSource.GetAppsForCategoryAsync(category.ID);
             if (apps != null)
             {
                 AppList = new List<AppInfo>(apps);
+
+                string format = AppList.Count == 1 ? "{0} app" : "{0} apps";
+                AppCount = string.Format(format, AppList.Count);
             }
 
-            var installed = await _fileManager.GetInstalledApps();
-            if (installed != null)
-            {
-                InstalledList = new List<AppInfo>(installed);
-            }
-        }
-
-        private async Task LoadPortalData()
-        {
-            var org = await _dataSource.LoadPortalDataAsync();
-            FeatureUrl = org.FeatureURL;
+            IsBusy = false;
         }
 
         public void ShowAppDetails(Windows.UI.Xaml.Controls.ItemClickEventArgs param)
@@ -113,12 +107,6 @@ namespace OrgPortal.ViewModels
             {
                 Navigation.NavigateToViewModel<AppDetailsPageViewModel>(param.ClickedItem);
             }
-        }
-
-        public async Task UpdateDevLicense()
-        {
-            await _fileManager.UpdateDevLicense();
-            await _messageBox.ShowAsync("License key request sent; you may need to switch to the Desktop to complete the process", "Get Dev License");
         }
 
         public void RunSearch()

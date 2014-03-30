@@ -1,9 +1,7 @@
 ﻿using OrgPortal.Common;
-using System;
+using OrgPortal.DataModel;
 using System.Collections.Generic;
 using System.Composition;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace OrgPortal.ViewModels
@@ -12,15 +10,21 @@ namespace OrgPortal.ViewModels
     [Shared]
     public class NavigationBarViewModel : ViewModelBase, INavigationBar
     {
+        private readonly IPortalDataSource _dataSource;
+
+
         [ImportingConstructor]
-        public NavigationBarViewModel(INavigation navigation)
+        public NavigationBarViewModel(INavigation navigation, IPortalDataSource dataSource)
             : base(navigation)
         {
+            this._dataSource = dataSource;
+
+            LoadCategories();
         }
 
 
-        private List<string> _categoryList;
-        public List<string> CategoryList
+        private List<CategoryInfo> _categoryList;
+        public List<CategoryInfo> CategoryList
         {
             get { return _categoryList; }
             set
@@ -42,9 +46,21 @@ namespace OrgPortal.ViewModels
             Navigation.NavigateToViewModel<InstalledAppsPageViewModel>();
         }
 
-        public void GoToCategory(object category)
+        public async Task LoadCategories()
         {
+            var categories = await _dataSource.GetCategoryListAsync();
+            if (categories != null)
+            {
+                CategoryList = new List<CategoryInfo>(categories);
+            }
+        }
 
+        public void GoToCategory(Windows.UI.Xaml.Controls.ItemClickEventArgs param)
+        {
+            if (param.ClickedItem is CategoryInfo)
+            {
+                Navigation.NavigateToViewModel<CategoryPageViewModel>(param.ClickedItem);
+            }
         }
     }
 }

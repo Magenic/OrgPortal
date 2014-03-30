@@ -81,12 +81,12 @@ namespace OrgPortal.ViewModels
         }
 
 
-        protected override void DeserializeParameter(string value)
+        protected override async void DeserializeParameter(string value)
         {
             if (!initialized)
             {
                 SearchQueryText = Serializer.Deserialize<string>(value);
-                RunSearch();
+                await RunSearch();
 
                 initialized = true;
             }
