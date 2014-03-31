@@ -15,13 +15,14 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="OrgPortal.App">
-      <m2:VisualElements DisplayName="OrgPortal" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="OrgPortal" ForegroundText="light" BackgroundColor="#83c341">
-        <m2:DefaultTile>
+      <m2:VisualElements DisplayName="OrgPortal" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="OrgPortal" ForegroundText="light" BackgroundColor="#7ab800">
+        <m2:DefaultTile Wide310x150Logo="Assets\WideLogo.png">
           <m2:ShowNameOnTiles>
             <m2:ShowOn Tile="square150x150Logo" />
+            <m2:ShowOn Tile="wide310x150Logo" />
           </m2:ShowNameOnTiles>
         </m2:DefaultTile>
-        <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#83c341" />
+        <m2:SplashScreen Image="Assets\Splash.png" BackgroundColor="#7ab800" />
       </m2:VisualElements>
       <Extensions>
         <Extension Category="windows.fileTypeAssociation">

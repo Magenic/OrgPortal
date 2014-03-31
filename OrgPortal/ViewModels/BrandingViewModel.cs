@@ -101,6 +101,7 @@ namespace OrgPortal.ViewModels
             {
                 ThemeManager.CurrentTheme.PrimaryColor = Theme.ColorFromHex(branding.PrimaryColor);
                 _settings.Values[primaryColorKey] = branding.PrimaryColor;
+                _settings.Values[secondaryColorKey] = branding.PrimaryColor;
             }
 
             if (!string.IsNullOrWhiteSpace(branding.SecondaryColor))

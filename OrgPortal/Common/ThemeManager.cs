@@ -41,7 +41,7 @@ namespace OrgPortal.Common
             }
         }
 
-        private Color _primaryColor = ColorFromHex("#83C341");
+        private Color _primaryColor = ColorFromHex("#7ab800");
         public Color PrimaryColor
         {
             get { return _primaryColor; }
