@@ -8,14 +8,14 @@ using System.Configuration;
 
 namespace OrgPortalServer.Controllers
 {
-  public class OrgPortalController : ApiController
-  {
-    // GET api/orgportal
-    public IEnumerable<string> Get()
+    public class OrgPortalController : ApiController
     {
-      var orgName = ConfigurationManager.AppSettings["OrgName"];
-      var orgURL = ConfigurationManager.AppSettings["OrgURL"];
-      return new string[] { orgName, orgURL };
+        // GET api/orgportal
+        public IEnumerable<string> Get()
+        {
+            var orgName = OrgPortal.Domain.Configuration.BrandingName;
+            var orgURL = OrgPortal.Domain.Configuration.Feature;
+            return new string[] { orgName, orgURL };
+        }
     }
-  }
 }
