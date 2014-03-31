@@ -16,6 +16,7 @@ namespace OrgPortal.ViewModels
         private readonly IMessageBox _messageBox;
         private readonly IFileSyncManager _fileManager;
 
+
         [ImportingConstructor]
         public InstalledAppsPageViewModel(INavigation navigation, 
             IMessageBox messageBox, 
@@ -30,6 +31,7 @@ namespace OrgPortal.ViewModels
             LoadData();
         }
 
+
         private List<AppInfo> _installedApps;
         public List<AppInfo> InstalledApps
         {
@@ -41,12 +43,35 @@ namespace OrgPortal.ViewModels
             }
         }
 
+        private string _appCount;
+        public string AppCount
+        {
+            get { return _appCount; }
+            private set
+            {
+                _appCount = value;
+                NotifyOfPropertyChange(() => AppCount);
+            }
+        }
+
         private async Task LoadData()
         {
             var apps = await _fileManager.GetInstalledApps();
+            if (apps != null)
+            {
+                InstalledApps = new List<AppInfo>(apps);
 
-            InstalledApps.Clear();
-            InstalledApps.AddRange(apps);
+                string format = InstalledApps.Count == 1 ? "{0} app" : "{0} apps";
+                AppCount = string.Format(format, InstalledApps.Count);
+            }            
+        }
+
+        public void ShowAppDetails(Windows.UI.Xaml.Controls.ItemClickEventArgs param)
+        {
+            if (param.ClickedItem is AppInfo)
+            {
+                Navigation.NavigateToViewModel<AppDetailsPageViewModel>(param.ClickedItem);
+            }
         }
 
     }
