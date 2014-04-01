@@ -100,7 +100,7 @@ namespace OrgPortal.Domain.Models
                 ExtractDisplayName(manifest);
                 ExtractPublisherDisplayName(manifest);
                 ExtractLogo(zipArchive, manifest);
-                ExtractSmallLogo(zipArchive, manifest);
+                ExtractStoreLogo(zipArchive, manifest);
                 ExtractBackgroundColor(manifest);
             }
         }
@@ -173,25 +173,37 @@ namespace OrgPortal.Domain.Models
             Logo = new MemoryStream(logoData.ToArray()).ReadFully();
         }
 
-        private void ExtractSmallLogo(ZipFile zipArchive, XDocument manifest)
+        private void ExtractStoreLogo(ZipFile zipArchive, XDocument manifest)
         {
-            var logoData = ExtractAssetImageFromVisualElementsNode(zipArchive, manifest, "Square30x30Logo");
+            var logoFileName = manifest.Descendants().Single(d => d.Name.LocalName == "Properties")
+                                       .Descendants().Single(d => d.Name.LocalName == "Logo")
+                                       .Value;
+            var logoFile = GetZipEntryForFileName(zipArchive, logoFileName);
+            var logoData = new MemoryStream();
+            if (logoFile != null)
+                logoFile.Extract(logoData);
             SmallLogo = new MemoryStream(logoData.ToArray()).ReadFully();
         }
 
         private static MemoryStream ExtractAssetImageFromVisualElementsNode(ZipFile zipArchive, XDocument manifest, string attributeName)
         {
             var logoFileName = ExtractValueFromVisualElementsNode(manifest, attributeName);
+            var logoFile = GetZipEntryForFileName(zipArchive, logoFileName);
+            var logoData = new MemoryStream();
+            if (logoFile != null)
+                logoFile.Extract(logoData);
+            return logoData;
+        }
+
+        private static ZipEntry GetZipEntryForFileName(ZipFile zipArchive, string logoFileName)
+        {
             var fileName = Path.GetFileNameWithoutExtension(logoFileName);
             var fileExtension = Path.GetExtension(logoFileName);
             var logoFile = zipArchive.Entries.SingleOrDefault(e => Path.GetFileNameWithoutExtension(e.FileName).Equals(string.Format("{0}.scale-100", fileName), StringComparison.InvariantCultureIgnoreCase) &&
                                                                    Path.GetExtension(e.FileName).Equals(fileExtension, StringComparison.InvariantCultureIgnoreCase)) ??
                            zipArchive.Entries.SingleOrDefault(e => Path.GetFileNameWithoutExtension(e.FileName).Equals(string.Format("{0}", fileName), StringComparison.InvariantCultureIgnoreCase) &&
                                                                    Path.GetExtension(e.FileName).Equals(fileExtension, StringComparison.InvariantCultureIgnoreCase));
-            var logoData = new MemoryStream();
-            if (logoFile != null)
-                logoFile.Extract(logoData);
-            return logoData;
+            return logoFile;
         }
 
         private static string ExtractValueFromVisualElementsNode(XDocument manifest, string attributeName)
