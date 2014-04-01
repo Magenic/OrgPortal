@@ -45,14 +45,14 @@ namespace OrgPortal.Infrastructure.DAL.Repositories
         public byte[] GetLogo(string packageFamilyName)
         {
             if (!File.Exists(Path.Combine(ConfigurationManager.AppSettings["AppFolder"], packageFamilyName + ".png")))
-                throw new ArgumentException("Unable to find an app by that name.");
+                return new byte[0];
             return File.ReadAllBytes(Path.Combine(ConfigurationManager.AppSettings["AppFolder"], packageFamilyName + ".png"));
         }
 
         public byte[] GetSmallLogo(string packageFamilyName)
         {
             if (!File.Exists(Path.Combine(ConfigurationManager.AppSettings["AppFolder"], packageFamilyName + "-small.png")))
-                throw new ArgumentException("Unable to find an app by that name.");
+                return new byte[0];
             return File.ReadAllBytes(Path.Combine(ConfigurationManager.AppSettings["AppFolder"], packageFamilyName + "-small.png"));
         }
     }

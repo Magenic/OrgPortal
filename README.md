@@ -3,6 +3,8 @@ OrgPortal
 
 Portal for finding and installing WinRT business apps via side-loading.
 
+See the [OrgPortal wiki](https://github.com/Magenic/OrgPortal/wiki) for more information.
+
 This solution includes three parts:
 
 1. A WinRT client app so the user can browse and install your business apps

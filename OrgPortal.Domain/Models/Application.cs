@@ -184,10 +184,13 @@ namespace OrgPortal.Domain.Models
             var logoFileName = ExtractValueFromVisualElementsNode(manifest, attributeName);
             var fileName = Path.GetFileNameWithoutExtension(logoFileName);
             var fileExtension = Path.GetExtension(logoFileName);
-            var logoFile = zipArchive.Entries.Single(e => Path.GetFileNameWithoutExtension(e.FileName).Equals(string.Format("{0}.scale-100", fileName), StringComparison.InvariantCultureIgnoreCase) &&
-                                                          Path.GetExtension(e.FileName).Equals(fileExtension, StringComparison.InvariantCultureIgnoreCase));
+            var logoFile = zipArchive.Entries.SingleOrDefault(e => Path.GetFileNameWithoutExtension(e.FileName).Equals(string.Format("{0}.scale-100", fileName), StringComparison.InvariantCultureIgnoreCase) &&
+                                                                   Path.GetExtension(e.FileName).Equals(fileExtension, StringComparison.InvariantCultureIgnoreCase)) ??
+                           zipArchive.Entries.SingleOrDefault(e => Path.GetFileNameWithoutExtension(e.FileName).Equals(string.Format("{0}", fileName), StringComparison.InvariantCultureIgnoreCase) &&
+                                                                   Path.GetExtension(e.FileName).Equals(fileExtension, StringComparison.InvariantCultureIgnoreCase));
             var logoData = new MemoryStream();
-            logoFile.Extract(logoData);
+            if (logoFile != null)
+                logoFile.Extract(logoData);
             return logoData;
         }
 
