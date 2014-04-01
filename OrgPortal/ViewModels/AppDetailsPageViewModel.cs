@@ -60,15 +60,15 @@ namespace OrgPortal.ViewModels
             await _messageBox.ShowAsync("Install request sent", "Install App");
         }
 
-        public async Task Update()
-        {
+        //public async Task Update()
+        //{
 
-        }
+        //}
 
-        public async Task Uninstall()
-        {
+        //public async Task Uninstall()
+        //{
 
-        }
+        //}
 
         private async Task LoadData()
         {

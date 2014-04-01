@@ -11,6 +11,7 @@ namespace OrgPortal.ViewModels
     public class NavigationBarViewModel : ViewModelBase, INavigationBar
     {
         private readonly IPortalDataSource _dataSource;
+        private bool initialized;
 
 
         [ImportingConstructor]
@@ -18,8 +19,6 @@ namespace OrgPortal.ViewModels
             : base(navigation)
         {
             this._dataSource = dataSource;
-
-            LoadCategories();
         }
 
 
@@ -48,11 +47,16 @@ namespace OrgPortal.ViewModels
 
         public async Task LoadCategories()
         {
+            if (initialized)
+                return;
+
             var categories = await _dataSource.GetCategoryListAsync();
             if (categories != null)
             {
                 CategoryList = new List<CategoryInfo>(categories);
             }
+
+            initialized = true;
         }
 
         public void GoToCategory(Windows.UI.Xaml.Controls.ItemClickEventArgs param)
