@@ -1,6 +1,6 @@
 ﻿using OrgPortal.DataModel;
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OrgPortal.ViewModels
 {
@@ -10,5 +10,6 @@ namespace OrgPortal.ViewModels
         void GoHome();
         void GoToCategory(Windows.UI.Xaml.Controls.ItemClickEventArgs category);
         void ShowMyApps();
+        Task LoadCategories();
     }
 }

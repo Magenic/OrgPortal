@@ -27,8 +27,6 @@ namespace OrgPortal.ViewModels
         {
             this._messageBox = messageBox;
             this._fileManager = fileManager;
-
-            LoadData();
         }
 
 
@@ -52,6 +50,12 @@ namespace OrgPortal.ViewModels
                 _appCount = value;
                 NotifyOfPropertyChange(() => AppCount);
             }
+        }
+
+        protected override async void OnInitialize()
+        {
+            base.OnInitialize();
+            await LoadData();
         }
 
         private async Task LoadData()

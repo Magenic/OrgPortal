@@ -26,7 +26,7 @@ namespace OrgPortal
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 //#if DEBUG
 //            if (System.Diagnostics.Debugger.IsAttached)

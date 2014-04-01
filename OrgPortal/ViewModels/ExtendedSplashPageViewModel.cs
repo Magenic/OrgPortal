@@ -18,8 +18,12 @@ namespace OrgPortal.ViewModels
         {
             _dataSource = dataSource;
             _brandingViewModel = brandingViewModel;
+        }
 
-            LoadBrandingInfo();
+        protected override async void OnInitialize()
+        {
+            base.OnInitialize();
+            await LoadBrandingInfo();
         }
 
         private async Task LoadBrandingInfo()

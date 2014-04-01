@@ -22,5 +22,12 @@ namespace OrgPortal.ViewModels
         {
             get { return _brandingViewModel; }
         }
+
+
+        protected override async void OnInitialize()
+        {
+            base.OnInitialize();
+            await NavigationBar.LoadCategories();
+        }
     }
 }

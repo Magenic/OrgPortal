@@ -27,8 +27,6 @@ namespace OrgPortal.ViewModels
             this._messageBox = messageBox;
             this._dataSource = dataSource;
             this._fileManager = fileManager;
-
-            LoadData();
         }
 
 
@@ -77,7 +75,13 @@ namespace OrgPortal.ViewModels
         }
 
 
-        
+
+
+        protected override async void OnInitialize()
+        {
+            base.OnInitialize();
+            await LoadData();
+        }
 
         private async Task LoadData()
         {
