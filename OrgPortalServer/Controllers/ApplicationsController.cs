@@ -17,13 +17,15 @@ namespace OrgPortalServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult Application(int categoryID, string installMode, HttpPostedFileBase appxFile)
+        public ActionResult Application(int categoryID, string installMode, string packageFamilyName, HttpPostedFileBase appxFile)
         {
+            // NATCH 07/10/2014 -> added package family name
             using (var uow = IoCContainerFactory.Current.GetInstance<UnitOfWork>())
             {
-                uow.ApplicationRepository.Add(new Application(appxFile.InputStream, categoryID, installMode));
+                uow.ApplicationRepository.Add(new Application(appxFile.InputStream, packageFamilyName, categoryID, installMode));
                 uow.Commit();
             }
+
             TempData["WarningMessage"] = "Application saved.";
             return RedirectToAction("Index");
         }
@@ -36,6 +38,7 @@ namespace OrgPortalServer.Controllers
                 uow.ApplicationRepository.Remove(uow.ApplicationRepository.Applications.Single(a => a.PackageFamilyName == id));
                 uow.Commit();
             }
+
             return Json(true);
         }
 	}

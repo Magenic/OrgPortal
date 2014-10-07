@@ -8,6 +8,8 @@
         {
             <div class="formLabel">Application</div>
             <input type="file" name="appxFile" class="formInput">
+            <div class="formLabel">Package Family Name</div>
+            <input type="text" name="packageFamilyName" class="formInput">
             <div class="formLabel">Category</div>
             <select name="categoryID">
                 @foreach (var category in OrgPortal.Domain.IoCContainerFactory.Current.GetInstance<OrgPortal.Domain.Repositories.CategoryRepository>().Categories)

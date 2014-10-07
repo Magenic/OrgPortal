@@ -72,8 +72,9 @@ namespace OrgPortal.Domain.Models
 
         private Application() { }
 
-        public Application(Stream data, int categoryID, string installMode)
+        public Application(Stream data, string packageFamilyName, int categoryID, string installMode)
         {
+            // NATCH 07/10/2014 -> added package family name
             CategoryID = categoryID;
             InstallMode = installMode;
             DateAdded = DateTime.UtcNow;
@@ -83,7 +84,7 @@ namespace OrgPortal.Domain.Models
 
             // TODO: This is not correct.  Publisher needs to be the Publisher ID, which is a hash of something.
             //       Need to figure out how to calculate/fetch the Publisher ID.
-            PackageFamilyName = Name + "_" + Publisher;
+            PackageFamilyName = packageFamilyName;
         }
 
         // TODO: Move all of this extraction logic into an infrastructure assembly to get the Zip references out of the domain?
