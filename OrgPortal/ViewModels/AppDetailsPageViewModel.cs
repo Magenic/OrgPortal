@@ -38,6 +38,28 @@ namespace OrgPortal.ViewModels
             }
         }
 
+        private string _installInfo;
+        public string InstallInfo
+        {
+            get { return _installInfo; }
+            private set
+            {
+                _installInfo = value;
+                NotifyOfPropertyChange(() => InstallInfo);
+            }
+        }
+
+        private bool _controlEnabled;
+        public bool ControlEnabled
+        {
+            get { return _controlEnabled; }
+            private set
+            {
+                _controlEnabled = value;
+                NotifyOfPropertyChange(() => ControlEnabled);
+            }
+        }
+
         public bool IsInstalled
         {
             get { return _installedItem != null; }
@@ -57,7 +79,17 @@ namespace OrgPortal.ViewModels
         public async Task Install()
         {
             await _fileManager.RequestAppInstall(Item.AppxUrl);
-            await _messageBox.ShowAsync("Install request sent", "Install App");
+            ////await _messageBox.ShowAsync("Install request sent.", "Install App");
+            
+            // NATCH 07/10/2014 -> extra installation info
+            this.InstallInfo = "Install request has been sent. Please wait...";
+            this.ControlEnabled = false;
+
+            await Task.Delay(15000); // 15 sec
+
+            await _messageBox.ShowAsync("The app has been installed successfully!", "Success");
+            this.InstallInfo = string.Empty;
+            this.ControlEnabled = true;
         }
 
         //public async Task Update()

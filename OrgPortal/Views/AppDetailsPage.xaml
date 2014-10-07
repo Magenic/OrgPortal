@@ -54,8 +54,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                
-                    <Button x:Name="Install" Content="Install" Margin="0,0,0,40" />
+
+                    <Button x:Name="Install" Content="Install" Margin="0,0,0,40" IsEnabled="{Binding ControlEnabled}" />
+                    <TextBlock Text="{Binding InstallInfo}" Style="{StaticResource BaseTextBlockStyle}" Margin="10,3" Foreground="Green" FontStyle="Italic"></TextBlock>
                     <!--<Button x:Name="Update" Content="Update" />
                     <Button x:Name="Uninstall" Content="Uninstall" />-->
 
