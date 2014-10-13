@@ -15,6 +15,7 @@ namespace OrgPortalMonitor
     public class Installer
     {
         public string _serviceURI = ConfigurationManager.AppSettings["OrgAPI"];
+        public string _packageFamilyName = ConfigurationManager.AppSettings["PackageFamilyName"];
         public string TempPath { get; set; }
         public string LocalPath { get; set; }
         public System.Windows.Forms.NotifyIcon NotifyIcon { get; set; }
@@ -33,7 +34,7 @@ namespace OrgPortalMonitor
             var tempPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
             if (!tempPath.EndsWith(@"\"))
                 tempPath += @"\";
-            tempPath += @"Packages\OrgPortal_m64ba5zfsemg0\TempState\";
+            tempPath += @"Packages\" + _packageFamilyName + @"\TempState\";
             if (!System.IO.Directory.Exists(tempPath))
                 System.IO.Directory.CreateDirectory(tempPath);
             this.TempPath = tempPath;
@@ -41,7 +42,7 @@ namespace OrgPortalMonitor
             var localPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
             if (!localPath.EndsWith(@"\"))
                 localPath += @"\";
-            localPath += @"Packages\OrgPortal_m64ba5zfsemg0\LocalState\";
+            localPath += @"Packages\" + _packageFamilyName + @"\LocalState\";
             if (!System.IO.Directory.Exists(localPath))
                 System.IO.Directory.CreateDirectory(localPath);
             this.LocalPath = localPath;
