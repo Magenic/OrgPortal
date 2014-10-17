@@ -12,16 +12,14 @@ namespace OrgPortal.ViewModels
     {
         private readonly IPortalDataSource _dataSource;
         private bool initialized;
-
-
+        
         [ImportingConstructor]
         public NavigationBarViewModel(INavigation navigation, IPortalDataSource dataSource)
             : base(navigation)
         {
             this._dataSource = dataSource;
         }
-
-
+        
         private List<CategoryInfo> _categoryList;
         public List<CategoryInfo> CategoryList
         {
@@ -32,9 +30,7 @@ namespace OrgPortal.ViewModels
                 NotifyOfPropertyChange(() => CategoryList);
             }
         }
-
-
-
+        
         public void GoHome()
         {
             Navigation.NavigateToViewModel<MainPageViewModel>();

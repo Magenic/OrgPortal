@@ -1,13 +1,13 @@
-﻿using OrgPortal.Common;
-using OrgPortal.DataModel;
-using OrgPortalMonitor.DataModel;
-using System;
-using System.Composition;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace OrgPortal.ViewModels
+﻿namespace OrgPortal.ViewModels
 {
+    using OrgPortal.Common;
+    using OrgPortal.DataModel;
+    using OrgPortalMonitor.DataModel;
+    using System;
+    using System.Composition;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     [Export]
     public class AppDetailsPageViewModel : PageViewModelBase
     {
@@ -25,6 +25,8 @@ namespace OrgPortal.ViewModels
         {
             this._messageBox = messageBox;
             this._fileManager = fileManager;
+
+            this.ControlEnabled = true;
         }
 
         private AppInfo _item;
@@ -79,28 +81,27 @@ namespace OrgPortal.ViewModels
         public async Task Install()
         {
             await _fileManager.RequestAppInstall(Item.AppxUrl);
-            ////await _messageBox.ShowAsync("Install request sent.", "Install App");
-            
-            // NATCH 07/10/2014 -> extra installation info
+
+            ////await _messageBox.ShowAsync("Install request sent. Please wait...", "Install App");
             this.InstallInfo = "Install request has been sent. Please wait...";
             this.ControlEnabled = false;
-
+            
             await Task.Delay(15000); // 15 sec
 
             await _messageBox.ShowAsync("The app has been installed successfully!", "Success");
-            this.InstallInfo = string.Empty;
+            this.InstallInfo = string.Empty; ////"The app has been installed successfully!"
             this.ControlEnabled = true;
         }
 
-        //public async Task Update()
-        //{
+        ////public async Task Update()
+        ////{
 
-        //}
+        ////}
 
-        //public async Task Uninstall()
-        //{
+        ////public async Task Uninstall()
+        ////{
 
-        //}
+        ////}
 
         private async Task LoadData()
         {
@@ -116,13 +117,12 @@ namespace OrgPortal.ViewModels
         {
             if (IsInstalled)
             {
-                Version itemVersion = new Version(Item.Version);
-                Version installedVersion = new Version(_installedItem.Version);
+                var itemVersion = new Version(Item.Version);
+                var installedVersion = new Version(_installedItem.Version);
 
                 _updateAvailable = itemVersion > installedVersion;
                 NotifyOfPropertyChange(() => UpdateAvailable);
             }
         }
-
     }
 }

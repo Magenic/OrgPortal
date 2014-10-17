@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image Source="{Binding Path=Branding.HeaderImage}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Stretch="Uniform" />
+        <!--<Image Source="{Binding Path=Branding.HeaderImage}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Stretch="Uniform" />-->
         
         <Grid>
             <Grid.ChildrenTransitions>
@@ -22,7 +22,7 @@
             
             <Hub HorizontalContentAlignment="Stretch">
                 <Hub.Header>                
-                    <Grid>
+                    <!--<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
@@ -34,7 +34,7 @@
                                HorizontalAlignment="Left" 
                                Margin="0,0,20,0" />
                     
-                        <!-- Page title -->
+                        --><!-- Page title --><!--
                         <TextBlock Grid.Column="1"
                                    Style="{StaticResource AccentHeaderTextBlockStyle}"
                                    Text="{Binding Path=Branding.Name}"
@@ -49,7 +49,13 @@
                                    FocusOnKeyboardInput="True"
                                    QueryText="{Binding Path=SearchQueryText, Mode=TwoWay}"
                                    cal:Message.Attach="[Event QuerySubmitted] = [RunSearch()]"/>
-                    </Grid>
+                    </Grid>-->
+
+                    <!-- Page title -->
+                    <TextBlock Grid.Column="1"
+                                   Style="{StaticResource AccentHeaderTextBlockStyle}"
+                                   Text="{Binding Path=Branding.Name}"
+                                   IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" />
                 </Hub.Header>
                         
                 <HubSection Width="650" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">                
@@ -58,7 +64,7 @@
                     </DataTemplate>
                 </HubSection>
 
-                <HubSection Header="Recently Updated">
+                <!--<HubSection Header="Recently Updated">
                     <DataTemplate>
                         <ListView x:Name="InstalledList"
                                   ItemTemplate="{StaticResource AppSmallItemTemplate}"
@@ -76,7 +82,7 @@
                             </ListView.ItemContainerStyle>
                         </ListView>
                     </DataTemplate>
-                </HubSection>
+                </HubSection>-->
             
                 <HubSection IsHeaderInteractive="True" Header="All Apps">
                     <DataTemplate>

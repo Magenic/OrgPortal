@@ -13,16 +13,14 @@ namespace OrgPortal.ViewModels
         private readonly IPortalDataSource _dataSource;
         private CategoryInfo category;
         private bool initialized;
-
-
+        
         [ImportingConstructor]
         public CategoryPageViewModel(INavigation navigation, INavigationBar navBar, BrandingViewModel branding, IPortalDataSource dataSource)
             : base(navigation, navBar, branding)
         {
             this._dataSource = dataSource;
         }
-
-
+        
         private string _categoryName;
         public string CategoryName
         {
@@ -66,9 +64,7 @@ namespace OrgPortal.ViewModels
                 NotifyOfPropertyChange(() => SearchQueryText);
             }
         }
-
-
-
+        
         protected override async void DeserializeParameter(string value)
         {
             if (!initialized)

@@ -61,11 +61,11 @@ namespace OrgPortal.DataModel
             var folder = GetSyncFolder();
             var criteria = new string[] { READ_FILE_EXTENSION };
             var query = folder.CreateFileQueryWithOptions(new QueryOptions(CommonFileQuery.DefaultQuery, criteria));
-            //query.ContentsChanged += async (o, a) =>
-            //{
-            //    var files = await query.GetFilesAsync();
-            //    var count = files.Count();
-            //};
+            ////query.ContentsChanged += async (o, a) =>
+            ////{
+            ////    var files = await query.GetFilesAsync();
+            ////    var count = files.Count();
+            ////};
             return await query.GetFilesAsync();
         }
 

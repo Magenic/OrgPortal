@@ -22,13 +22,11 @@ namespace OrgPortal.ViewModels
         private const string logoImageName = "LogoImage.png";
 
         private ApplicationDataContainer _settings;
-
-
+        
         public BrandingViewModel()
         {
             _settings = ApplicationData.Current.LocalSettings.CreateContainer(brandingContainerKey, ApplicationDataCreateDisposition.Always);
         }
-
 
         public string Name
         {
@@ -61,8 +59,7 @@ namespace OrgPortal.ViewModels
                 NotifyOfPropertyChange(() => LogoImage);
             }
         }
-
-
+        
         private string GetSetting(string settingName)
         {
             if (_settings.Values.ContainsKey(settingName))

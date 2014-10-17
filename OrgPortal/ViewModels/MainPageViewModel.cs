@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace OrgPortal.ViewModels
 {
+    using System;
+
     [Export]
     public class MainPageViewModel : PageViewModelBase
     {
         private readonly IMessageBox _messageBox;
         private readonly IPortalDataSource _dataSource;
         private readonly IFileSyncManager _fileManager;
-
-
+        
         [ImportingConstructor]
         public MainPageViewModel(INavigation navigation, 
             IMessageBox messageBox, 
@@ -28,8 +29,7 @@ namespace OrgPortal.ViewModels
             this._dataSource = dataSource;
             this._fileManager = fileManager;
         }
-
-
+        
         private string _featureUrl;
         public string FeatureUrl
         {
@@ -73,10 +73,7 @@ namespace OrgPortal.ViewModels
                 NotifyOfPropertyChange(() => SearchQueryText);
             }
         }
-
-
-
-
+        
         protected override async void OnInitialize()
         {
             base.OnInitialize();
@@ -86,7 +83,6 @@ namespace OrgPortal.ViewModels
         private async Task LoadData()
         {
             await LoadPortalData();
-
             await LoadAppList();
         }
 
