@@ -400,5 +400,6 @@ namespace OrgPortalMonitor
             var part2 = appxurl.Substring(ix + 1);
             return part1 + part2.Replace(".", "(dot)");
         }
+
     }
 }
