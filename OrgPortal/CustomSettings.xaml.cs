@@ -8,7 +8,7 @@ namespace OrgPortal
 
     public sealed partial class CustomSettings : SettingsFlyout
     {
-        private const string DefaultServiceUri = "http://orgportal.natch.local/api/";
+        private const string DefaultServiceUri = "http://orgportal.local/api/";
 
         public CustomSettings()
         {
