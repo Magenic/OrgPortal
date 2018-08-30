@@ -8,7 +8,6 @@
     xmlns:cal="using:Caliburn.Micro" RequestedTheme="Light">
 
     <Application.Resources>
-
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Common.xaml" />
@@ -16,7 +15,6 @@
                 <ResourceDictionary Source="Styles/ItemTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
-        
             <Style x:Key="BasicTextStyle" TargetType="TextBlock" />
 
             <Style x:Key="AccentHeaderTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource HeaderTextBlockStyle}">
@@ -148,7 +146,6 @@
                 <Setter Property="AutomationProperties.Name" Value="Get Dev License" />
                 <Setter Property="Content" Value="&#xE131;" />
             </Style>
-            
         </ResourceDictionary>
     </Application.Resources>
 </caliburn:CaliburnApplication>

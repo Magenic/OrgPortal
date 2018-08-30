@@ -15,7 +15,7 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image Source="{Binding Path=Branding.HeaderImage}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Stretch="Uniform" />
+        <!--<Image Source="{Binding Path=Branding.HeaderImage}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Stretch="Uniform" />-->
 
         <Grid Visibility="{Binding Path=IsSearching, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -72,14 +72,14 @@
                 <TextBlock Text="{Binding Path=ResultCount}" Style="{StaticResource SubheaderTextBlockStyle}" Grid.Column="2" 
                            IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="20,0,30,40" />
 
-                <SearchBox Grid.Column="3"
+                <!--<SearchBox Grid.Column="3"
                            Width="350" Height="35"
                            Margin="0,65,0,0"
                            PlaceholderText="Search for apps"
                            VerticalAlignment="Top" 
                            HorizontalAlignment="Right"
                            QueryText="{Binding Path=SearchQueryText, Mode=TwoWay}"
-                           cal:Message.Attach="[Event QuerySubmitted] = [RunSearch()]"/>
+                           cal:Message.Attach="[Event QuerySubmitted] = [RunSearch()]"/>-->
             </Grid>
         </Grid>
     </Grid>

@@ -15,8 +15,7 @@ namespace OrgPortal.ViewModels
     {
         private readonly IMessageBox _messageBox;
         private readonly IFileSyncManager _fileManager;
-
-
+        
         [ImportingConstructor]
         public InstalledAppsPageViewModel(INavigation navigation, 
             IMessageBox messageBox, 
@@ -28,8 +27,7 @@ namespace OrgPortal.ViewModels
             this._messageBox = messageBox;
             this._fileManager = fileManager;
         }
-
-
+        
         private List<AppInfo> _installedApps;
         public List<AppInfo> InstalledApps
         {

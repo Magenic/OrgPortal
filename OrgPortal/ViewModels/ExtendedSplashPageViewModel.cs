@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace OrgPortal.ViewModels
 {
+    using System;
+
     [Export]
     public class ExtendedSplashPageViewModel : ViewModelBase
     {
         private readonly IPortalDataSource _dataSource;
-        private readonly BrandingViewModel _brandingViewModel;
 
+        private readonly BrandingViewModel _brandingViewModel;
 
         [ImportingConstructor]
         public ExtendedSplashPageViewModel(INavigation navigation, IPortalDataSource dataSource, BrandingViewModel brandingViewModel)

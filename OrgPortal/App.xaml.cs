@@ -12,6 +12,10 @@ using Windows.UI.Xaml.Controls;
 
 namespace OrgPortal
 {
+    using Windows.Storage;
+    using Windows.UI.ApplicationSettings;
+    using Windows.UI.Xaml;
+
     sealed partial class App : CaliburnApplication
     {
         private CompositionHost Container { get; set; }
@@ -120,5 +124,25 @@ namespace OrgPortal
             deferral.Complete();
         }
 
+        /// <summary>
+        /// Invoked when the application creates a window.
+        /// </summary>
+        /// <param name="args">Event data for the event.</param>
+        protected override void OnWindowCreated(WindowCreatedEventArgs args)
+        {
+            SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
+        }
+
+        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
+            args.Request.ApplicationCommands.Add(new SettingsCommand(
+                "Custom settings", "Custom settings", (handler) => ShowCustomSettingFlyout()));
+        }
+
+        public void ShowCustomSettingFlyout()
+        {
+            var customSettingsFlyout = new CustomSettings();
+            customSettingsFlyout.Show();
+        }
     }
 }

@@ -1,129 +1,186 @@
-﻿using Newtonsoft.Json;
-using OrgPortalMonitor.DataModel;
-using System.Collections.Generic;
-using System.Composition;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Linq;
-
-namespace OrgPortal.DataModel
+﻿namespace OrgPortal.DataModel
 {
+    using System;
+    using Newtonsoft.Json;
+    using OrgPortalMonitor.DataModel;
+    using System.Collections.Generic;
+    using System.Composition;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Windows.Storage;
+
     [Export(typeof(IPortalDataSource))]
     [Shared]
     public class PortalDataSource : IPortalDataSource
     {
-        private static readonly string _serviceURI = "http://localhost:48257/api/";
+        private static readonly string DefaultServiceUri = "http://company.orgportal.com/api/";
 
         public async Task<List<AppInfo>> GetAppListAsync()
         {
-            using (var client = new HttpClient())
+            try
             {
-                var response = await client.GetAsync(_serviceURI + "Apps");
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    var apps = JsonConvert.DeserializeObject<List<AppInfo>>(data);
+                    if (ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] == null) ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] = DefaultServiceUri;
+                    var serviceURI = ApplicationData.Current.LocalSettings.Values["OrgPortalApi"].ToString();
 
-                    return apps;
+                    var response = await client.GetAsync(serviceURI + "Apps");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        var apps = JsonConvert.DeserializeObject<List<AppInfo>>(data);
+
+                        return apps;
+                    }
                 }
             }
+            catch (Exception)
+            {
+                // do nothing
+            }
 
-            return null;
+            return new List<AppInfo>();
         }
 
         public async Task<List<AppInfo>> SearchAppsAsync(string query)
         {
-            using (var client = new HttpClient())
+            try
             {
-                var requestUrl = string.Format("{0}Apps?search={1}", _serviceURI, query);
-                var response = await client.PostAsync(requestUrl, null);
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    var apps = JsonConvert.DeserializeObject<List<AppInfo>>(data);
+                    if (ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] == null) ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] = DefaultServiceUri;
+                    var serviceURI = ApplicationData.Current.LocalSettings.Values["OrgPortalApi"].ToString();
 
-                    return apps;
+                    var requestUrl = string.Format("{0}Apps?search={1}", serviceURI, query);
+                    var response = await client.PostAsync(requestUrl, null);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        var apps = JsonConvert.DeserializeObject<List<AppInfo>>(data);
+
+                        return apps;
+                    }
                 }
             }
+            catch (Exception)
+            {
+                // do nothing
+            }
 
-            return null;
+            return new List<AppInfo>();
         }
 
         public async Task<OrgInfo> LoadPortalDataAsync()
         {
-            using (var client = new HttpClient())
+            try
             {
-                var response = await client.GetAsync(_serviceURI + "OrgPortal");
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    var info = JsonConvert.DeserializeObject<List<string>>(data);
-                    if (info.Count > 1)
-                    {
-                        var org = new OrgInfo()
-                        {
-                            Name = info[0],
-                            FeatureURL = info[1]
-                        };
+                    if (ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] == null) ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] = DefaultServiceUri;
+                    var serviceURI = ApplicationData.Current.LocalSettings.Values["OrgPortalApi"].ToString();
 
-                        return org;
+                    var response = await client.GetAsync(serviceURI + "OrgPortal");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        var info = JsonConvert.DeserializeObject<List<string>>(data);
+                        if (info.Count > 1)
+                        {
+                            var org = new OrgInfo() { Name = info[0], FeatureURL = info[1] };
+
+                            return org;
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+                // do nothing
+            }
 
-            return null;
+            return new OrgInfo();
         }
 
         public async Task<BrandingInfo> GetBrandingDataAsync()
         {
-            using (var client = new HttpClient())
+            try
             {
-                var response = await client.GetAsync(_serviceURI + "Branding");
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    var branding = JsonConvert.DeserializeObject<BrandingInfo>(data);
+                    if (ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] == null) ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] = DefaultServiceUri;
+                    var serviceURI = ApplicationData.Current.LocalSettings.Values["OrgPortalApi"].ToString();
 
-                    return branding;
+                    var response = await client.GetAsync(serviceURI + "Branding");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        var branding = JsonConvert.DeserializeObject<BrandingInfo>(data);
+
+                        return branding;
+                    }
                 }
             }
+            catch (Exception)
+            {
+                // do nothing
+            }
 
-            return null;
+            return new BrandingInfo();
         }
 
         public async Task<List<CategoryInfo>> GetCategoryListAsync()
         {
-            using (var client = new HttpClient())
+            try
             {
-                var response = await client.GetAsync(_serviceURI + "AppCategories");
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    var categories = JsonConvert.DeserializeObject<List<CategoryInfo>>(data);
+                    if (ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] == null) ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] = DefaultServiceUri;
+                    var serviceURI = ApplicationData.Current.LocalSettings.Values["OrgPortalApi"].ToString();
 
-                    return categories;
+                    var response = await client.GetAsync(serviceURI + "AppCategories");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        var categories = JsonConvert.DeserializeObject<List<CategoryInfo>>(data);
+
+                        return categories;
+                    }
                 }
             }
+            catch (Exception)
+            {
+                // do nothing
+            }
 
-            return null;
+            return new List<CategoryInfo>();
         }
 
         public async Task<List<AppInfo>> GetAppsForCategoryAsync(int categoryId)
         {
-            using (var client = new HttpClient())
+            try
             {
-                var response = await client.GetAsync(string.Format("{0}{1}{2}", _serviceURI, "AppCategories/", categoryId));
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    var category = JsonConvert.DeserializeObject<CategoryInfo>(data);
+                    if (ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] == null) ApplicationData.Current.LocalSettings.Values["OrgPortalApi"] = DefaultServiceUri;
+                    var serviceURI = ApplicationData.Current.LocalSettings.Values["OrgPortalApi"].ToString();
 
-                    return category.Apps.ToList();
+                    var response = await client.GetAsync(string.Format("{0}{1}{2}", serviceURI, "AppCategories/", categoryId));
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        var category = JsonConvert.DeserializeObject<CategoryInfo>(data);
+
+                        return category.Apps.ToList();
+                    }
                 }
             }
+            catch (Exception)
+            {
+                // do nothing
+            }
 
-            return null;
+            return new List<AppInfo>();
         }
     }
 }

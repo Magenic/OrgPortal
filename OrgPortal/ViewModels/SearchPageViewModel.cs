@@ -12,8 +12,7 @@ namespace OrgPortal.ViewModels
     {
         private readonly IPortalDataSource _dataSource;
         private bool initialized = false;
-
-
+        
         [ImportingConstructor]
         public SearchPageViewModel(INavigation navigation, 
             INavigationBar navBar, 
@@ -23,8 +22,7 @@ namespace OrgPortal.ViewModels
         {
             this._dataSource = dataSource;
         }
-
-
+        
         private string _searchQueryText;
         public string SearchQueryText
         {
@@ -79,8 +77,7 @@ namespace OrgPortal.ViewModels
                 NotifyOfPropertyChange(() => ResultCount);
             }
         }
-
-
+        
         protected override async void DeserializeParameter(string value)
         {
             if (!initialized)
