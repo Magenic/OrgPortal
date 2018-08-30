@@ -14,7 +14,7 @@
     [Shared]
     public class PortalDataSource : IPortalDataSource
     {
-        private static readonly string DefaultServiceUri = "http://strae.orgportal.natchcloud.com/api/";
+        private static readonly string DefaultServiceUri = "http://company.orgportal.com/api/";
 
         public async Task<List<AppInfo>> GetAppListAsync()
         {
