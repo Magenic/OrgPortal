@@ -14,7 +14,7 @@
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>VerstraeteApp.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>CustomApp.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>0206AC315D2C1BCE655A11548E53ECAA10F5AE68</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
