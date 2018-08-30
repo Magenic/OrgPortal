@@ -178,7 +178,7 @@
     </AppxManifest>
     <None Include="OrgPortal_TemporaryKey.pfx" />
     <None Include="packages.config" />
-    <None Include="VerstraeteApp.pfx" />
+    <None Include="CustomApp.pfx" />
     <PRIResource Include="Strings\en-US\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
